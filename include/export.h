@@ -1,8 +1,10 @@
 #include <string>
 
+#define DllExport   __declspec( dllexport )
+
 using namespace std;
 
-class Exporter {
+class DllExport Exporter {
 public:
     Exporter();
 };
