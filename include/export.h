@@ -7,4 +7,7 @@ using namespace std;
 class DllExport Exporter {
 public:
     Exporter();
+
+    void SetUpImgui(struct GLFWwindow* window);
+
 };
