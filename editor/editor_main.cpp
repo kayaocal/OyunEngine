@@ -1,11 +1,16 @@
 #include <iostream>
-#include "export.h"
+#include "App.h"
 
 int main()
 {
 	std::cout<<"Editor started!"<<std::endl;
+	
+	App editor{ "My Editor", "Editor Test" };
 
-	Exporter ex{};
+	while (editor.Loop())
+	{
 
+	}
+	
 	return 0;
 }
