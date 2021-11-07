@@ -20,6 +20,7 @@ static void glfw_error_callback(int error, const char* description)
 GlfWRenderer::GlfWRenderer(App* app)
     :Renderer(app)
 {
+    std::cout << "GlfWRenderer" << std::endl;
     if (!SetupRenderer())
     {
         std::cout << "Can not setup Renderer!" << std::endl;
@@ -98,7 +99,6 @@ bool GlfWRenderer::RenderLoop()
     {
         return false;
     }
-    static bool show_demo_window = true;
     // Poll and handle events (inputs, window resize, etc.)
        // You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
        // - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application.
@@ -111,11 +111,7 @@ bool GlfWRenderer::RenderLoop()
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
-    // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
-    if (show_demo_window)
-        ImGui::ShowDemoWindow(&show_demo_window);
-
-
+    _App->OnDrawImGui();
 
     // Rendering
     ImGui::Render();
