@@ -28,7 +28,10 @@ file (GLOB ENGINE_INCLUDES
 	${CMAKE_SOURCE_DIR}/include/*.hpp)
 
 
+
 add_library(Engine SHARED ${ENGINE_SOURCES} ${IMGUI_SOURCES} ${ENGINE_INCLUDES})
+
+source_group("imgui" 	FILES ${IMGUI_SOURCES})
 
 target_include_directories(Engine 
 	PUBLIC ${PROJECT_SOURCE_DIR}/include
@@ -71,3 +74,4 @@ target_include_directories(Editor
 
 target_link_libraries (Editor Debug\\Engine.lib ${CMAKE_SOURCE_DIR}/lib/glfw3.lib opengl32.lib)
 
+add_dependencies(Editor Engine)
