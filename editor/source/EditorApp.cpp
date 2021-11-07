@@ -3,40 +3,140 @@
 #include "App.h"
 #include <iostream>
 
-EditorApp::EditorApp(const char* name, const char* title)
-    :App(name, title)
+EditorApp::EditorApp(const char* name, const char* title, int width, int height)
+    :App(name, title, width, height)
 {
 }
 
+
 void EditorApp::OnDrawImGui()
 {
-    std::cout << "EditorApp::OnDrawImGui()" << std::endl;
+  //  DrawMenuBar();
+   DrawMainFrame();
     App::OnDrawImGui();
-    ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-    // 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
-    {
-        static float f = 0.0f;
-        static int counter = 0;
-
-        ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
-
-        ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-
-        ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-        ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
-
-        if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-            counter++;
-        ImGui::SameLine();
-        ImGui::Text("counter = %d", counter);
-
-        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-        ImGui::End();
-    }
+   
    
 }
 
 bool EditorApp::Loop()
 {
     return App::Loop();
+}
+
+void EditorApp::DrawMenuBar()
+{
+    if (ImGui::BeginMainMenuBar())
+    {
+        if (ImGui::BeginMenu("File"))
+        {
+            ImGui::MenuItem("(demo menu)", NULL, false, false);
+            if (ImGui::MenuItem("New")) {}
+            if (ImGui::MenuItem("Open", "Ctrl+O")) {}
+            if (ImGui::BeginMenu("Open Recent"))
+            {
+                ImGui::MenuItem("fish_hat.c");
+                ImGui::MenuItem("fish_hat.inl");
+                ImGui::MenuItem("fish_hat.h");
+                ImGui::EndMenu();
+            }
+            if (ImGui::MenuItem("Save", "Ctrl+S")) {}
+            if (ImGui::MenuItem("Save As..")) {}
+
+            ImGui::Separator();
+            if (ImGui::BeginMenu("Options"))
+            {
+                static bool enabled = true;
+                ImGui::MenuItem("Enabled", "", &enabled);
+                ImGui::BeginChild("child", ImVec2(0, 60), true);
+                for (int i = 0; i < 10; i++)
+                    ImGui::Text("Scrolling Text %d", i);
+                ImGui::EndChild();
+                static float f = 0.5f;
+                static int n = 0;
+                ImGui::SliderFloat("Value", &f, 0.0f, 1.0f);
+                ImGui::InputFloat("Input", &f, 0.1f);
+                ImGui::Combo("Combo", &n, "Yes\0No\0Maybe\0\0");
+                ImGui::EndMenu();
+            }
+
+            if (ImGui::BeginMenu("Colors"))
+            {
+                float sz = ImGui::GetTextLineHeight();
+                for (int i = 0; i < ImGuiCol_COUNT; i++)
+                {
+                    const char* name = ImGui::GetStyleColorName((ImGuiCol)i);
+                    ImVec2 p = ImGui::GetCursorScreenPos();
+                    ImGui::GetWindowDrawList()->AddRectFilled(p, ImVec2(p.x + sz, p.y + sz), ImGui::GetColorU32((ImGuiCol)i));
+                    ImGui::Dummy(ImVec2(sz, sz));
+                    ImGui::SameLine();
+                    ImGui::MenuItem(name);
+                }
+                ImGui::EndMenu();
+            }
+
+            // Here we demonstrate appending again to the "Options" menu (which we already created above)
+            // Of course in this demo it is a little bit silly that this function calls BeginMenu("Options") twice.
+            // In a real code-base using it would make senses to use this feature from very different code locations.
+            if (ImGui::BeginMenu("Options")) // <-- Append!
+            {
+                static bool b = true;
+                ImGui::Checkbox("SomeOption", &b);
+                ImGui::EndMenu();
+            }
+
+            if (ImGui::BeginMenu("Disabled", false)) // Disabled
+            {
+                IM_ASSERT(0);
+            }
+            if (ImGui::MenuItem("Checked", NULL, true)) {}
+            if (ImGui::MenuItem("Quit", "Alt+F4")) {}
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu("Edit"))
+        {
+            if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
+            if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
+            ImGui::Separator();
+            if (ImGui::MenuItem("Cut", "CTRL+X")) {}
+            if (ImGui::MenuItem("Copy", "CTRL+C")) {}
+            if (ImGui::MenuItem("Paste", "CTRL+V")) {}
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu("Tools"))
+        {
+            ImGui::MenuItem("Data Editor", NULL, false, false);
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu("About"))
+        {
+            ImGui::Text("Best Engine Ever!");
+            ImGui::EndMenu();
+        }
+        ImGui::EndMainMenuBar();
+    }
+}
+
+void EditorApp::DrawMainFrame()
+{
+    ImGuiWindowFlags window_flags = 0;
+
+
+    window_flags |= ImGuiWindowFlags_NoTitleBar;
+    window_flags |= ImGuiWindowFlags_NoMove;
+    window_flags |= ImGuiWindowFlags_NoResize;
+    window_flags |= ImGuiWindowFlags_NoCollapse;
+    window_flags |= ImGuiWindowFlags_NoNav;
+    window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus;
+    window_flags |= ImGuiWindowFlags_MenuBar;
+    bool p_open = true;
+
+    const ImGuiViewport* main_viewport = ImGui::GetMainViewport();
+    ImGui::SetNextWindowPos(ImVec2(GetWindowPosX(), GetWindowPosY() + 18), ImGuiCond_Always);
+    ImGui::SetNextWindowSize(ImVec2(GetWidth(), GetHeight() - 18), ImGuiCond_Always);
+
+    // Notify of viewport change so GetFrameHeight() can be accurate in case of DPI change
+    ImGui::Begin("Main", &p_open, window_flags);
+    DrawMenuBar();
+    ImGui::End();
+
 }

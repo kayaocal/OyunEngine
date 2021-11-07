@@ -7,19 +7,31 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <functional>
+
 
 #include "App.h"
 
+GlfWRenderer* _Renderer;
+
 const char* glsl_version = "#version 420";
 
-static void glfw_error_callback(int error, const char* description)
-{
-    fprintf(stderr, "Glfw Error %d: %s\n", error, description);
-}
 
-GlfWRenderer::GlfWRenderer(App* app)
-    :Renderer(app)
+/*
+*   GLFW Event Callbacks!
+*/
+void glfw_window_maximized_callback(GLFWwindow* window, int maximized);
+void glfw_window_focus_callback(GLFWwindow* window, int focused);
+void glfw_window_close_callback(GLFWwindow* wnd);
+void glfw_window_pos_changed(GLFWwindow* wnd, int x, int y);
+void glfw_window_size_changed(GLFWwindow* wnd, int width, int height);
+void glfw_error_callback(int error, const char* description);
+
+GlfWRenderer::GlfWRenderer(App* app, int width, int height)
+    :Renderer(app, width, height)
 {
+    _Renderer = this;
+
     std::cout << "GlfWRenderer" << std::endl;
     if (!SetupRenderer())
     {
@@ -43,9 +55,16 @@ bool GlfWRenderer::SetupRenderer()
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // Create window with graphics context
-   _Window = glfwCreateWindow(1280, 720, _App->GetTitle().c_str(), NULL, NULL);
+    _Window = glfwCreateWindow(_Width, _Heigth, _App->GetTitle().c_str(), NULL, NULL);
     if (_Window == NULL)
         return false;
+
+    glfwSetWindowPos(_Window, _PosX, _PosY);
+    glfwSetWindowSizeCallback(_Window, glfw_window_size_changed);
+    glfwSetWindowCloseCallback(_Window, glfw_window_close_callback);
+    glfwSetWindowPosCallback(_Window, glfw_window_pos_changed);
+    glfwSetWindowMaximizeCallback(_Window, glfw_window_maximized_callback);
+    glfwSetWindowFocusCallback(_Window, glfw_window_focus_callback);
 
     glfwMakeContextCurrent(_Window);
 
@@ -137,4 +156,101 @@ bool GlfWRenderer::RenderLoop()
     glfwSwapBuffers(_Window);
 
     return true;
+}
+
+int GlfWRenderer::GetWindowWidth()
+{
+    return _Width;
+}
+
+int GlfWRenderer::GetWindowHeight()
+{
+    return _Heigth;
+}
+
+
+void GlfWRenderer::SetWindowWidth(int w)
+{
+    _Width = w;
+}
+
+void GlfWRenderer::SetWindowHeight(int h)
+{
+    _Heigth = h;
+}
+
+void GlfWRenderer::SetWindowPosX(int x)
+{
+    _PosX = x;
+}
+
+void GlfWRenderer::SetWindowPosY(int y)
+{
+    _PosY = y;
+}
+
+int GlfWRenderer::GetWindowPosX()
+{
+    return _PosX;
+}
+
+int GlfWRenderer::GetWindowPosY()
+{
+    return _PosY;
+}
+
+
+
+
+
+//********************************************************************************************************
+//********************************************************************************************************
+//********************************************************************************************************
+
+static void glfw_error_callback(int error, const char* description)
+{
+    fprintf(stderr, "Glfw Error %d: %s\n", error, description);
+}
+
+void glfw_window_size_changed(GLFWwindow* wnd, int width, int height)
+{
+    std::cout << "Window size changed! ( " << width << " , " << height << " )" << std::endl;
+    _Renderer->SetWindowWidth(width);
+    _Renderer->SetWindowHeight(height);
+}
+
+void glfw_window_pos_changed(GLFWwindow* wnd, int x, int y)
+{
+    std::cout << "Window position changed! ( " << x << " , " << y << " )" << std::endl;
+    _Renderer->SetWindowPosX(x);
+    _Renderer->SetWindowPosY(y);
+}
+
+void glfw_window_close_callback(GLFWwindow* wnd)
+{
+    std::cout << "Window closed!" << std::endl;
+}
+
+void glfw_window_focus_callback(GLFWwindow* window, int focused)
+{
+    if (focused == GLFW_FALSE)
+    {
+        std::cout << "Window focus lost!" << std::endl;
+    }
+    else
+    {
+        std::cout << "Window focus gained!" << std::endl;
+    }
+}
+
+void glfw_window_maximized_callback(GLFWwindow* window, int maximized)
+{
+    if (maximized == GLFW_FALSE)
+    {
+        std::cout << "Window unmaximized!" << std::endl;
+    }
+    else
+    {
+        std::cout << "Window maximized!" << std::endl;
+    }
 }

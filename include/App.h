@@ -13,7 +13,7 @@ class EngineExport App
 	class GlfWRenderer* _Renderer;
 public:
 
-	App(const char* name, const char* title);
+	App(const char* name, const char* title, int width, int height);
 	~App();
 
 
@@ -22,5 +22,9 @@ public:
 	virtual bool Loop();
 
 	std::string& GetTitle();
+	int GetWidth();
+	int GetHeight();
+	int GetWindowPosX();
+	int GetWindowPosY();
 
 };
