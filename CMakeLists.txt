@@ -75,3 +75,26 @@ target_include_directories(Editor
 target_link_libraries (Editor Debug\\Engine.lib ${CMAKE_SOURCE_DIR}/lib/glfw3.lib opengl32.lib)
 
 add_dependencies(Editor Engine)
+
+# #######################################################################################
+#	Simple Render
+# 	Define the executable
+# #######################################################################################
+
+file (GLOB SIMPLE_RENDER_SOURCES 
+	${CMAKE_SOURCE_DIR}/simple_render/source/*.cpp
+	${CMAKE_SOURCE_DIR}/simple_render/source/*.c)
+
+file (GLOB SIMPLE_RENDER_INCLUDES 
+	${CMAKE_SOURCE_DIR}/simple_render/include/*.h
+	${CMAKE_SOURCE_DIR}/simple_render/include/*.hpp)
+
+add_executable(SimpleRender ${CMAKE_SOURCE_DIR}/simple_render/simple_render_main.cpp ${SIMPLE_RENDER_INCLUDES} ${SIMPLE_RENDER_SOURCES})
+
+target_include_directories(SimpleRender 
+	PUBLIC ${CMAKE_SOURCE_DIR}/include
+	PUBLIC ${PROJECT_SOURCE_DIR}/simple_render/include)
+
+target_link_libraries (SimpleRender Debug\\Engine.lib ${CMAKE_SOURCE_DIR}/lib/glfw3.lib opengl32.lib)
+
+add_dependencies(SimpleRender Engine)

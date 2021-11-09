@@ -13,6 +13,8 @@ class EngineExport App
 	class GlfWRenderer* _Renderer;
 public:
 
+	class ShaderManager* ShaderMan;
+
 	App(const char* name, const char* title, int width, int height);
 	~App();
 
