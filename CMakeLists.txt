@@ -28,10 +28,21 @@ file (GLOB ENGINE_INCLUDES
 	${CMAKE_SOURCE_DIR}/include/*.hpp)
 
 
+file (GLOB COMPONENT_SOURCES 
+	${CMAKE_SOURCE_DIR}/source/components/*.cpp
+	${CMAKE_SOURCE_DIR}/source/components/*.c)
 
-add_library(Engine SHARED ${ENGINE_SOURCES} ${IMGUI_SOURCES} ${ENGINE_INCLUDES})
+file (GLOB COMPONENT_INCLUDES 
+	${CMAKE_SOURCE_DIR}/include/components/*.h
+	${CMAKE_SOURCE_DIR}/include/components/*.hpp)
 
-source_group("imgui" 	FILES ${IMGUI_SOURCES})
+
+
+add_library(Engine SHARED ${ENGINE_SOURCES} ${IMGUI_SOURCES} ${ENGINE_INCLUDES} ${COMPONENT_SOURCES} ${COMPONENT_INCLUDES})
+
+source_group("Imgui" 			FILES ${IMGUI_SOURCES})
+source_group("Source Files/Components" 	FILES ${COMPONENT_SOURCES})
+source_group("Header Files/Components" 	FILES ${COMPONENT_INCLUDES})
 
 target_include_directories(Engine 
 	PUBLIC ${PROJECT_SOURCE_DIR}/include
