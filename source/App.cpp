@@ -12,7 +12,6 @@ App::App(const char* name, const char* title, int width, int height)
 	std::cout << "Application " << _Name << "Started!" << std::endl;
 
     _Renderer = new GlfWRenderer(this, width, height);
-    ShaderMan = new ShaderManager();
 }
 
 App::~App()

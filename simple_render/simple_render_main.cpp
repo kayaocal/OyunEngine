@@ -6,7 +6,7 @@ int main()
 {
 	std::cout<<"Editor started!"<<std::endl;
 	
-	SimpleRenderApp simpleRender{ "My Editor", "Editor Test" , 800, 600};
+	SimpleRenderApp simpleRender{ "Renderer", "Render Test" , 800, 600};
 
 	while (simpleRender.Loop())
 	{

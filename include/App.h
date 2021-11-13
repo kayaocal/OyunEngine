@@ -4,6 +4,11 @@
 
 #define EngineExport  __declspec( dllexport )
 
+namespace Engine
+{
+	class ShaderManager;
+}
+
 class EngineExport App
 {
 
@@ -12,9 +17,7 @@ class EngineExport App
 
 	class GlfWRenderer* _Renderer;
 public:
-
-	class ShaderManager* ShaderMan;
-
+	
 	App(const char* name, const char* title, int width, int height);
 	~App();
 

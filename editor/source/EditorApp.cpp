@@ -22,7 +22,8 @@ const char* fragmentShaderSource = "#version 330 core\n"
 EditorApp::EditorApp(const char* name, const char* title, int width, int height)
     :App(name, title, width, height)
 {
-    ShaderMan->CompileShader("basic_shader", vertexShaderSource, fragmentShaderSource);
+    using namespace Engine;
+    ShaderManager::Get().CompileShader("basic_shader", vertexShaderSource, fragmentShaderSource);
 }
 
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <glm/glm.hpp>
 
 #define EngineExport   __declspec( dllexport )
 
@@ -7,11 +8,15 @@
 
 class EngineExport Vec2
 {
+	glm::vec2 _Source;
+
 public:
+
 	float X;
 	float Y;
 
 	Vec2(); //! Generates zero vector
+	Vec2(glm::vec2);
 	Vec2(float num);
 	Vec2(float x, float y);
 
@@ -23,6 +28,7 @@ public:
 	Vec2 operator*(const float&);
 	Vec2 operator/(const float&);
 
+	float & operator[](int);
 	float Lenght();
 	void Normalize();
 

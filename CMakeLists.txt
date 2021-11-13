@@ -19,6 +19,10 @@ file (GLOB IMGUI_SOURCES
 	${CMAKE_SOURCE_DIR}/external/imgui/backends/imgui_impl_opengl3.h
 	${CMAKE_SOURCE_DIR}/external/imgui/backends/imgui_impl_opengl3_loader.h)
 
+file (GLOB ASSIMP_INCLUDES
+	${CMAKE_SOURCE_DIR}/include/assimp/*.h
+	${CMAKE_SOURCE_DIR}/include/assimp/*/*.h)
+
 file (GLOB ENGINE_SOURCES 
 	${CMAKE_SOURCE_DIR}/source/*.cpp
 	${CMAKE_SOURCE_DIR}/source/*.c)
@@ -44,19 +48,21 @@ file (GLOB GLM_INCLUDES
 	${CMAKE_SOURCE_DIR}/include/glm/*/*.hpp
 	${CMAKE_SOURCE_DIR}/include/glm/*/*.cpp)
 
-add_library(Engine SHARED ${ENGINE_SOURCES} ${IMGUI_SOURCES} ${ENGINE_INCLUDES} ${COMPONENT_SOURCES} ${COMPONENT_INCLUDES} ${GLM_INCLUDES})
+add_library(Engine SHARED ${ENGINE_SOURCES} ${IMGUI_SOURCES} ${ENGINE_INCLUDES} ${COMPONENT_SOURCES} ${COMPONENT_INCLUDES} ${GLM_INCLUDES} ${ASSIMP_INCLUDES})
 
-source_group("Imgui" 			FILES ${IMGUI_SOURCES})
+source_group("Imgui" 					FILES ${IMGUI_SOURCES})
 source_group("Source Files/Components" 	FILES ${COMPONENT_SOURCES})
 source_group("Header Files/Components" 	FILES ${COMPONENT_INCLUDES})
-source_group("Header Files/GLM" 	FILES ${GLM_INCLUDES})
+source_group("Header Files/GLM" 		FILES ${GLM_INCLUDES})
+source_group("Header Files/Assimp" 		FILES ${ASSIMP_INCLUDES})
+
 target_include_directories(Engine 
 	PUBLIC ${PROJECT_SOURCE_DIR}/include
 	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui
 	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui/backends)
 
 
-target_link_libraries (Engine ${CMAKE_SOURCE_DIR}/lib/glfw3.lib opengl32.lib)
+target_link_libraries (Engine ${CMAKE_SOURCE_DIR}/lib/glfw3.lib opengl32.lib ${CMAKE_SOURCE_DIR}/lib/assimp-vc142-mt.lib)
 
 
 # Copy dlls
