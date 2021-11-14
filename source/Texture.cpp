@@ -53,6 +53,7 @@ namespace Engine
 				return nullptr;
 			}
 
+			std::cout << "Texture succesfull to load at path : "<< path << std::endl;
 			tex = new Texture{ path, width, height, nrChannels, data };
 			stbi_image_free(data);
 			_TextureMap.insert(std::pair<std::string, Texture*>(path, tex));

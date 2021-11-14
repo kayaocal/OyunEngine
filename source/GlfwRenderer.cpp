@@ -90,12 +90,12 @@ bool GlfWRenderer::SetupRenderer()
 
     Tex = Engine::TextureStore::Get().Load( "test.png" );
 
-    Transform.Position = glm::vec3(0.0f);
+    Transform.Position = glm::vec3(0.0f, 0.0f, -5.0f);
     Transform.EulerRotation = glm::vec3(0, 0, 0);
-    Transform.Scale = glm::vec3(1.0, 1.0, 1.0);
+    Transform.Scale = glm::vec3(1.0f, 1.0f, 1.0f);
 
     TestModel = new Engine::Model("backpack.obj");
-
+    
     glEnable(GL_DEPTH_TEST);
 	return true;
 }
@@ -158,7 +158,7 @@ bool GlfWRenderer::RenderLoop()
     int display_w, display_h;
     glfwGetFramebufferSize(_Window, &display_w, &display_h);
     glViewport(0, 0, display_w, display_h);
-    glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+    glClearColor(0.5f, 0.5f, 0.8f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -178,37 +178,57 @@ bool GlfWRenderer::RenderLoop()
 
     using namespace Engine;
     glUseProgram(ShaderManager::Get().GetShaderByName("basic_shader")->ProgramId);
-    unsigned int transformLoc = glGetUniformLocation(ShaderManager::Get().GetShaderByName("basic_shader")->ProgramId, "transform");
+   
+    unsigned int modelLoc = glGetUniformLocation(ShaderManager::Get().GetShaderByName("basic_shader")->ProgramId, "model");
     unsigned int viewLoc = glGetUniformLocation(ShaderManager::Get().GetShaderByName("basic_shader")->ProgramId, "view");
     unsigned int projLoc = glGetUniformLocation(ShaderManager::Get().GetShaderByName("basic_shader")->ProgramId, "projection");
-        
 
-    unsigned int texture;
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
-    // set the texture wrapping parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);	// set texture wrapping to GL_REPEAT (default wrapping method)
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-    // set texture filtering parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, Tex->Width, Tex->Height, 0, GL_RGB, GL_UNSIGNED_BYTE, Tex->Data);
-    glGenerateMipmap(GL_TEXTURE_2D);
-
-    // view/projection transformations
+   // view/projection transformations
     glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)_App->GetWidth() / (float)_App->GetHeight(), 0.1f, 100.0f);
     glm::mat4 view = camera.GetViewMatrix();
     glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
     glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
         
     // render the loaded model
-    glm::mat4 model = glm::mat4(1.0f);
-    model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
-    model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
+  Transform.EulerRotation.y++;
 
-    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(model));
-    TestModel->Draw(*ShaderManager::Get().GetShaderByName("basic_shader"));
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(Transform.GetModelMatrix()));
+    TestModel->Draw(*ShaderManager::Get().GetShaderByName("simple_shader"));
+
+    //{
+    //    float vertices[] = {
+    //    -0.5f, -0.5f, 0.0f, // left  
+    //     0.5f, -0.5f, 0.0f, // right 
+    //     0.0f,  0.5f, 0.0f  // top   
+    //    };
+
+    //    unsigned int VBO, VAO;
+    //    glGenVertexArrays(1, &VAO);
+    //    glGenBuffers(1, &VBO);
+    //    // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
+    //    glBindVertexArray(VAO);
+
+    //    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    //    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    //    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    //    glEnableVertexAttribArray(0);
+
+    //    // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
+    //    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    //    // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
+    //    // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
+    //    glBindVertexArray(0);
+    //    glUseProgram(ShaderManager::Get().GetShaderByName("simple_shader")->ProgramId);
+    //    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+    //    glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+    //    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+    //    glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
+    //    glDrawArrays(GL_TRIANGLES, 0, 3);
+
+    //    // glBindVertexArray(0); // no need to unbind it every time 
+    //}
 
     glfwSwapBuffers(_Window);
 

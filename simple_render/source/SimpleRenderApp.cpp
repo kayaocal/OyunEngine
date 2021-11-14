@@ -18,21 +18,34 @@ const char* vertexShaderSource = "#version 330 core\n"
 "    gl_Position = projection * view * model * vec4(aPos, 1.0);\n" 
 "}\0";
 
-const char* fragmentShaderSource = "#version 330 core\n"
+const char* simplefragmentShaderSource = "#version 330 core\n"
 "out vec4 FragColor;\n"
 "in vec2 TexCoords;\n"
-"uniform sampler2D texture_diffuse1;\n"
+"uniform sampler2D texture_diffuse0;\n"
 "void main()\n"
 "{    \n"
-"    FragColor = texture(texture_diffuse1, TexCoords);\n"
+"    FragColor = texture(texture_diffuse0, TexCoords);\n"
 "}\0";
 
+const char* simplevertexShaderSource = "#version 330 core\n"
+"layout (location = 0) in vec3 aPos;\n"
+"void main()\n"
+"{\n"
+"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+"}\0";
+const char* fragmentShaderSource = "#version 330 core\n"
+"out vec4 FragColor;\n"
+"void main()\n"
+"{\n"
+"   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+"}\n\0";
 
 SimpleRenderApp::SimpleRenderApp(const char* name, const char* title, int width, int height)
     :App(name, title, width, height)
 {
     using namespace Engine;
-    ShaderManager::Get().CompileShader("basic_shader", vertexShaderSource, fragmentShaderSource);
+    ShaderManager::Get().CompileShader("basic_shader", vertexShaderSource, simplefragmentShaderSource);
+    ShaderManager::Get().CompileShader("simple_shader", simplevertexShaderSource, simplefragmentShaderSource);
 }
 
 
