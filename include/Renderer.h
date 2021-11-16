@@ -1,7 +1,11 @@
 #pragma once
 
-
 #define EngineExport   __declspec( dllexport )
+
+namespace Engine
+{
+	class EngineImLayer;
+}
 
 class EngineExport Renderer
 {
@@ -32,6 +36,9 @@ protected:
 	int _PosY;		//! Window position
 };
 
+
+
+
 class EngineExport GlfWRenderer : public Renderer
 {
 	struct GLFWwindow* _Window;
@@ -55,5 +62,7 @@ class EngineExport GlfWRenderer : public Renderer
 
 	void SetWindowPosX(int);
 	void SetWindowPosY(int);
+
+	void AddImGuiWindow(Engine::EngineImLayer*);
 
 };

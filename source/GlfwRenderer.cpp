@@ -1,29 +1,31 @@
-#include "..\include\Renderer.h"
+#include "Renderer.h"
 #include <iostream>
-#include <Texture.h>
-#include <imgui.h>
-#include <imgui_impl_glfw.h>
-#include <imgui_impl_opengl3.h>
+#include <functional>
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <functional>
-
-#include "Shader.h"
-#include "App.h"
-#include <components/TransformComponent.h>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/glm.hpp>
+
+
+#include "Texture.h"
+#include "Shader.h"
+#include "App.h"
+#include <components/TransformComponent.h>
 #include "Mesh.h"
 #include "Model.h"
 #include "Camera.h"
 
+#include "EngineImGui.h"
+
 GlfWRenderer* _Renderer;
+
+Engine::EngineImGui ImGui;
 
 const char* glsl_version = "#version 420";
 
-Engine::Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+Engine::Camera camera(glm::vec3(0.0f, 0.0f, 10.0f));
 /*
 *   GLFW Event Callbacks!
 */
@@ -45,10 +47,6 @@ GlfWRenderer::GlfWRenderer(App* app, int width, int height)
         std::cout << "Can not setup Renderer!" << std::endl;
     }
 
-    if (!SetupImgui())
-    {
-        std::cout << "Can not setup Imgui!" << std::endl;
-    }
 
 }
 Engine::Texture* Tex;
@@ -96,28 +94,14 @@ bool GlfWRenderer::SetupRenderer()
 
     TestModel = new Engine::Model("backpack.obj");
     
+    ImGui.Init(_Window, glsl_version);
     glEnable(GL_DEPTH_TEST);
 	return true;
 }
 
 bool GlfWRenderer::SetupImgui()
 {
-    // Setup Dear ImGui context
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
-    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
-    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
-    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-
-    // Setup Dear ImGui style
-    ImGui::StyleColorsDark();
-    //ImGui::StyleColorsClassic();
-
-    // Setup Platform/Renderer backends
-    ImGui_ImplGlfw_InitForOpenGL(_Window, true);
-    ImGui_ImplOpenGL3_Init(glsl_version);
+   
 
     return true;
 }
@@ -125,9 +109,7 @@ bool GlfWRenderer::SetupImgui()
 void GlfWRenderer::TerminateRenderer()
 {
     // Cleanup
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplGlfw_Shutdown();
-    ImGui::DestroyContext();
+   
 
     glfwDestroyWindow(_Window);
     glfwTerminate();
@@ -147,33 +129,17 @@ bool GlfWRenderer::RenderLoop()
     glfwPollEvents();
 
     // Start the Dear ImGui frame
-    ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplGlfw_NewFrame();
-    ImGui::NewFrame();
-
-    _App->OnDrawImGui();
-
-    // Rendering
-    ImGui::Render();
+   
     int display_w, display_h;
     glfwGetFramebufferSize(_Window, &display_w, &display_h);
     glViewport(0, 0, display_w, display_h);
     glClearColor(0.5f, 0.5f, 0.8f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    // Rendering
+    
 
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
-    // Update and Render additional Platform Windows
-  // (Platform functions may change the current OpenGL context, so we save/restore it to make it easier to paste this code elsewhere.
-  //  For this specific demo app we could also call glfwMakeContextCurrent(window) directly)
-    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-    {
-        GLFWwindow* backup_current_context = glfwGetCurrentContext();
-        ImGui::UpdatePlatformWindows();
-        ImGui::RenderPlatformWindowsDefault();
-        glfwMakeContextCurrent(backup_current_context);
-    }
+   
 
 
     using namespace Engine;
@@ -190,46 +156,13 @@ bool GlfWRenderer::RenderLoop()
     glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
         
     // render the loaded model
-  Transform.EulerRotation.y++;
+  //Transform.EulerRotation.y++;
 
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(Transform.GetModelMatrix()));
-    TestModel->Draw(*ShaderManager::Get().GetShaderByName("simple_shader"));
+    TestModel->Draw(*ShaderManager::Get().GetShaderByName("basic_shader"));
 
-    //{
-    //    float vertices[] = {
-    //    -0.5f, -0.5f, 0.0f, // left  
-    //     0.5f, -0.5f, 0.0f, // right 
-    //     0.0f,  0.5f, 0.0f  // top   
-    //    };
 
-    //    unsigned int VBO, VAO;
-    //    glGenVertexArrays(1, &VAO);
-    //    glGenBuffers(1, &VBO);
-    //    // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-    //    glBindVertexArray(VAO);
-
-    //    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    //    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    //    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    //    glEnableVertexAttribArray(0);
-
-    //    // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
-    //    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    //    // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
-    //    // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
-    //    glBindVertexArray(0);
-    //    glUseProgram(ShaderManager::Get().GetShaderByName("simple_shader")->ProgramId);
-    //    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-    //    glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
-    //    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-    //    glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-    //    glDrawArrays(GL_TRIANGLES, 0, 3);
-
-    //    // glBindVertexArray(0); // no need to unbind it every time 
-    //}
-
+    ImGui.Draw();
     glfwSwapBuffers(_Window);
 
     return true;
@@ -265,6 +198,12 @@ void GlfWRenderer::SetWindowPosY(int y)
 {
     _PosY = y;
 }
+
+void GlfWRenderer::AddImGuiWindow(Engine::EngineImLayer* s)
+{
+    ImGui.AddLayer(s);
+}
+
 
 int GlfWRenderer::GetWindowPosX()
 {

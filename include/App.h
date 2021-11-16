@@ -11,7 +11,7 @@ namespace Engine
 
 class EngineExport App
 {
-
+protected:
 	std::string _Name;
 	std::string _Title;
 
@@ -21,8 +21,6 @@ public:
 	App(const char* name, const char* title, int width, int height);
 	~App();
 
-
-	virtual void OnDrawImGui();
 
 	virtual bool Loop();
 
