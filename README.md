@@ -10,3 +10,4 @@ run build/engine.bat
 * std_image.h
 * GLM
 * GLFW
+* assimp
