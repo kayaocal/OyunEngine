@@ -1,13 +1,19 @@
-# Engine
+# Oyun Engine
 
-Lightweight opengl based game engine project. Project aims to create level editor, data editor, scene system and usefull tools and apis for game projects
+<b>Oyun</b> means "<b>game</b>" in Turkish, so Oyun engine is lightweight opengl based 3d game engine and editor project. Project aims to create level editor, data editor, scene system and usefull tools and apis for game projects
+
+# Project Status
+This project is in early status. It is not ready to make games.
+
+## Clone Project
+you should clone project <b>recursively</b>
 
 ## Create project folder.
 run build/engine.bat
 
 ## External tools and libraries
-* Imgui -docking
-* std_image.h
-* GLM
-* GLFW
-* assimp
+* [Imgui](https://github.com/ocornut/imgui) added as submodule.(needs to switch docking branch)
+* [stb_image](https://github.com/nothings/stb)
+* [GLM - OpenGL Mathematics](https://glm.g-truc.net/0.9.8/index.html)
+* [GLFW - 3.3.5](https://www.glfw.org)
+* [assimp - The Open-Asset-Importer-Lib - 5.0.1](http://assimp.org)
