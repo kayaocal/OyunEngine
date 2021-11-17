@@ -3,8 +3,10 @@
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-
+#include "Texture.h"
 #include <vector>
+
+#define EngineExport   __declspec( dllexport )
 
 namespace Engine
 {
@@ -25,7 +27,7 @@ namespace Engine
 
 
     // An abstract camera class that processes input and calculates the corresponding Euler Angles, Vectors and Matrices for use in OpenGL
-    class Camera
+    class EngineExport Camera
     {
     public:
         // camera Attributes
@@ -42,6 +44,12 @@ namespace Engine
         float MouseSensitivity;
         float Zoom;
 
+        Texture* RenderTexture;
+
+        unsigned int FrameBuffer;
+        unsigned int DepthBuffer;
+        GLenum DrawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
+
         // constructor with vectors
         Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH);
         // constructor with scalar values
@@ -56,6 +64,8 @@ namespace Engine
 
         // processes input received from a mouse scroll-wheel event. Only requires input on the vertical wheel-axis
         void ProcessMouseScroll(float yoffset);
+
+        void CreateRenderTexture(int w, int h);
 
     private:
         // calculates the front vector from the Camera's (updated) Euler Angles

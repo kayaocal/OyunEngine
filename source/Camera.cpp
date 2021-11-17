@@ -1,5 +1,5 @@
 #pragma once
-
+#include <iostream>
 
 #include "Camera.h"
 
@@ -16,6 +16,8 @@ namespace Engine
         Yaw = yaw;
         Pitch = pitch;
         updateCameraVectors();
+        RenderTexture = nullptr;
+        FrameBuffer = 0;
     }
     // constructor with scalar values
     Camera::Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
@@ -25,6 +27,8 @@ namespace Engine
         Yaw = yaw;
         Pitch = pitch;
         updateCameraVectors();
+        RenderTexture = nullptr;
+        FrameBuffer = 0;
     }
 
     // returns the view matrix calculated using Euler Angles and the LookAt Matrix
@@ -79,6 +83,49 @@ namespace Engine
             Zoom = 45.0f;
     }
 
+    void Camera::CreateRenderTexture(int w, int h)
+    {
+        if (RenderTexture != nullptr && (RenderTexture->Width != w || RenderTexture->Height != h))
+        {
+            delete RenderTexture;
+            RenderTexture = nullptr;
+            glDeleteFramebuffers(1, &FrameBuffer);
+            glDeleteRenderbuffers(1, &DepthBuffer);
+            FrameBuffer = 0;
+        }
+
+        if (FrameBuffer == 0)
+        {
+            glGenFramebuffers(1, &FrameBuffer);
+            glBindFramebuffer(GL_FRAMEBUFFER, FrameBuffer);
+
+
+            glGenRenderbuffers(1, &DepthBuffer);
+            glBindRenderbuffer(GL_RENDERBUFFER, DepthBuffer);
+            glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, w, h);
+            glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, DepthBuffer);
+        }
+
+
+        if (RenderTexture == nullptr)
+        {
+            RenderTexture = new Texture(w, h);
+            glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, RenderTexture->Id, 0);
+            glDrawBuffers(1, DrawBuffers); // "1" is the size of DrawBuffers
+        }
+
+
+        // Set "renderedTexture" as our colour attachement #0
+
+        // Set the list of draw buffers.
+
+        if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+        {
+            std::cout << "ERROR ON GLDRAWBUFFERS!" << std::endl;
+        }
+
+    }
+
     // calculates the front vector from the Camera's (updated) Euler Angles
     void Camera::updateCameraVectors()
     {
@@ -92,5 +139,6 @@ namespace Engine
         Right = glm::normalize(glm::cross(Front, WorldUp));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
         Up = glm::normalize(glm::cross(Right, Front));
     }
+
 
 }

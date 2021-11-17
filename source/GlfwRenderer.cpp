@@ -96,14 +96,9 @@ bool GlfWRenderer::SetupRenderer()
     
     ImGui.Init(_Window, glsl_version);
     glEnable(GL_DEPTH_TEST);
+
+    MainCamera = &camera;
 	return true;
-}
-
-bool GlfWRenderer::SetupImgui()
-{
-   
-
-    return true;
 }
 
 void GlfWRenderer::TerminateRenderer()
@@ -131,17 +126,22 @@ bool GlfWRenderer::RenderLoop()
     // Start the Dear ImGui frame
    
     int display_w, display_h;
-    glfwGetFramebufferSize(_Window, &display_w, &display_h);
-    glViewport(0, 0, display_w, display_h);
+    if (MainCamera->RenderTexture)
+    {
+        glBindFramebuffer(GL_FRAMEBUFFER, MainCamera->FrameBuffer);
+        glViewport(0, 0, MainCamera->RenderTexture->Width, MainCamera->RenderTexture->Height);
+    }
+    else
+    {
+        glfwGetFramebufferSize(_Window, &display_w, &display_h);
+        glViewport(0, 0, display_w, display_h);
+    }
+    glEnable(GL_DEPTH_TEST);
     glClearColor(0.5f, 0.5f, 0.8f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Rendering
     
-
-   
-
-
     using namespace Engine;
     glUseProgram(ShaderManager::Get().GetShaderByName("basic_shader")->ProgramId);
    
@@ -156,12 +156,12 @@ bool GlfWRenderer::RenderLoop()
     glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
         
     // render the loaded model
-  //Transform.EulerRotation.y++;
+    Transform.EulerRotation.y++;
 
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(Transform.GetModelMatrix()));
     TestModel->Draw(*ShaderManager::Get().GetShaderByName("basic_shader"));
 
-
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
     ImGui.Draw();
     glfwSwapBuffers(_Window);
 

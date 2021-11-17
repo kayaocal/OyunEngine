@@ -6,7 +6,7 @@ int main()
 {
 	std::cout<<"Editor started!"<<std::endl;
 	
-	EditorApp simpleRender{ "Renderer", "Render Test" , 800, 600};
+	EditorApp simpleRender{ "OyunEngine", "Oyun Engine" , 800, 600};
 
 	while (simpleRender.Loop())
 	{

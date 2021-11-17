@@ -30,4 +30,5 @@ public:
 	int GetWindowPosX();
 	int GetWindowPosY();
 
+	GlfWRenderer* GetRenderer();
 };

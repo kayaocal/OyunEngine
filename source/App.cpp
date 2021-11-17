@@ -14,6 +14,11 @@ App::App(const char* name, const char* title, int width, int height)
     _Renderer = new GlfWRenderer(this, width, height);
 }
 
+GlfWRenderer* App::GetRenderer()
+{
+    return _Renderer;
+}
+
 App::~App()
 {
 }

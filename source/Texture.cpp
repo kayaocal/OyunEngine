@@ -7,8 +7,21 @@
 
 namespace Engine
 {
+	Texture::Texture(int width, int height)
+		:Width(width), Height(height)
+	{
+		NrChannels = 3;
+
+		glGenTextures(1, &Id);
+		glBindTexture(GL_TEXTURE_2D, Id);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, Width, Height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	}
+
 	Texture::Texture(const std::string& path, int width, int height, int nrChannel, unsigned char* data)
-	:Width(width), Height(height), NrChannels(nrChannel), Data(data)
+	:Width(width), Height(height), NrChannels(nrChannel)
 {
 	GLenum format;
 	if (NrChannels == 1)
@@ -20,7 +33,7 @@ namespace Engine
 
 	glGenTextures(1, &Id);
 	glBindTexture(GL_TEXTURE_2D, Id);
-	glTexImage2D(GL_TEXTURE_2D, 0, format, Width, Height, 0, format, GL_UNSIGNED_BYTE, Data);
+	glTexImage2D(GL_TEXTURE_2D, 0, format, Width, Height, 0, format, GL_UNSIGNED_BYTE, data);
 	glGenerateMipmap(GL_TEXTURE_2D);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -31,6 +44,7 @@ namespace Engine
 
 	Texture::~Texture()
 	{
+		glDeleteTextures(1, &Id);
 	}
 
 	TextureStore& TextureStore::Get()

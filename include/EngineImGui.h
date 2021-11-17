@@ -5,14 +5,17 @@
 #define EngineExport   __declspec( dllexport )
 
 struct GLFWwindow;
+class App;
+
 namespace Engine
 {
 	class EngineExport EngineImLayer
 	{
 	public:
 		std::string Name;
+		App* MyApp;
 
-		EngineImLayer(const std::string rName);
+		EngineImLayer(const std::string rName, App* app);
 
 
 		virtual void Draw() = 0;

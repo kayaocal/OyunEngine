@@ -46,7 +46,7 @@ EditorApp::EditorApp(const char* name, const char* title, int width, int height)
 {
     using namespace Engine;
     ShaderManager::Get().CompileShader("basic_shader", vertexShaderSource, simplefragmentShaderSource);
-    _Renderer->AddImGuiWindow(new EditorImLayer("EditorMain"));
+    _Renderer->AddImGuiWindow(new EditorImLayer("EditorMain", this));
 }
 
 

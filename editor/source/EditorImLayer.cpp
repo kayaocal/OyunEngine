@@ -1,9 +1,12 @@
 #include "EditorImLayer.h"
 #include "imgui.h"
+#include "App.h"
+#include "Renderer.h"
+#include "Camera.h"
 #include <iostream>
 
-EditorImLayer::EditorImLayer(const std::string rName)
-    :EngineImLayer(rName)
+EditorImLayer::EditorImLayer(const std::string rName, App* app)
+    :EngineImLayer(rName, app)
 {
     std::cout << "TEST" << std::endl;
 }
@@ -11,6 +14,7 @@ EditorImLayer::EditorImLayer(const std::string rName)
 void EditorImLayer::Draw()
 {
 	DrawDockableWindow();
+    DrawViewPort();
 }
 
 void EditorImLayer::DrawDockableWindow()
@@ -68,8 +72,7 @@ void EditorImLayer::DrawDockableWindow()
 	DrawMenuBar();
 
 	ImGui::End();
-	ImGui::Begin("Viewport");
-	ImGui::End();
+
 	ImGui::Begin("Properties");
 	ImGui::End();
 }
@@ -144,4 +147,19 @@ void EditorImLayer::DrawMenuBar()
 
         ImGui::EndMenuBar();
     }
+}
+
+void EditorImLayer::DrawViewPort()
+{
+    ImGui::Begin("Viewport");
+    
+
+    int width = ImGui::GetWindowWidth();
+    int height = ImGui::GetWindowHeight();
+    
+    MyApp->GetRenderer()->MainCamera->CreateRenderTexture(width, height);
+    int test =  MyApp->GetRenderer()->MainCamera->RenderTexture->Id;
+    ImGui::Image((void*)(intptr_t)(MyApp->GetRenderer()->MainCamera->RenderTexture->Id),
+       ImVec2(width, height), ImVec2(0, 1), ImVec2(1, 0));
+    ImGui::End();
 }

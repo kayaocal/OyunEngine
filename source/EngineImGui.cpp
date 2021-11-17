@@ -128,9 +128,10 @@ void Engine::EngineImGui::Draw()
     }
 }
 
-Engine::EngineImLayer::EngineImLayer(const std::string rName)
+Engine::EngineImLayer::EngineImLayer(const std::string rName, App* app)
 {
     Name = rName;
+    MyApp = app;
     std::cout << "EngineImLayer created as " << Name << std::endl;
 }
 

@@ -5,19 +5,19 @@
 namespace Engine
 {
 	class EngineImLayer;
+	class Camera;
 }
 
 class EngineExport Renderer
 {
 protected:
 	class App* _App;
-
 public:
 
+	class Engine::Camera* MainCamera;
 	Renderer(class App* app, int width, int height);
 	
 	virtual bool SetupRenderer() = 0;
-	virtual bool SetupImgui() = 0;
 	virtual void TerminateRenderer() = 0;
 	virtual bool RenderLoop() = 0;
 
@@ -48,7 +48,6 @@ class EngineExport GlfWRenderer : public Renderer
 
 	GlfWRenderer(class App* app, int width, int height);
 	virtual bool SetupRenderer() override;
-	virtual bool SetupImgui() override;
 
 	virtual void TerminateRenderer() override;
 	virtual bool RenderLoop() override;

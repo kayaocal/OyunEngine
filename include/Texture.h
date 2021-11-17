@@ -9,7 +9,6 @@ namespace Engine
 	struct EngineExport Texture
 	{
 	public:
-		unsigned char* Data;
 		int Width;
 		int Height;
 		int NrChannels;
@@ -17,6 +16,7 @@ namespace Engine
 		unsigned int Id;
 		std::string Path;
 
+		Texture(int width, int height);
 		Texture(const std::string& path, int width, int height, int nrChannel, unsigned char* data);
 		~Texture();
 	};
