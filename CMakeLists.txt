@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 
 
 # set the project name
-project(Engine VERSION 0.0.1 DESCRIPTION "Best Engine is your Engine")
+project(OyunEngine VERSION 0.0.1 DESCRIPTION "Best OyunEngine is your OyunEngine")
 
 file (GLOB IMGUI_SOURCES
 	${CMAKE_SOURCE_DIR}/external/imconfig.h
@@ -48,7 +48,7 @@ file (GLOB GLM_INCLUDES
 	${CMAKE_SOURCE_DIR}/include/glm/*/*.hpp
 	${CMAKE_SOURCE_DIR}/include/glm/*/*.cpp)
 
-add_library(Engine SHARED ${ENGINE_SOURCES} ${IMGUI_SOURCES} ${ENGINE_INCLUDES} ${COMPONENT_SOURCES} ${COMPONENT_INCLUDES} ${GLM_INCLUDES} ${ASSIMP_INCLUDES})
+add_library(OyunEngine SHARED ${ENGINE_SOURCES} ${IMGUI_SOURCES} ${ENGINE_INCLUDES} ${COMPONENT_SOURCES} ${COMPONENT_INCLUDES} ${GLM_INCLUDES} ${ASSIMP_INCLUDES})
 
 source_group("Imgui" 					FILES ${IMGUI_SOURCES})
 source_group("Source Files/Components" 	FILES ${COMPONENT_SOURCES})
@@ -56,13 +56,13 @@ source_group("Header Files/Components" 	FILES ${COMPONENT_INCLUDES})
 source_group("Header Files/GLM" 		FILES ${GLM_INCLUDES})
 source_group("Header Files/Assimp" 		FILES ${ASSIMP_INCLUDES})
 
-target_include_directories(Engine 
+target_include_directories(OyunEngine 
 	PUBLIC ${PROJECT_SOURCE_DIR}/include
 	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui
 	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui/backends)
 
 
-target_link_libraries (Engine ${CMAKE_SOURCE_DIR}/lib/glfw3.lib opengl32.lib ${CMAKE_SOURCE_DIR}/lib/assimp-vc142-mt.lib)
+target_link_libraries (OyunEngine ${CMAKE_SOURCE_DIR}/lib/glfw3.lib opengl32.lib ${CMAKE_SOURCE_DIR}/lib/assimp-vc142-mt.lib)
 
 
 # Copy dlls
@@ -87,15 +87,15 @@ file (GLOB EDITOR_INCLUDES
 	${CMAKE_SOURCE_DIR}/editor/include/*.h
 	${CMAKE_SOURCE_DIR}/editor/include/*.hpp)
 
-add_executable(Editor ${CMAKE_SOURCE_DIR}/editor/editor_main.cpp ${EDITOR_INCLUDES} ${EDITOR_SOURCES})
+add_executable(OyunEditor ${CMAKE_SOURCE_DIR}/editor/editor_main.cpp ${EDITOR_INCLUDES} ${EDITOR_SOURCES})
 
-target_include_directories(Editor 
+target_include_directories(OyunEditor 
 	PUBLIC ${CMAKE_SOURCE_DIR}/include
 	PUBLIC ${PROJECT_SOURCE_DIR}/editor/include
 	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui
 	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui/backends)
 
-target_link_libraries (Editor Debug\\Engine.lib ${CMAKE_SOURCE_DIR}/lib/glfw3.lib opengl32.lib)
+target_link_libraries (OyunEditor Debug\\OyunEngine.lib ${CMAKE_SOURCE_DIR}/lib/glfw3.lib opengl32.lib)
 
-add_dependencies(Editor Engine)
+add_dependencies(OyunEditor OyunEngine)
 

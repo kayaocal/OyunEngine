@@ -1,8 +1,8 @@
 @echo off
 
-if not exist "Engine" mkdir Engine
+if not exist "OyunEngine" mkdir OyunEngine
 
-cd Engine
+cd OyunEngine
 
 cmake ..\..
 
