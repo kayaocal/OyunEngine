@@ -5,29 +5,28 @@
 
 #define EngineExport   __declspec( dllexport )
 
-namespace Engine
+namespace Oyun
 {
 
     #define MAX_BONE_INFLUENCE 4
 
     struct EngineExport Vertex
     {
-        glm::vec3 Position;
-        glm::vec3 Normal;
-        glm::vec2 TexCoords;
-        glm::vec3 Tangent;
+        glm::vec3 position;
+        glm::vec3 normal;
+        glm::vec2 texCoords;
+        glm::vec3 tangent;
         // bitangent
-        glm::vec3 Bitangent;
+        glm::vec3 bitangent;
         //bone indexes which will influence this vertex
-        int m_BoneIDs[MAX_BONE_INFLUENCE];
+        int boneIDs[MAX_BONE_INFLUENCE];
         //weights from each bone
-        float m_Weights[MAX_BONE_INFLUENCE];
+        float boneWeights[MAX_BONE_INFLUENCE];
     };
 
     class EngineExport Mesh
     {
     protected:
-
 
         unsigned int VBO, VAO, EBO;
 
@@ -35,8 +34,8 @@ namespace Engine
 
     public:
 
-        std::vector<Vertex>         Vertices;
-        std::vector<unsigned int>   Indices;
+        std::vector<Vertex>         vertices;
+        std::vector<unsigned int>   indices;
         struct Material* material;
     public:
 

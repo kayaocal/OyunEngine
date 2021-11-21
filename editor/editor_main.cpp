@@ -1,17 +1,9 @@
 #include <iostream>
-#include "EditorApp.h"
+#include <Engine.h>
 
 
 int main()
 {
-	std::cout<<"Editor started!"<<std::endl;
-	
-	EditorApp simpleRender{ "OyunEngine", "Oyun Engine" , 800, 600};
-
-	while (simpleRender.Loop())
-	{
-
-	}
-	
+	Oyun::StartEngine();
 	return 0;
 }

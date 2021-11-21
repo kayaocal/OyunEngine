@@ -4,9 +4,9 @@
 #include "Material.h"
 #include "Texture.h"
 
-using namespace Engine;
+using namespace Oyun;
 
-Engine::Model::Model(char* path)
+Oyun::Model::Model(char* path)
 {
     std::cout << "new Model : " << path << std::endl;
     loadModel(path);
@@ -18,7 +18,7 @@ void Model::Draw(Shader& shader)
 		meshes[i]->Draw(shader);
 }
 
-void Engine::Model::loadModel(std::string path)
+void Oyun::Model::loadModel(std::string path)
 {
 
 	    Assimp::Importer import;
@@ -34,7 +34,7 @@ void Engine::Model::loadModel(std::string path)
         processNode(scene->mRootNode, scene);
 }
 
-void Engine::Model::processNode(aiNode* node, const aiScene* scene)
+void Oyun::Model::processNode(aiNode* node, const aiScene* scene)
 {
     // process all the node's meshes (if any)
     for (unsigned int i = 0; i < node->mNumMeshes; i++)
@@ -49,7 +49,7 @@ void Engine::Model::processNode(aiNode* node, const aiScene* scene)
     }
 }
 
-Mesh* Engine::Model::processMesh(aiMesh* mesh, const aiScene* scene)
+Mesh* Oyun::Model::processMesh(aiMesh* mesh, const aiScene* scene)
 {
     // data to fill
     std::vector<Vertex> vertices;
@@ -64,14 +64,14 @@ Mesh* Engine::Model::processMesh(aiMesh* mesh, const aiScene* scene)
         vector.x = mesh->mVertices[i].x;
         vector.y = mesh->mVertices[i].y;
         vector.z = mesh->mVertices[i].z;
-        vertex.Position = vector;
+        vertex.position = vector;
         // normals
         if (mesh->HasNormals())
         {
             vector.x = mesh->mNormals[i].x;
             vector.y = mesh->mNormals[i].y;
             vector.z = mesh->mNormals[i].z;
-            vertex.Normal = vector;
+            vertex.normal = vector;
         }
         // texture coordinates
         if (mesh->mTextureCoords[0]) // does the mesh contain texture coordinates?
@@ -81,7 +81,7 @@ Mesh* Engine::Model::processMesh(aiMesh* mesh, const aiScene* scene)
             // use models where a vertex can have multiple texture coordinates so we always take the first set (0).
             vec.x = mesh->mTextureCoords[0][i].x;
             vec.y = mesh->mTextureCoords[0][i].y;
-            vertex.TexCoords = vec;
+            vertex.texCoords = vec;
 
             // tangent
             if (mesh->mTangents)
@@ -89,7 +89,7 @@ Mesh* Engine::Model::processMesh(aiMesh* mesh, const aiScene* scene)
                 vector.x = mesh->mTangents[i].x;
                 vector.y = mesh->mTangents[i].y;
                 vector.z = mesh->mTangents[i].z;
-                vertex.Tangent = vector;
+                vertex.tangent = vector;
             }
 
             // bitangent
@@ -98,12 +98,12 @@ Mesh* Engine::Model::processMesh(aiMesh* mesh, const aiScene* scene)
                 vector.x = mesh->mBitangents[i].x;
                 vector.y = mesh->mBitangents[i].y;
                 vector.z = mesh->mBitangents[i].z;
-                vertex.Bitangent = vector;
+                vertex.bitangent = vector;
 
             }
         }
         else
-            vertex.TexCoords = glm::vec2(0.0f, 0.0f);
+            vertex.texCoords = glm::vec2(0.0f, 0.0f);
 
         vertices.push_back(vertex);
     }
@@ -142,7 +142,7 @@ Mesh* Engine::Model::processMesh(aiMesh* mesh, const aiScene* scene)
 
 // checks all material textures of a given type and loads the textures if they're not loaded yet.
     // the required info is returned as a Texture struct.
-void Engine::Model::loadMaterialTextures(Material* engineMat, aiMaterial* mat, aiTextureType type)
+void Oyun::Model::loadMaterialTextures(Material* engineMat, aiMaterial* mat, aiTextureType type)
 {
     if (engineMat == nullptr)
     {
@@ -161,6 +161,6 @@ void Engine::Model::loadMaterialTextures(Material* engineMat, aiMaterial* mat, a
             continue;
         }
 
-        engineMat->Textures.insert(std::pair<Texture*, MaterialTextureType>(loadedTexture, static_cast<MaterialTextureType>(type)));
+        engineMat->textures.insert(std::pair<Texture*, MaterialTextureType>(loadedTexture, static_cast<MaterialTextureType>(type)));
     }
 }

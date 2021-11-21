@@ -14,6 +14,6 @@ public:
 
 	TransformComponent Transform;
 
-	bool Visible;
+	bool isVisible;
 
 };

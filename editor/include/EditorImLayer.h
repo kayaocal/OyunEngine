@@ -1,17 +1,25 @@
 #pragma once
 
-#include "EngineImGui.h"
+#include "ImLayer.h"
 
-class EditorImLayer : public Engine::EngineImLayer
+class EditorDockableWindowLayer : public Oyun::Imgui::ImLayer
 {
 public:
 
 
-	EditorImLayer(const std::string rName, App* app);
+	EditorDockableWindowLayer(const std::string rName);
 
 	virtual void Draw();
 
 	void DrawDockableWindow();
 	void DrawMenuBar();
 	void DrawViewPort();
+};
+
+class EditorViewPortLayer : public Oyun::Imgui::ImLayer
+{
+public:
+	EditorViewPortLayer(const std::string rName);
+
+	virtual void Draw();
 };

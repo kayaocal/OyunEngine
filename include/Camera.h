@@ -8,7 +8,7 @@
 
 #define EngineExport   __declspec( dllexport )
 
-namespace Engine
+namespace Oyun
 {
     // Defines several possible options for camera movement. Used as abstraction to stay away from window-system specific input methods
     enum Camera_Movement {

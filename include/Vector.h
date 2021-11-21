@@ -12,8 +12,8 @@ class EngineExport Vec2
 
 public:
 
-	float X;
-	float Y;
+	float x;
+	float y;
 
 	Vec2(); //! Generates zero vector
 	Vec2(glm::vec2);
@@ -38,9 +38,9 @@ public:
 class EngineExport Vec3
 {
 public:
-	float X;
-	float Y;
-	float Z;
+	float x;
+	float y;
+	float z;
 
 	Vec3(); //! Generates zero vector
 	Vec3(float num);
@@ -59,24 +59,3 @@ public:
 
 };
 
-class EngineExport Vec4
-{
-public:
-	float X;
-	float Y;
-	float Z;
-	float T;
-
-	Vec4(); //! Generates zero vector
-	Vec4(float num);
-	Vec4(float x, float y);
-	Vec4(float x, float y, float z, float t);
-
-	Vec4 operator+(const Vec4&);
-	Vec4 operator-(const Vec4&);
-	Vec4 operator*(const float&);
-	Vec4 operator/(const float&);
-
-	float Lenght();
-
-};

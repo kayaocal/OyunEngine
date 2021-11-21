@@ -6,7 +6,7 @@
 
 
 
-namespace Engine
+namespace Oyun
 {
     // constructor with vectors
     Camera::Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
@@ -85,7 +85,7 @@ namespace Engine
 
     void Camera::CreateRenderTexture(int w, int h)
     {
-        if (RenderTexture != nullptr && (RenderTexture->Width != w || RenderTexture->Height != h))
+        if (RenderTexture != nullptr && (RenderTexture->width != w || RenderTexture->height != h))
         {
             delete RenderTexture;
             RenderTexture = nullptr;
@@ -110,7 +110,7 @@ namespace Engine
         if (RenderTexture == nullptr)
         {
             RenderTexture = new Texture(w, h);
-            glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, RenderTexture->Id, 0);
+            glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, RenderTexture->id, 0);
             glDrawBuffers(1, DrawBuffers); // "1" is the size of DrawBuffers
         }
 

@@ -5,7 +5,7 @@
 #include "glm/glm.hpp"
 #define EngineExport   __declspec( dllexport )
 
-namespace Engine
+namespace Oyun
 {
 
 	class EngineExport Shader
@@ -30,7 +30,7 @@ namespace Engine
 	public:
 
 		static ShaderManager& Get();
-		std::map<std::string, Shader*> ShaderPrograms;
+		std::map<std::string, Shader*> shaderPrograms;
 
 		void CompileShader(const char* shaderName, const char* vertexShader, const char* fragmentShader);
 

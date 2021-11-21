@@ -1,23 +1,19 @@
 #include "EditorImLayer.h"
 #include "imgui.h"
-#include "App.h"
-#include "Renderer.h"
 #include "Camera.h"
 #include <iostream>
 
-EditorImLayer::EditorImLayer(const std::string rName, App* app)
-    :EngineImLayer(rName, app)
+EditorDockableWindowLayer::EditorDockableWindowLayer(const std::string rName)
+    :Oyun::Imgui::ImLayer(rName)
 {
-    std::cout << "TEST" << std::endl;
 }
 
-void EditorImLayer::Draw()
+void EditorDockableWindowLayer::Draw()
 {
 	DrawDockableWindow();
-    DrawViewPort();
 }
 
-void EditorImLayer::DrawDockableWindow()
+void EditorDockableWindowLayer::DrawDockableWindow()
 {
 	bool p_open = true;
 	static bool opt_fullscreen = true;
@@ -55,7 +51,7 @@ void EditorImLayer::DrawDockableWindow()
 	// any change of dockspace/settings would lead to windows being stuck in limbo and never being visible.
 	if (!opt_padding)
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-	ImGui::Begin("DockSpace", &p_open, window_flags);
+	ImGui::Begin(name.c_str(), &p_open, window_flags);
 	if (!opt_padding)
 		ImGui::PopStyleVar();
 
@@ -77,7 +73,7 @@ void EditorImLayer::DrawDockableWindow()
 	ImGui::End();
 }
 
-void EditorImLayer::DrawMenuBar()
+void EditorDockableWindowLayer::DrawMenuBar()
 {
     if (ImGui::BeginMenuBar())
     {
@@ -149,17 +145,28 @@ void EditorImLayer::DrawMenuBar()
     }
 }
 
-void EditorImLayer::DrawViewPort()
+void EditorDockableWindowLayer::DrawViewPort()
 {
-    ImGui::Begin("Viewport");
-    
+   
+}
+
+
+EditorViewPortLayer::EditorViewPortLayer(const std::string rName)
+    :Oyun::Imgui::ImLayer(rName)
+{
+}
+
+void EditorViewPortLayer::Draw()
+{
+    ImGui::Begin(name.c_str());
+
 
     int width = ImGui::GetWindowWidth();
     int height = ImGui::GetWindowHeight();
-    
-    MyApp->GetRenderer()->MainCamera->CreateRenderTexture(width, height);
-    int test =  MyApp->GetRenderer()->MainCamera->RenderTexture->Id;
-    ImGui::Image((void*)(intptr_t)(MyApp->GetRenderer()->MainCamera->RenderTexture->Id),
-       ImVec2(width, height), ImVec2(0, 1), ImVec2(1, 0));
+
+    /* app->GetRenderer()->mainCamera->CreateRenderTexture(width, height);
+     int test =  app->GetRenderer()->mainCamera->RenderTexture->id;
+     ImGui::Image((void*)(intptr_t)(app->GetRenderer()->mainCamera->RenderTexture->id),
+        ImVec2(width, height), ImVec2(0, 1), ImVec2(1, 0));*/
     ImGui::End();
 }

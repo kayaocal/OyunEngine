@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-void Engine::EngineImGui::Init(GLFWwindow* wnd, const char* glslVersion)
+void Oyun::EngineImGui::Init(GLFWwindow* wnd, const char* glslVersion)
 {
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
@@ -32,7 +32,7 @@ void Engine::EngineImGui::Init(GLFWwindow* wnd, const char* glslVersion)
 
 }
 
-void Engine::EngineImGui::ApplyDarkTheme()
+void Oyun::EngineImGui::ApplyDarkTheme()
 {
     ImGuiStyle& style = ImGui::GetStyle();
     style.Colors[ImGuiCol_Text] = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
@@ -88,26 +88,26 @@ void Engine::EngineImGui::ApplyDarkTheme()
     style.GrabRounding = style.FrameRounding = 2.3f;
 }
 
-void Engine::EngineImGui::Terminate()
+void Oyun::EngineImGui::Terminate()
 {
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
 }
 
-void Engine::EngineImGui::AddLayer(EngineImLayer* layer)
+void Oyun::EngineImGui::AddLayer(EngineImLayer* layer)
 {
-    Layers.push_back(layer);
+    layers.push_back(layer);
 }
 
-void Engine::EngineImGui::Draw()
+void Oyun::EngineImGui::Draw()
 {
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
-    auto it = Layers.begin();
-    while (it != Layers.end())
+    auto it = layers.begin();
+    while (it != layers.end())
     {
         (*it)->Draw();
         it++;
@@ -128,10 +128,9 @@ void Engine::EngineImGui::Draw()
     }
 }
 
-Engine::EngineImLayer::EngineImLayer(const std::string rName, App* app)
+Oyun::EngineImLayer::EngineImLayer(const std::string rName)
 {
-    Name = rName;
-    MyApp = app;
-    std::cout << "EngineImLayer created as " << Name << std::endl;
+    this->name = rName;
+    std::cout << "EngineImLayer created as " << name << std::endl;
 }
 

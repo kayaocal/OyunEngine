@@ -3,18 +3,18 @@
 #include <map>
 #define EngineExport   __declspec( dllexport )
 
-namespace Engine
+namespace Oyun
 {
 
 	struct EngineExport Texture
 	{
 	public:
-		int Width;
-		int Height;
-		int NrChannels;
+		int width;
+		int height;
+		int nrChannels;
 
-		unsigned int Id;
-		std::string Path;
+		unsigned int id;
+		std::string path;
 
 		Texture(int width, int height);
 		Texture(const std::string& path, int width, int height, int nrChannel, unsigned char* data);

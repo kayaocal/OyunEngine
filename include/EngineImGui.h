@@ -5,17 +5,15 @@
 #define EngineExport   __declspec( dllexport )
 
 struct GLFWwindow;
-class App;
 
-namespace Engine
+namespace Oyun
 {
 	class EngineExport EngineImLayer
 	{
 	public:
-		std::string Name;
-		App* MyApp;
+		std::string name;
 
-		EngineImLayer(const std::string rName, App* app);
+		EngineImLayer(const std::string rName);
 
 
 		virtual void Draw() = 0;
@@ -24,7 +22,7 @@ namespace Engine
 	struct EngineExport EngineImGui
 	{
 	public:
-		std::vector<EngineImLayer*> Layers;
+		std::vector<EngineImLayer*> layers;
 
 		void Init(GLFWwindow* wnd, const char* glslVersion);
 

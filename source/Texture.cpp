@@ -5,35 +5,35 @@
 #include <glad/glad.h>
 #include <iostream>
 
-namespace Engine
+namespace Oyun
 {
 	Texture::Texture(int width, int height)
-		:Width(width), Height(height)
+		:width(width), height(height)
 	{
-		NrChannels = 3;
+		nrChannels = 3;
 
-		glGenTextures(1, &Id);
-		glBindTexture(GL_TEXTURE_2D, Id);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, Width, Height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+		glGenTextures(1, &id);
+		glBindTexture(GL_TEXTURE_2D, id);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	}
 
 	Texture::Texture(const std::string& path, int width, int height, int nrChannel, unsigned char* data)
-	:Width(width), Height(height), NrChannels(nrChannel)
+	:width(width), height(height), nrChannels(nrChannel)
 {
 	GLenum format;
-	if (NrChannels == 1)
+	if (nrChannels == 1)
 		format = GL_RED;
-	else if (NrChannels == 3)
+	else if (nrChannels == 3)
 		format = GL_RGB;
-	else if (NrChannels == 4)
+	else if (nrChannels == 4)
 		format = GL_RGBA;
 
-	glGenTextures(1, &Id);
-	glBindTexture(GL_TEXTURE_2D, Id);
-	glTexImage2D(GL_TEXTURE_2D, 0, format, Width, Height, 0, format, GL_UNSIGNED_BYTE, data);
+	glGenTextures(1, &id);
+	glBindTexture(GL_TEXTURE_2D, id);
+	glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 	glGenerateMipmap(GL_TEXTURE_2D);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -44,7 +44,7 @@ namespace Engine
 
 	Texture::~Texture()
 	{
-		glDeleteTextures(1, &Id);
+		glDeleteTextures(1, &id);
 	}
 
 	TextureStore& TextureStore::Get()

@@ -1,9 +1,9 @@
 #pragma once
 #include <map>
-
+#include <string>
 #define EngineExport   __declspec( dllexport )
 
-namespace Engine
+namespace Oyun
 {
 	enum class MaterialTextureType
 	{
@@ -28,34 +28,12 @@ namespace Engine
 		MAX
 	};
 
-	static const char* TextureTypeNames[]
-	{
-		"none",
-		"texture_diffuse",
-		"texture_specular",
-		"texture_ambient",
-		"texture_emissive",
-		"texture_height"
-		"texture_normal",
-		"texture_shininess",
-		"texture_opacity",
-		"texture_displacement",
-		"texture_lightmap",
-		"texture_reflection",
-		"texture_base_color",
-		"texture_normal_camera",
-		"texture_emission_color",
-		"texture_metalness",
-		"texture_diffuse_roughness",
-		"texture_ambient_occlusion"
-	};
-
-
+	extern const char* TextureTypeNames[];
 	struct EngineExport Material
 	{
 		Material();
 
-		std::map<struct Texture*, MaterialTextureType> Textures;
+		std::map<struct Texture*, MaterialTextureType> textures;
 	};
 
 }

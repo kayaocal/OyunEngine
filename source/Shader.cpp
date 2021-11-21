@@ -5,7 +5,7 @@
 
 #pragma once
 
-namespace Engine
+namespace Oyun
 {
 
 	ShaderManager::ShaderManager()
@@ -62,7 +62,7 @@ namespace Engine
 		}
 		else
 		{
-			ShaderPrograms.insert(std::pair<std::string, Shader*>(shaderName, new Shader(shaderProgram)));
+			shaderPrograms.insert(std::pair<std::string, Shader*>(shaderName, new Shader(shaderProgram)));
 		}
 
 		glDeleteShader(vertexShader);
@@ -72,8 +72,8 @@ namespace Engine
 
 	Shader* ShaderManager::GetShaderByName(const char* shaderName)
 	{
-		auto program = ShaderPrograms.find(shaderName);
-		if (program != ShaderPrograms.end())
+		auto program = shaderPrograms.find(shaderName);
+		if (program != shaderPrograms.end())
 		{
 			return program->second;
 		}
@@ -83,12 +83,12 @@ namespace Engine
 
 	void ShaderManager::DeleteShaders()
 	{
-		for (auto itr = ShaderPrograms.begin(); itr != ShaderPrograms.end(); ++itr)
+		for (auto itr = shaderPrograms.begin(); itr != shaderPrograms.end(); ++itr)
 		{
 			delete itr->second;
 		}
 
-		ShaderPrograms.erase(ShaderPrograms.begin(), ShaderPrograms.end());
+		shaderPrograms.erase(shaderPrograms.begin(), shaderPrograms.end());
 	}
 
 	Shader::Shader(unsigned int value)
