@@ -11,6 +11,12 @@ you should clone project <b>recursively</b>
 ## Create project folder.
 run build/engine.bat
 
+## Coding Conventions
+  * Functions starts with capital letter
+  * Private member variables starts with m like "mOpen"
+  * Global variables starts with g like "gDeltaTime"
+  * Public member variables starts with lower case 
+
 ## External tools and libraries
 * [Imgui](https://github.com/ocornut/imgui) added as submodule.(needs to switch docking branch)
 * [stb_image](https://github.com/nothings/stb)
