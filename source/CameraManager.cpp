@@ -5,6 +5,15 @@ namespace Oyun
 {
 	std::vector<Cameraman*> CameramanList;
 
+	Cameraman::Cameraman(glm::vec3& pos)
+		:camera(new Camera(pos)), isActive(false)
+	{
+	}
+
+	Cameraman::~Cameraman()
+	{
+		delete camera;
+	}
 
 	Cameraman* CreateCameraman(glm::vec3& pos)
 	{
@@ -22,15 +31,6 @@ namespace Oyun
 		}
 	}
 
-	Cameraman::Cameraman(glm::vec3& pos)
-	{
-		camera = new Camera(pos);
-		isActive = true;
-	}
 
-	Cameraman::~Cameraman()
-	{
-		delete camera;
-	}
 
 }

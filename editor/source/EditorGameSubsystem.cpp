@@ -14,7 +14,7 @@ namespace Editor
 	EditorGameSubsystem* EditorGameSubsystem::system = nullptr;
 
 	EditorGameSubsystem::EditorGameSubsystem()
-		:GameSubsystem()
+		:GameSubsystem(), EditorDefaultCameraman{ nullptr }
 	{
 	}
 

@@ -7,11 +7,14 @@ namespace Oyun
 {
 	class Camera;
 
-	EngineExport struct Cameraman
+	struct EngineExport Cameraman
 	{
+		Cameraman() = delete;
+
 		Cameraman(glm::vec3& pos);
 		~Cameraman();
-		class Camera* camera;
+
+		Camera* camera;
 		bool isActive;
 
 	};
