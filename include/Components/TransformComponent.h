@@ -5,7 +5,7 @@
 
 class EngineExport TransformComponent
 {
-	glm::mat4 _ModelMat;
+	glm::mat4 mModelMatrix;
 
 public:
 

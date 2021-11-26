@@ -11,6 +11,7 @@ namespace Oyun
 	EngineExport extern unsigned long gFrameCount;
 	EngineExport extern float gDeltaTime;
 	EngineExport extern float glastRenderTime;
+	EngineExport extern float gInstantFps;
 
 	class GameSubsystem;
 	EngineExport void StartEngine(GameSubsystem* game);

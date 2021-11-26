@@ -42,5 +42,6 @@ namespace Editor
 
 	private:
 		Oyun::Camera* defaultCamera;
+		bool mShowStats;
 	};
 }

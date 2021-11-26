@@ -45,6 +45,8 @@ namespace Editor
 
 	void EditorGameSubsystem::StartUp()
 	{
+		GameSubsystem::StartUp();
+
 		using namespace Oyun;
 		LOG << "EditorGameSubsystem Startup" << END;
 
@@ -64,6 +66,7 @@ namespace Editor
 
 	void EditorGameSubsystem::GameLoop(float deltaTime)
 	{
+		GameSubsystem::GameLoop(deltaTime);
 		using namespace Oyun;
 		LOG << "EditorGameSubsystem GameLoop" << END;
 	}
@@ -76,5 +79,11 @@ namespace Editor
 		AddLayer(new EditorDockableWindowLayer("DockWnd"));
 		AddLayer(new EditorPropertiesLayer("Properties"));
 		AddLayer(new EditorViewPortLayer("Viewport", EditorDefaultCameraman->camera));
+		 Oyun::Cameraman* cam = Oyun::CreateCameraman(glm::vec3(0.0f));
+		 cam->isActive = true;
+		AddLayer(new EditorViewPortLayer("Viewport2", cam->camera));
+		Oyun::Cameraman* cam2 = Oyun::CreateCameraman(glm::vec3(0.0f));
+		cam2->isActive = true;
+		AddLayer(new EditorViewPortLayer("Viewport3", cam2->camera));
 	}
 }

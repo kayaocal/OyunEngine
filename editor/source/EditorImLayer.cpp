@@ -2,7 +2,8 @@
 #include "imgui.h"
 #include "Camera.h"
 #include <iostream>
-
+#include <string>
+#include <Engine.h>
 namespace Editor
 {
     EditorDockableWindowLayer::EditorDockableWindowLayer(const std::string rName)
@@ -153,11 +154,12 @@ namespace Editor
 
 
     EditorViewPortLayer::EditorViewPortLayer(const std::string rName, Oyun::Camera* cam)
-        :Oyun::Imgui::ImLayer(rName)
+        :Oyun::Imgui::ImLayer(rName), mShowStats(false), defaultCamera(cam)
     {
-        defaultCamera = cam;
     }
 
+    std::string FpsStr;
+    std::string DeltaStr;
     void EditorViewPortLayer::Draw()
     {
         ImGui::Begin(name.c_str());
@@ -168,9 +170,28 @@ namespace Editor
 
         if (defaultCamera)
         {
+            static ImVec4 statsColor = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+            static ImVec4 backup_color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+           
             defaultCamera->CreateRenderTexture(width, height);
+           
+            ImGui::Checkbox("Stats", &mShowStats);
+            
             ImGui::Image((void*)(intptr_t)(defaultCamera->RenderTexture->id),
                 ImVec2(width, height), ImVec2(0, 1), ImVec2(1, 0));
+            
+            if (mShowStats)
+            {
+                FpsStr = "Fps: " + std::to_string(Oyun::gInstantFps);
+                DeltaStr = "Delta Time: " + std::to_string(Oyun::gDeltaTime);
+                
+                ImGui::SetCursorPos(ImVec2(10.0f, 60.0f));
+                ImGui::TextColored(statsColor, FpsStr.c_str());
+                ImGui::SetCursorPos(ImVec2(10.0f, 75.0f));
+                ImGui::TextColored(statsColor, DeltaStr.c_str());
+            }
+
+                     
         }
         ImGui::End();
     }
