@@ -7,8 +7,10 @@ namespace Oyun
 {
 	class EngineExport GameSubsystem : public EngineSubsytem<GameSubsystem>
 	{
+	protected:
+
 		GameSubsystem();
-		~GameSubsystem();
+		virtual ~GameSubsystem();
 
 
 	public:
@@ -22,7 +24,7 @@ namespace Oyun
 		virtual void StartUp() override;
 		virtual void ShutDown() override;
 
-		void GameLoop(float deltaTime);
+		virtual void GameLoop(float deltaTime);
 		
 
 

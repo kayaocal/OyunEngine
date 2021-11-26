@@ -1,6 +1,7 @@
 #include "EngineGlfwHandler.h"
 #include "LogSubsystem.h"
 #include "Engine.h"
+#include "Camera.h"
 
 namespace Oyun
 {
@@ -48,12 +49,23 @@ namespace Oyun
         glEnable(GL_DEPTH_TEST);
     }
 
-    void Render()
+    void Render(Camera* cam)
     {
+        assert(cam != nullptr, "Render without camera is not possible");
+
         glfwPollEvents();
 
-        glfwGetFramebufferSize(gWindow, &gWindowWidth, &gWindowHeight);
-        glViewport(0, 0, gWindowWidth, gWindowHeight);
+        if (cam->RenderTexture)
+        {
+            glBindFramebuffer(GL_FRAMEBUFFER, cam->FrameBuffer);
+            glViewport(0, 0, cam->RenderTexture->width, cam->RenderTexture->height);
+        }
+        else
+        {
+            glfwGetFramebufferSize(gWindow, &gWindowWidth, &gWindowHeight);
+            glViewport(0, 0, gWindowWidth, gWindowHeight);
+        }
+
 
         glEnable(GL_DEPTH_TEST);
         glClearColor(0.5f, 0.5f, 0.8f, 1.0f);

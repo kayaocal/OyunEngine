@@ -5,7 +5,6 @@
 #include <iostream>
 #include <chrono>
 
-
 namespace Oyun
 {
 	const char* EngineName = "Oyun Engine";
@@ -21,34 +20,36 @@ namespace Oyun
 	float gInstantFps = 0;
 
 
-
-	void StartEngine()
+	void StartEngine(Oyun::GameSubsystem* game)
 	{
 		Oyun::LogSubsystem::Instantiate().StartUp();
 		Oyun::RenderSubsystem::Instantiate(1366, 768).StartUp();
-		Oyun::GameSubsystem::Instantiate().StartUp();
-		 
-		LOG << "Engine Started." << END;
 
-		OnEngineStarted();
+		game->StartUp();
+		LOG << "Engine Started." << END;
 
 		gEngineRunning = true;
 		while (gEngineRunning)
 		{
-			Loop();
+			Loop(game);
 		}
-
-		Oyun::GameSubsystem::Get().ShutDown();
+		game->ShutDown();
 		Oyun::RenderSubsystem::Get().ShutDown();
 		Oyun::LogSubsystem::Get().ShutDown();
 	}
 
-	void Loop()
+	void RunGame()
+	{
+
+		
+	}
+
+	void Loop(Oyun::GameSubsystem* game)
 	{
 		using namespace std::chrono;
 
 		auto gameLoopStart = high_resolution_clock::now();
-		Oyun::GameSubsystem::Get().GameLoop(gDeltaTime);
+		game->GameLoop(gDeltaTime);
 		auto gameLoopEnd = high_resolution_clock::now();
 		Oyun::RenderSubsystem::Get().RenderLoop();
 		auto renderEnd = high_resolution_clock::now();
@@ -61,10 +62,6 @@ namespace Oyun
 		gInstantFps = (gDeltaTime > 0.0f) ? (1.0f / gDeltaTime) : 0.0f;
 	}
 
-	void OnEngineStarted()
-	{
-		
-	}
 
 	void ShutdownEngine()
 	{

@@ -1,6 +1,7 @@
 #include "RenderSubsystem.h"
 #include <cassert>
 #include "LogSubsystem.h"
+#include <CameraManager.h>
 
 #define USE_GLFW
 
@@ -42,6 +43,7 @@ namespace Oyun
 		return *system;
 	}
 
+
 	void RenderSubsystem::StartUp()
 	{
 		LOG<<"RenderSubsystem Startup"<<END;
@@ -54,12 +56,16 @@ namespace Oyun
 	{
 		LOG << "RenderSubsystem Shutdown" << END;
 		TerminateRenderer();
+		DeleteAllCameramans();
 		delete this;
 	}
 
 	void RenderSubsystem::RenderLoop()
 	{
-		Render();
+		for (auto cam : CameramanList)
+		{
+			Render(cam->camera);
+		}
 		Imgui::Draw();
 		RenderEnd();
 	}

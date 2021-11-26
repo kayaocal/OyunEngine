@@ -12,8 +12,16 @@ namespace Oyun
 	EngineExport extern float gDeltaTime;
 	EngineExport extern float glastRenderTime;
 
-	EngineExport void StartEngine();
+	class GameSubsystem;
+	EngineExport void StartEngine(GameSubsystem* game);
 	EngineExport void ShutdownEngine();
-	EngineExport void Loop();
-	EngineExport void OnEngineStarted();
+	EngineExport void Loop(GameSubsystem* game);
+	EngineExport void RunGame();
+
+
+
+
 }
+
+
+

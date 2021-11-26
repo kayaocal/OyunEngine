@@ -10,6 +10,7 @@
 #define EngineExport  __declspec( dllexport )
 
 
+
 namespace Oyun
 {
     void glfw_window_maximized_callback(GLFWwindow* window, int maximized);
@@ -21,7 +22,9 @@ namespace Oyun
 
     void SetupRenderer(int width, int height, const char* title);
     void TerminateRenderer();
-    void Render();
+    
+    class Camera;
+    void Render(Camera*);
     void RenderEnd();
 
     extern GLFWwindow* gWindow;
