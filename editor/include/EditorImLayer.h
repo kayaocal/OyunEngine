@@ -21,7 +21,6 @@ namespace Editor
 
 		void DrawDockableWindow();
 		void DrawMenuBar();
-		void DrawViewPort();
 	};
 
 	class EditorPropertiesLayer : public Oyun::Imgui::ImLayer

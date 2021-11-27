@@ -1,19 +1,27 @@
 #pragma once
-
+#include "components/Component.h"
 #include <glm/glm.hpp>
 #define EngineExport   __declspec( dllexport )
 
-class EngineExport TransformComponent
+namespace Oyun
 {
-	glm::mat4 mModelMatrix;
 
-public:
+	class EngineExport TransformComponent : public Component
+	{
+		glm::mat4 mModelMatrix;
 
-	TransformComponent();
-	glm::vec3 Position;
-	glm::vec3 EulerRotation;
-	glm::vec3 Scale;
+	public:
+
+		TransformComponent(const char* name);
+		glm::vec3 Position;
+		glm::vec3 EulerRotation;
+		glm::vec3 Scale;
 
 
-	const glm::mat4& GetModelMatrix();
-};
+		const glm::mat4& GetModelMatrix();
+
+		// Inherited via Component
+		virtual void BeginPlay() override;
+		virtual void EndPlay() override;
+	};
+}

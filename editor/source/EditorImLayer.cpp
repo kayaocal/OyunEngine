@@ -179,11 +179,6 @@ namespace Editor
         }
     }
 
-    void EditorDockableWindowLayer::DrawViewPort()
-    {
-
-    }
-
 
     EditorViewPortLayer::EditorViewPortLayer(const std::string rName, Oyun::Camera* cam)
         :Oyun::Imgui::ImLayer(rName), mShowStats(false), defaultCamera(cam)
@@ -193,6 +188,7 @@ namespace Editor
     std::string FpsStr;
     std::string InstantFpsStr;
     std::string DeltaStr;
+
     void EditorViewPortLayer::Draw()
     {
         ImGui::Begin(name.c_str());

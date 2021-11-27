@@ -2,23 +2,36 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-TransformComponent::TransformComponent()
+namespace Oyun
 {
-	Position = glm::vec3(0.0f);
-	EulerRotation = glm::vec3(0.0f);
-	Scale = glm::vec3(0.0f);
-}
 
-const glm::mat4& TransformComponent::GetModelMatrix()
-{
-	mModelMatrix = glm::mat4(1.0f);
+	TransformComponent::TransformComponent(const char* name)
+		:Component(name), mModelMatrix(glm::mat4(1.0f)), 
+		Position(glm::vec3(0.0f)), EulerRotation(glm::vec3(0.0f)), 
+		Scale(glm::vec3(1.0f))
+	{
+	}
 
-	mModelMatrix = glm::translate(mModelMatrix, Position);
-	mModelMatrix = glm::rotate(mModelMatrix, glm::radians(EulerRotation.x), glm::vec3(1.0, 0.0, 0.0));
-	mModelMatrix = glm::rotate(mModelMatrix, glm::radians(EulerRotation.y), glm::vec3(0.0, 1.0, 0.0));
-	mModelMatrix = glm::rotate(mModelMatrix, glm::radians(EulerRotation.z), glm::vec3(0.0, 0.0, 1.0));
+	const glm::mat4& TransformComponent::GetModelMatrix()
+	{
+		mModelMatrix = glm::mat4(1.0f);
 
-	mModelMatrix = glm::scale(mModelMatrix, Scale);
+		mModelMatrix = glm::translate(mModelMatrix, Position);
+		mModelMatrix = glm::rotate(mModelMatrix, glm::radians(EulerRotation.x), glm::vec3(1.0, 0.0, 0.0));
+		mModelMatrix = glm::rotate(mModelMatrix, glm::radians(EulerRotation.y), glm::vec3(0.0, 1.0, 0.0));
+		mModelMatrix = glm::rotate(mModelMatrix, glm::radians(EulerRotation.z), glm::vec3(0.0, 0.0, 1.0));
 
-	return mModelMatrix;
+		mModelMatrix = glm::scale(mModelMatrix, Scale);
+
+		return mModelMatrix;
+	}
+
+	void TransformComponent::BeginPlay()
+	{
+	}
+
+	void TransformComponent::EndPlay()
+	{
+	}
+
 }
