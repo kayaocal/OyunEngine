@@ -68,22 +68,23 @@ namespace Editor
 	{
 		GameSubsystem::GameLoop(deltaTime);
 		using namespace Oyun;
-		LOG << "EditorGameSubsystem GameLoop" << END;
 	}
 
 	void EditorGameSubsystem::CreateUIElements()
 	{
 		using namespace Editor;
-		using namespace Oyun::Imgui;
+		using namespace Oyun;
 
-		AddLayer(new EditorDockableWindowLayer("DockWnd"));
-		AddLayer(new EditorPropertiesLayer("Properties"));
-		AddLayer(new EditorViewPortLayer("Viewport", EditorDefaultCameraman->camera));
-		 Oyun::Cameraman* cam = Oyun::CreateCameraman(glm::vec3(0.0f));
+		Imgui::AddLayer(new EditorDockableWindowLayer("DockWnd"));
+		Imgui::AddLayer(new EditorPropertiesLayer("Properties"));
+		Imgui::AddLayer(new EditorViewPortLayer("Viewport", EditorDefaultCameraman->camera));
+	/*	 Oyun::Cameraman* cam = Oyun::CreateCameraman(glm::vec3(0.0f));
 		 cam->isActive = true;
 		AddLayer(new EditorViewPortLayer("Viewport2", cam->camera));
 		Oyun::Cameraman* cam2 = Oyun::CreateCameraman(glm::vec3(0.0f));
 		cam2->isActive = true;
-		AddLayer(new EditorViewPortLayer("Viewport3", cam2->camera));
+		AddLayer(new EditorViewPortLayer("Viewport3", cam2->camera));*/
+
+		Imgui::AddLayer(new EditorSceneLayer("Scene"));
 	}
 }

@@ -11,7 +11,7 @@ namespace Oyun
 	{
 		Cameraman() = delete;
 
-		Cameraman(glm::vec3& pos);
+		Cameraman(glm::vec3 pos);
 		~Cameraman();
 
 		Camera* camera;

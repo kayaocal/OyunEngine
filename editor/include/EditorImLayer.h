@@ -32,6 +32,14 @@ namespace Editor
 		virtual void Draw();
 	};
 
+	class EditorSceneLayer : public Oyun::Imgui::ImLayer
+	{
+	public:
+		EditorSceneLayer(const std::string rName);
+
+		virtual void Draw();
+	};
+
 	class EditorViewPortLayer : public Oyun::Imgui::ImLayer
 	{
 	public:

@@ -2,6 +2,7 @@
 #include "LogSubsystem.h"
 #include "Engine.h"
 #include "Camera.h"
+#include <cassert>
 
 namespace Oyun
 {
@@ -42,11 +43,18 @@ namespace Oyun
 
         glfwMakeContextCurrent(gWindow);
 
-        assert(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress));
+       /* if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+        {
+            std::cout << "Failed to initialize GLAD" << std::endl;
+        }*/
+        if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+        {
+            assert(false);
+        }
+       //assert(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress));
 
-        glfwSwapInterval(1); // Enable vsync
+        glfwSwapInterval(0); // Enable vsync
 
-        glEnable(GL_DEPTH_TEST);
     }
 
     void Render(Camera* cam)
@@ -72,7 +80,6 @@ namespace Oyun
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
-       
     }
 
     void RenderEnd()

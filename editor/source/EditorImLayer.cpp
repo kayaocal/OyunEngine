@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <Engine.h>
+
 namespace Editor
 {
     EditorDockableWindowLayer::EditorDockableWindowLayer(const std::string rName)
@@ -139,7 +140,10 @@ namespace Editor
                     IM_ASSERT(0);
                 }
                 if (ImGui::MenuItem("Checked", NULL, true)) {}
-                if (ImGui::MenuItem("Quit")) {}
+                if (ImGui::MenuItem("Quit")) 
+                {
+                    Oyun::ShutdownEngine();
+                }
                 ImGui::EndMenu();
             }
 
@@ -159,6 +163,7 @@ namespace Editor
     }
 
     std::string FpsStr;
+    std::string InstantFpsStr;
     std::string DeltaStr;
     void EditorViewPortLayer::Draw()
     {
@@ -182,12 +187,15 @@ namespace Editor
             
             if (mShowStats)
             {
-                FpsStr = "Fps: " + std::to_string(Oyun::gInstantFps);
+                FpsStr = "Fps: " + std::to_string(Oyun::gFps);
+                InstantFpsStr = "Instant Fps: " + std::to_string(Oyun::gInstantFps);
                 DeltaStr = "Delta Time: " + std::to_string(Oyun::gDeltaTime);
                 
                 ImGui::SetCursorPos(ImVec2(10.0f, 60.0f));
                 ImGui::TextColored(statsColor, FpsStr.c_str());
                 ImGui::SetCursorPos(ImVec2(10.0f, 75.0f));
+                ImGui::TextColored(statsColor, InstantFpsStr.c_str());
+                ImGui::SetCursorPos(ImVec2(10.0f, 90.0f));
                 ImGui::TextColored(statsColor, DeltaStr.c_str());
             }
 
@@ -206,6 +214,18 @@ namespace Editor
     {
         ImGui::Begin(name.c_str());
         
+        ImGui::End();
+    }
+
+    EditorSceneLayer::EditorSceneLayer(const std::string rName)
+        :Oyun::Imgui::ImLayer(rName)
+    {
+
+    }
+    void EditorSceneLayer::Draw()
+    {
+        ImGui::Begin(name.c_str());
+
         ImGui::End();
     }
 }

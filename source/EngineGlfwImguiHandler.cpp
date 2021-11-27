@@ -6,9 +6,9 @@
 #include <imgui_internal.h>
 #include <GLFW/glfw3.h>
 #include <vector>
-
 #include "ImLayer.h"
 
+#include "LogSubsystem.h"
 namespace Oyun
 {
     namespace Imgui
@@ -17,6 +17,7 @@ namespace Oyun
 
         void SetupImgui(GLFWwindow* wnd, const char* glslVersion)
         {
+            LOG << ":SetupImgui" << END;
             IMGUI_CHECKVERSION();
             ImGui::CreateContext();
             ImGuiIO& io = ImGui::GetIO(); (void)io;
