@@ -1,17 +1,5 @@
-#include <iostream>
 #include <Engine.h>
-
 #include "EditorGameSubsystem.h"
-
-class EditorSubsystem :public Oyun::GameSubsystem
-{
-	EditorSubsystem()
-		:Oyun::GameSubsystem()
-	{
-
-	}
-	~EditorSubsystem() {};
-};
 
 
 int main()
