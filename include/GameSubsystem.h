@@ -1,7 +1,7 @@
 #pragma once
 
 #include "EngineSubsytem.h"
-
+#include <string>
 
 namespace Oyun
 {
@@ -26,7 +26,8 @@ namespace Oyun
 
 		virtual void GameLoop(float deltaTime);
 		
-
+		std::string GameName;
+		std::string GameVersion;
 
 	};
 

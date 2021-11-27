@@ -5,7 +5,7 @@
 namespace Oyun
 {
 	EngineExport extern const char* EngineName;
-	EngineExport extern const char* Engine;
+	EngineExport extern const char* EngineVersion;
 	EngineExport extern const char* EngineDescription;
 	
 	EngineExport extern unsigned long gFrameCount;

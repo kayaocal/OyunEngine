@@ -6,6 +6,7 @@ namespace Oyun
 {
 	GameSubsystem* GameSubsystem::system = nullptr;
 
+
 	GameSubsystem::GameSubsystem()
 		:EngineSubsytem()
 	{

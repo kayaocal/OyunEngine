@@ -8,7 +8,7 @@
 namespace Oyun
 {
 	const char* EngineName = "Oyun Engine";
-	const char* EngineVersion = "v0.0.0.1";
+	const char* EngineVersion = "v0.0.0.1d";
 	const char* EngineDescription = "Designed to make good games.";
 
 	bool gEngineRunning = false;

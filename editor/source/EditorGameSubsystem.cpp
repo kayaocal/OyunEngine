@@ -16,6 +16,8 @@ namespace Editor
 	EditorGameSubsystem::EditorGameSubsystem()
 		:GameSubsystem(), EditorDefaultCameraman{ nullptr }
 	{
+		GameName = "Oyun Editor";
+		GameVersion = "v0.0.0.1d";
 	}
 
 	EditorGameSubsystem::~EditorGameSubsystem()

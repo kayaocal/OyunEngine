@@ -1,9 +1,12 @@
 #include "EditorImLayer.h"
+#include "EditorGameSubsystem.h"
 #include "imgui.h"
 #include "Camera.h"
 #include <iostream>
 #include <string>
 #include <Engine.h>
+#include <windows.h>
+#include <shellapi.h>
 
 namespace Editor
 {
@@ -147,6 +150,31 @@ namespace Editor
                 ImGui::EndMenu();
             }
 
+            if (ImGui::BeginMenu("About"))
+            {
+                if(ImGui::Button("Github Page"))
+                {
+                    ShellExecute(0, 0, "https://github.com/kayaocal/Engine", 0, 0, SW_SHOW);
+                }
+                ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 1.0f),
+                    Editor::EditorGameSubsystem::Get().GameName.c_str());
+                ImGui::SameLine();
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f),
+                    Editor::EditorGameSubsystem::Get().GameVersion.c_str());
+                ImGui::Separator();
+                ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 1.0f),
+                    Oyun::EngineName);
+                ImGui::SameLine();
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f),
+                    Oyun::EngineVersion);
+                ImGui::Separator();
+                ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 1.0f),
+                    "Contrubutors; ");
+                ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 1.0f),
+                    "Enes Kaya OCAL ");
+
+                ImGui::EndMenu();
+            }
             ImGui::EndMenuBar();
         }
     }
