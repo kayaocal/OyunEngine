@@ -34,14 +34,7 @@ namespace Oyun
 		gEngineRunning = true;
 		while (gEngineRunning)
 		{
-			try {
 			Loop(game);
-
-			}
-			catch (...)
-			{
-				std::cout << "Problem ocured"<<std::endl;
-			}
 		}
 		game->ShutDown();
 		Oyun::RenderSubsystem::Get().ShutDown();

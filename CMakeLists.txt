@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
+set (CMAKE_CXX_STANDARD 11)
 
 # set the project name
 project(OyunEngine VERSION 0.0.1 DESCRIPTION "Best OyunEngine is your OyunEngine")
@@ -48,7 +49,7 @@ file (GLOB GLM_INCLUDES
 	${CMAKE_SOURCE_DIR}/include/glm/*/*.hpp
 	${CMAKE_SOURCE_DIR}/include/glm/*/*.cpp)
 
-add_library(OyunEngine SHARED ${ENGINE_SOURCES} ${IMGUI_SOURCES} ${ENGINE_INCLUDES} ${COMPONENT_SOURCES} ${COMPONENT_INCLUDES} ${GLM_INCLUDES} ${ASSIMP_INCLUDES})
+add_library(OyunEngine STATIC ${ENGINE_SOURCES} ${IMGUI_SOURCES} ${ENGINE_INCLUDES} ${COMPONENT_SOURCES} ${COMPONENT_INCLUDES} ${GLM_INCLUDES} ${ASSIMP_INCLUDES})
 
 source_group("Imgui" 					FILES ${IMGUI_SOURCES})
 source_group("Source Files/Components" 	FILES ${COMPONENT_SOURCES})
