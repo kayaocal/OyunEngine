@@ -8,15 +8,11 @@ namespace Oyun
 	class EngineExport Component
 	{
 	public:
-		Component(const char* cName);
+		Component();
 		~Component();
 
-		const char* name;
-
-		const char* GetComponentName() const;
-
-		virtual void BeginPlay() = 0;
-		virtual void EndPlay() = 0;
+		virtual void BeginPlay();
+		virtual void EndPlay();
 
 	};
 }

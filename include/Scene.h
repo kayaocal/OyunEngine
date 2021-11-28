@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include "Entity.h"
 
 #define EngineExport   __declspec( dllexport )
 
@@ -11,10 +12,7 @@ namespace Oyun
 
 	struct EngineExport Scene
 	{
-		class Entity* Entity;
-
-		Scene* Parent;
-		std::vector<Scene*> Child;
+		std::vector<Entity*> EntityList;
 	};
 
 

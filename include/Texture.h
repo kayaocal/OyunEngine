@@ -27,14 +27,14 @@ namespace Oyun
 	class EngineExport TextureStore
 	{
 	private:
-		TextureStore();
-		std::map<std::string, Texture*> _TextureMap;
-
+		std::map<uint32_t, Texture*> mTextureMap;
 	public:
+		TextureStore();
 
-		Texture* Load(const char* path);
+		Texture* Load(const char* path, uint32_t hash);
 
-		Texture* GetTextureByName(const char* path);
+		Texture* GetTextureByPath(const char* path);
+		Texture* GetTexture(uint32_t hash);
 
 		static TextureStore& Get();
 	};

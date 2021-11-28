@@ -1,5 +1,5 @@
 #include "..\include\Texture.h"
-
+#include "subsystems/ResourceSubsystem.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #include <glad/glad.h>
@@ -53,9 +53,9 @@ namespace Oyun
 		return store;
 	}
 
-	Texture* TextureStore::Load(const char* path)
+	Texture* TextureStore::Load(const char* path, uint32_t hash)
 	{
-		Texture* tex = GetTextureByName(path);
+		Texture* tex = GetTexture(hash);
 		if (tex == nullptr)
 		{
 			int width, height, nrChannels;
@@ -70,23 +70,29 @@ namespace Oyun
 			std::cout << "Texture succesfull to load at path : "<< path << std::endl;
 			tex = new Texture{ path, width, height, nrChannels, data };
 			stbi_image_free(data);
-			_TextureMap.insert(std::pair<std::string, Texture*>(path, tex));
+			mTextureMap.insert(std::pair<uint32_t, Texture*>(hash, tex));
 			return tex;
 		}
 
 		return tex;
 	}
 
-	Texture* TextureStore::GetTextureByName(const char* path)
-{
-	auto program = _TextureMap.find(path);
-	if (program != _TextureMap.end())
+	Texture* TextureStore::GetTexture(uint32_t hash)
 	{
-		return program->second;
+		auto program = mTextureMap.find(hash);
+		if (program != mTextureMap.end())
+		{
+			return program->second;
+		}
+
+		return nullptr;
 	}
 
-	return nullptr;
-}
+	Texture* TextureStore::GetTextureByPath(const char* path)
+	{
+		uint32_t hash = ResourceSubsystem::Get().GetHash(path);
+		return GetTexture(hash);
+	}
 
 	TextureStore::TextureStore()
 	{

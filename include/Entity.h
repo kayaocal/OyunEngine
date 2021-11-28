@@ -6,11 +6,16 @@
 #include <memory>
 #include <typeindex>
 #include <cassert>
+
 #define EngineExport   __declspec( dllexport )
+
 namespace Oyun
 {
 	class Component;
 	class TransformComponent;
+	class StaticMeshComponent;
+
+	
 	
 	/// @brief Base class that can be placed in scene.
 	class EngineExport Entity
@@ -21,7 +26,6 @@ namespace Oyun
 
 		Entity();
 
-		std::map<std::type_index, Oyun::Component*> componentList;
 
 		template <typename T>
 		T* AddComponent(Oyun::Component* component);
@@ -50,6 +54,8 @@ namespace Oyun
 		const unsigned int GetUniqueId() const;
 	private:
 
+		std::map<std::type_index, Oyun::Component*> mComponentList;
+
 		const unsigned int mEntityUniqueId;
 
 		TransformComponent* mTransformComponent;
@@ -62,12 +68,12 @@ namespace Oyun
 	template<typename T>
 	inline T* Entity::AddComponent(Oyun::Component* component)
 	{
-		auto find = componentList.find(typeid(T));
-		assert(find == componentList.end());
+		auto find = mComponentList.find(typeid(T));
+		assert(find == mComponentList.end());
 		
-		if (find == componentList.end())
+		if (find == mComponentList.end())
 		{
-			componentList.insert(std::pair < std::type_index, Oyun::Component*>(typeid(T),
+			mComponentList.insert(std::pair < std::type_index, Oyun::Component*>(typeid(T),
 				component));
 
 			return dynamic_cast<T*>(component);
@@ -83,13 +89,27 @@ namespace Oyun
 	template<typename T>
 	inline T* Entity::GetComponent()
 	{
-		auto comp = componentList.find(typeid(T));
-		if (comp != componentList.end())
+		auto comp = mComponentList.find(typeid(T));
+		if (comp != mComponentList.end())
 		{
 			return dynamic_cast<T*>(comp->second);
 		} 
 		return nullptr;
 	}
+
+	///****************************************************************************
+	///************************ STATIC MESH ENTITY ********************************
+	///****************************************************************************
+
+
+	class EngineExport StaticMeshEntity : public Entity
+	{
+	public:
+		StaticMeshEntity(const char* model);
+
+	private:
+		StaticMeshComponent* mStaticMesh;
+	};
 }
 
 #endif // OYUN_ENTITY_H__

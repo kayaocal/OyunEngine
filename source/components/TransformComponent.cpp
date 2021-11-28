@@ -5,8 +5,8 @@
 namespace Oyun
 {
 
-	TransformComponent::TransformComponent(const char* name)
-		:Component(name), mModelMatrix(glm::mat4(1.0f)), 
+	TransformComponent::TransformComponent()
+		:Component(), mModelMatrix(glm::mat4(1.0f)), 
 		Position(glm::vec3(0.0f)), EulerRotation(glm::vec3(0.0f)), 
 		Scale(glm::vec3(1.0f))
 	{
@@ -24,14 +24,6 @@ namespace Oyun
 		mModelMatrix = glm::scale(mModelMatrix, Scale);
 
 		return mModelMatrix;
-	}
-
-	void TransformComponent::BeginPlay()
-	{
-	}
-
-	void TransformComponent::EndPlay()
-	{
 	}
 
 }

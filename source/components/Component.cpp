@@ -1,7 +1,6 @@
 #include "Components\Component.h"
 
-Oyun::Component::Component(const char* cName)
-	:name( cName )
+Oyun::Component::Component()
 {
 }
 
@@ -9,7 +8,12 @@ Oyun::Component::~Component()
 {
 }
 
-const char* Oyun::Component::GetComponentName() const
+void Oyun::Component::BeginPlay()
 {
-	return name;
 }
+
+void Oyun::Component::EndPlay()
+{
+}
+
+

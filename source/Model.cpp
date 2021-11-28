@@ -3,6 +3,7 @@
 #include "Model.h"
 #include "Material.h"
 #include "Texture.h"
+#include "subsystems/ResourceSubsystem.h"
 
 using namespace Oyun;
 
@@ -154,7 +155,7 @@ void Oyun::Model::loadMaterialTextures(Material* engineMat, aiMaterial* mat, aiT
         aiString str;
         mat->GetTexture(type, i, &str);
         // check if texture was loaded before and if so, continue to next iteration: skip loading a new texture
-        Texture* loadedTexture = TextureStore::Get().Load(str.C_Str());
+        Texture* loadedTexture = ResourceSubsystem::Get().LoadTexture(str.C_Str());
         if (loadedTexture == nullptr)
         {
             std::cout << "Can not load texute at : " << str.C_Str() << std::endl;

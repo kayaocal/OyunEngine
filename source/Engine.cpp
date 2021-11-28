@@ -2,6 +2,8 @@
 #include "subsystems\RenderSubsystem.h"
 #include "subsystems\LogSubsystem.h"
 #include "subsystems\GameSubsystem.h"
+#include "subsystems\WorldSubsystem.h"
+#include "subsystems\ResourceSubsystem.h"
 #include <iostream>
 #include <chrono>
 
@@ -25,9 +27,12 @@ namespace Oyun
 	void StartEngine(Oyun::GameSubsystem* game)
 	{
 		Oyun::LogSubsystem::Instantiate().StartUp();
+		Oyun::ResourceSubsystem::Instantiate().StartUp();
 		Oyun::RenderSubsystem::Instantiate(1366, 768).StartUp();
 		renderSubsystem = Oyun::RenderSubsystem::GetPtr();
+		Oyun::WorldSubsystem::Instantiate().StartUp();
 		game->StartUp();
+
 		LOG << "Engine Started." << END;
 
 		gEngineRunning = true;
@@ -35,8 +40,12 @@ namespace Oyun
 		{
 			Loop(game);
 		}
+
 		game->ShutDown();
+
+		Oyun::WorldSubsystem::Get().ShutDown();
 		Oyun::RenderSubsystem::Get().ShutDown();
+		Oyun::ResourceSubsystem::Get().ShutDown();
 		Oyun::LogSubsystem::Get().ShutDown();
 	}
 
