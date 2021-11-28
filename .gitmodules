@@ -2,3 +2,8 @@
 	path = external/imgui
 	url = https://github.com/ocornut/imgui.git
 	branch = docking
+
+[submodule "external/imgui"]
+	path = external/crc
+	url = https://github.com/gityf/crc.git
+	branch = master
