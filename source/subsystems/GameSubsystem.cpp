@@ -1,5 +1,5 @@
-#include "GameSubsystem.h"
-#include "LogSubsystem.h"
+#include "subsystems/GameSubsystem.h"
+#include "subsystems/LogSubsystem.h"
 #include <cassert>
 
 namespace Oyun

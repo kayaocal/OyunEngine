@@ -1,6 +1,6 @@
-#include "RenderSubsystem.h"
+#include "subsystems\RenderSubsystem.h"
 #include <cassert>
-#include "LogSubsystem.h"
+#include "subsystems\LogSubsystem.h"
 #include <CameraManager.h>
 
 #define USE_GLFW

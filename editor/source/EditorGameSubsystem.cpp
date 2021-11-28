@@ -1,12 +1,12 @@
 #include "EditorGameSubsystem.h"
-#include "LogSubsystem.h"
-
-#include "EngineGlfwImguiHandler.h"
-#include "EditorImLayer.h"
-#include "RenderSubsystem.h"
-#include "Assert.h"
-#include "CameraManager.h"
+#include <subsystems/LogSubsystem.h>
+#include <subsystems/RenderSubsystem.h>
+#include <EngineGlfwImguiHandler.h>
+#include <EditorImLayer.h>
+#include <CameraManager.h>
 #include <Camera.h>
+#include <Entity.h>
+#include <components\TransformComponent.h>
 
 namespace Editor
 {
@@ -44,7 +44,6 @@ namespace Editor
 		return *system;
 	}
 
-
 	void EditorGameSubsystem::StartUp()
 	{
 		GameSubsystem::StartUp();
@@ -55,8 +54,6 @@ namespace Editor
 		EditorDefaultCameraman = Oyun::CreateCameraman(glm::vec3(0.0f, 0.0f, 10.0f));
 		EditorDefaultCameraman->isActive = true;
 		CreateUIElements();
-		
-		
 	}
 
 	void EditorGameSubsystem::ShutDown()
@@ -70,6 +67,7 @@ namespace Editor
 	{
 		GameSubsystem::GameLoop(deltaTime);
 		using namespace Oyun;
+
 	}
 
 	void EditorGameSubsystem::CreateUIElements()

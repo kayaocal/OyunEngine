@@ -1,7 +1,7 @@
 #include "Engine.h"
-#include "RenderSubsystem.h"
-#include "LogSubsystem.h"
-#include "GameSubsystem.h"
+#include "subsystems\RenderSubsystem.h"
+#include "subsystems\LogSubsystem.h"
+#include "subsystems\GameSubsystem.h"
 #include <iostream>
 #include <chrono>
 
@@ -19,7 +19,6 @@ namespace Oyun
 	double gGameTime = 0;
 	double gInstantFps = 0;
 	int gFps = 0;
-
 
 
 	RenderSubsystem* renderSubsystem;

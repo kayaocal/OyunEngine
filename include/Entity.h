@@ -21,7 +21,7 @@ namespace Oyun
 		std::map<std::type_index, Oyun::Component*> componentList;
 
 		template <typename T>
-		void AddComponent(Oyun::Component* component);
+		T* AddComponent(Oyun::Component* component);
 
 		template <typename T>
 		T* GetComponent();
@@ -31,6 +31,25 @@ namespace Oyun
 		/// @brief Entity will be render if true
 		bool isVisible;
 
+		/// @brief will be called after spawned in world
+		virtual void BeginPlay();
+
+		/// @brief will be called before removing from world
+		virtual void EndPlay();
+
+		/// @brief Ticks only if SetTickEnabled is setted as true
+		/// @param deltaTime 
+		virtual void Tick(float deltaTime);
+
+		/// @brief adds\removes entity to\from global tick list
+		void SetTickEnabled(bool);
+
+		const unsigned int GetUniqueId() const;
+	private:
+
+		const unsigned int mEntityUniqueId;
+
+		TransformComponent* mTransformComponent;
 	};
 	
 	/// @brief Entiy can only have one for each type of components!
@@ -38,7 +57,7 @@ namespace Oyun
 	/// @tparam T as type
 	/// @param component pointer
 	template<typename T>
-	inline void Entity::AddComponent(Oyun::Component* component)
+	inline T* Entity::AddComponent(Oyun::Component* component)
 	{
 		auto find = componentList.find(typeid(T));
 		assert(find == componentList.end());
@@ -47,7 +66,11 @@ namespace Oyun
 		{
 			componentList.insert(std::pair < std::type_index, Oyun::Component*>(typeid(T),
 				component));
+
+			return dynamic_cast<T*>(component);
 		}
+
+		return nullptr;
 	}
 
 	

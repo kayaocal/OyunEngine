@@ -16,10 +16,5 @@ namespace Oyun
 		std::vector<Scene*> Child;
 	};
 
-	class EngineExport SceneManager
-	{
-		Scene* Root;
 
-
-	};
 }

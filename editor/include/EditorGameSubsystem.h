@@ -1,5 +1,5 @@
 #pragma once
-#include "GameSubsystem.h"
+#include <subsystems\GameSubsystem.h>
 
 namespace Oyun
 {
