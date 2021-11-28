@@ -1,4 +1,5 @@
-#pragma once
+#ifndef OYUN_SHADER_H__
+#define OYUN_SHADER_H__
 
 #include <map>
 #include <string>
@@ -41,3 +42,5 @@ namespace Oyun
 		void DeleteShaders();
 	};
 }
+
+#endif OYUN_SHADER_H__

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef OYUN_MESH_H__
+#define OYUN_MESH_H__
 
 #include "glm/glm.hpp"
 #include <vector>
@@ -46,3 +47,5 @@ namespace Oyun
     };
 
 }
+
+#endif //OYUN_MESH_H__

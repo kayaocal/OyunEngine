@@ -1,4 +1,6 @@
-#pragma once
+#ifndef OYUN_MODEL_H__
+#define OYUN_MODEL_H__
+
 #include <vector>
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -25,3 +27,4 @@ namespace Oyun
 }
 
 
+#endif //OYUN_MODEL_H__

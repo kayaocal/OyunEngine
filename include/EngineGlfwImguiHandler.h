@@ -1,4 +1,5 @@
-#pragma once
+#ifndef OYUN_ENGINE_GLFW_IMGUI_HANDLER_H__
+#define OYUN_ENGINE_GLFW_IMGUI_HANDLER_H__
 
 struct GLFWwindow;
 namespace Oyun
@@ -15,3 +16,5 @@ namespace Oyun
 		void AddLayer(ImLayer* layer);
 	}
 }
+
+#endif //OYUN_ENGINE_GLFW_IMGUI_HANDLER_H__

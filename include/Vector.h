@@ -1,4 +1,5 @@
-#pragma once
+#ifndef OYUN_VECTOR_H__
+#define OYUN_VECTOR_H__
 
 #include <glm/glm.hpp>
 
@@ -59,3 +60,4 @@ public:
 
 };
 
+#endif //OYUN_VECTOR_H__

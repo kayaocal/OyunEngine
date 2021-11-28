@@ -1,4 +1,5 @@
-#pragma once
+#ifndef OYUN_ENGINE_IMGUI_H__
+#define OYUN_ENGINE_IMGUI_H__
 
 #include <vector>
 #include <string>
@@ -40,3 +41,5 @@ namespace Oyun
 	};
 
 }
+
+#endif //OYUN_ENGINE_IMGUI_H__

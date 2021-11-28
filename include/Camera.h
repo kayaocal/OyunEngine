@@ -1,4 +1,5 @@
-#pragma once
+#ifndef OYUN_CAMERA_H__
+#define OYUN_CAMERA_H__
 
 #include <glad/glad.h>
 #include <glm/glm.hpp>
@@ -72,3 +73,5 @@ namespace Oyun
         void updateCameraVectors();
     };
 }
+
+#endif //OYUN_CAMERA_H__

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef OYUN_TRANSFORM_COMPONENT_H__
+#define OYUN_TRANSFORM_COMPONENT_H__
+
 #include "components/Component.h"
 #include <glm/glm.hpp>
 #define EngineExport   __declspec( dllexport )
@@ -25,3 +27,4 @@ namespace Oyun
 		virtual void EndPlay() override;
 	};
 }
+#endif // OYUN_TRANSFORM_COMPONENT_H__

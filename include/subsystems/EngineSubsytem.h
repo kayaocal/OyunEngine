@@ -1,4 +1,5 @@
-﻿#pragma once
+﻿#ifndef OYUN_ENGINE_SUBSYSTEM_H__
+#define OYUN_ENGINE_SUBSYSTEM_H__
 
 #define EngineExport  __declspec( dllexport )
 
@@ -21,3 +22,4 @@ namespace Oyun
     };
 
 }
+#endif //OYUN_ENGINE_SUBSYSTEM_H__

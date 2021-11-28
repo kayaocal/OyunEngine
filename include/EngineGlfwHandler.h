@@ -1,4 +1,5 @@
-#pragma once
+#ifndef OYUN_ENGINE_GLFW_HANDLER_H__
+#define OYUN_ENGINE_GLFW_HANDLER_H__
 
 #include <iostream>
 
@@ -38,3 +39,5 @@ namespace Oyun
     extern const char* gGlslVersion;
    
 }
+
+#endif //OYUN_ENGINE_GLFW_HANDLER_H__

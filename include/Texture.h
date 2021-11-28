@@ -1,4 +1,6 @@
-#pragma once
+#ifndef OYUN_TEXTURE_H__
+#define OYUN_TEXTURE_H__
+
 #include <string>
 #include <map>
 #define EngineExport   __declspec( dllexport )
@@ -37,3 +39,5 @@ namespace Oyun
 		static TextureStore& Get();
 	};
 }
+
+#endif //OYUN_TEXTURE_H__

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef OYUN_IMLAYER_H__
+#define OYUN_IMLAYER_H__
+
 #include <string>
 
 #define EngineExport  __declspec( dllexport )
@@ -21,3 +23,5 @@ namespace Oyun
 		};
 	}
 }
+
+#endif //OYUN_IMLAYER_H__

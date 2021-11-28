@@ -1,4 +1,6 @@
-#pragma once
+#ifndef OYUN_MATERIAL_H__
+#define OYUN_MATERIAL_H__
+
 #include <map>
 #include <string>
 #define EngineExport   __declspec( dllexport )
@@ -37,3 +39,5 @@ namespace Oyun
 	};
 
 }
+
+#endif //OYUN_MATERIAL_H__

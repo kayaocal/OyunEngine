@@ -1,4 +1,6 @@
-#pragma once
+#ifndef OYUN_CAMERA_MANAGER_H__
+#define OYUN_CAMERA_MANAGER_H__
+
 #include <vector>
 #include <glm/glm.hpp>
 
@@ -28,3 +30,5 @@ namespace Oyun
 	
 
 }
+
+#endif//OYUN_CAMERA_MANAGER_H__

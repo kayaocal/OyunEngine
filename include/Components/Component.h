@@ -1,4 +1,5 @@
-#pragma once
+#ifndef OYUN_COMPONENT_H__
+#define OYUN_COMPONENT_H__
 
 #define EngineExport   __declspec( dllexport )
 
@@ -19,3 +20,5 @@ namespace Oyun
 
 	};
 }
+
+#endif //OYUN_COMPONENT_H__

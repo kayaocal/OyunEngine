@@ -1,4 +1,7 @@
-#pragma once
+#ifndef OYUN_ENTITY_H__
+#define OYUN_ENTITY_H__
+
+
 #include <map>
 #include <memory>
 #include <typeindex>
@@ -88,3 +91,5 @@ namespace Oyun
 		return nullptr;
 	}
 }
+
+#endif // OYUN_ENTITY_H__

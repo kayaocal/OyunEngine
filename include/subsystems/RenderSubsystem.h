@@ -1,4 +1,5 @@
-#pragma once
+#ifndef OYUN_RENDER_SUBSYSTEM_H__
+#define OYUN_RENDER_SUBSYSTEM_H__
 
 #include "EngineSubsytem.h"
 
@@ -31,3 +32,5 @@ namespace Oyun
 	};
 
 }
+
+#endif //OYUN_RENDER_SUBSYSTEM_H__

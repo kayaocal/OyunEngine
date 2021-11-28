@@ -1,4 +1,6 @@
-#pragma once
+#ifndef OYUN_LOG_SUBSYSTEM_H__
+#define OYUN_LOG_SUBSYSTEM_H__
+
 #include "EngineSubsytem.h"
 #include <memory>
 #include <iosfwd>
@@ -45,3 +47,5 @@ namespace Oyun
 	};
 
 }
+
+#endif //OYUN_LOG_SUBSYSTEM_H__
