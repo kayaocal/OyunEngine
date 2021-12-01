@@ -3,7 +3,9 @@
 <b>Oyun</b> means "<b>game</b>" in Turkish, so Oyun engine is lightweight opengl based 3d game engine and editor project. Project aims to create level editor, data editor, scene system and usefull tools and apis for game projects
 
 # Project Status
-This project is in early status. It is not ready to make games.
+This project is in early status. It is not ready to make games. 
+
+![](status.gif)
 
 ## Clone Project
 you should clone project <b>recursively</b>
