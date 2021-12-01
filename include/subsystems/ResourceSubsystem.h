@@ -5,17 +5,23 @@
 #include <string>
 #include <memory>
 
+#ifdef OyunEngine_EXPORTS
+#define OYUN_API __declspec(dllexport)
+#else
+#define OYUN_API __declspec(dllimport)
+#endif
+
 namespace Oyun
 {
-
 	class Texture;
 	class TextureStore;
+	class Model;
+	class ModelStore;
 
-	class EngineExport ResourceSubsystem : public EngineSubsytem<ResourceSubsystem>
+	class OYUN_API ResourceSubsystem : public EngineSubsytem<ResourceSubsystem>
 	{
 		ResourceSubsystem();
 		~ResourceSubsystem();
-
 
 	public:
 
@@ -35,9 +41,11 @@ namespace Oyun
 		Texture* GetTexture(const char* path);
 		Texture* GetTexture(uint32_t hash);
 
+		Model* LoadModel(const char* path);
+
 	private:
 		std::unique_ptr<TextureStore> mTextureStore;
-
+		std::unique_ptr<ModelStore> mModelStore;
 	};
 
 }

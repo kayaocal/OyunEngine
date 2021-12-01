@@ -1,6 +1,7 @@
-#include "subsystems/WorldSubsystem.h"
 #include <cassert>
+#include "subsystems/WorldSubsystem.h"
 #include "subsystems\LogSubsystem.h"
+#include "Scene.h"
 
 namespace Oyun
 {
@@ -9,6 +10,7 @@ namespace Oyun
 	WorldSubsystem::WorldSubsystem(int width, int height)
 		:EngineSubsytem()
 	{
+		mScene = new Scene();
 	}
 
 	WorldSubsystem::~WorldSubsystem()
@@ -44,5 +46,13 @@ namespace Oyun
 	{
 		LOG << "WorldSubsystem Shutdown" << END;
 		delete this;
+	}
+	void WorldSubsystem::AddEntityToScene(Entity* ent)
+	{
+		mScene->EntityList.push_back(ent);
+	}
+	Scene* WorldSubsystem::GetScene() const
+	{
+		return mScene;
 	}
 }

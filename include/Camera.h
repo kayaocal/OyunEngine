@@ -5,9 +5,12 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "Texture.h"
-#include <vector>
 
-#define EngineExport   __declspec( dllexport )
+#ifdef OyunEngine_EXPORTS
+#define OYUN_API __declspec(dllexport)
+#else
+#define OYUN_API __declspec(dllimport)
+#endif
 
 namespace Oyun
 {
@@ -28,7 +31,7 @@ namespace Oyun
 
 
     // An abstract camera class that processes input and calculates the corresponding Euler Angles, Vectors and Matrices for use in OpenGL
-    class EngineExport Camera
+    class OYUN_API Camera
     {
     public:
         // camera Attributes

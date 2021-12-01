@@ -3,13 +3,20 @@
 
 #include <vector>
 #include <string>
-#define EngineExport   __declspec( dllexport )
+
+
+#ifdef OyunEngine_EXPORTS
+#define OYUN_API __declspec(dllexport)
+#else
+#define OYUN_API __declspec(dllimport)
+#endif
+
 
 struct GLFWwindow;
 
 namespace Oyun
 {
-	class EngineExport EngineImLayer
+	class OYUN_API EngineImLayer
 	{
 	public:
 		std::string name;
@@ -20,7 +27,7 @@ namespace Oyun
 		virtual void Draw() = 0;
 	};
 
-	struct EngineExport EngineImGui
+	struct OYUN_API EngineImGui
 	{
 	public:
 		std::vector<EngineImLayer*> layers;

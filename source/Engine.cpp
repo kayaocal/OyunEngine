@@ -7,6 +7,7 @@
 #include <iostream>
 #include <chrono>
 
+
 namespace Oyun
 {
 	const char* EngineName = "Oyun Engine";
@@ -21,7 +22,6 @@ namespace Oyun
 	double gGameTime = 0;
 	double gInstantFps = 0;
 	int gFps = 0;
-
 
 	RenderSubsystem* renderSubsystem;
 	void StartEngine(Oyun::GameSubsystem* game)

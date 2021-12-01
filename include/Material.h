@@ -3,10 +3,16 @@
 
 #include <map>
 #include <string>
-#define EngineExport   __declspec( dllexport )
+
+#ifdef OyunEngine_EXPORTS
+#define OYUN_API __declspec(dllexport)
+#else
+#define OYUN_API __declspec(dllimport)
+#endif
 
 namespace Oyun
 {
+	class Shader;
 	enum class MaterialTextureType
 	{
 		NONE = 0,
@@ -31,11 +37,25 @@ namespace Oyun
 	};
 
 	extern const char* TextureTypeNames[];
-	struct EngineExport Material
+	struct OYUN_API Material
 	{
 		Material();
 
 		std::map<struct Texture*, MaterialTextureType> textures;
+
+
+		void SetShader(Shader*);
+
+		Shader* GetShader() const;
+
+		void ApplyTexturesToShader() const;
+
+		void UseShader();
+
+		void ApplyShaderMatrix(float* view, float* proj, float* transform);
+	private:
+		Shader* mShader;
+
 	};
 
 }

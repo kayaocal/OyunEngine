@@ -1,9 +1,10 @@
 #include <cassert>
 #include "subsystems/ResourceSubsystem.h"
 #include "subsystems/LogSubsystem.h"
+#include "ModelStore.h"
+
 #include "lookup3.h"
 #include "Texture.h"
-
 
 namespace Oyun
 {
@@ -43,6 +44,7 @@ namespace Oyun
 		LOG << "ResourceSubsystem Startup" << END;
 
 		mTextureStore = std::make_unique<TextureStore>();
+		mModelStore = std::make_unique<ModelStore>();
 	}
 
 	void ResourceSubsystem::ShutDown()
@@ -67,15 +69,20 @@ namespace Oyun
 		return mTextureStore->GetTexture(hash);
 	}
 
+	Model* ResourceSubsystem::LoadModel(const char* path)
+	{
+		return mModelStore->Load(path, GetHash(path));
+	}
+
 	uint32_t ResourceSubsystem::GetHash(const char* chr)
 	{
-		uint32_t hash = hashlittle(chr, strlen(chr), hash);
+		uint32_t hash = hashlittle(chr, strlen(chr), 0);
 		return hash;
 	}
 
 	uint32_t ResourceSubsystem::GetHash(const std::string& str)
 	{
-		uint32_t hash = hashlittle(str.c_str(), str.length(), hash);
+		uint32_t hash = hashlittle(str.c_str(), str.length(), 0);
 		return hash;
 	}
 }

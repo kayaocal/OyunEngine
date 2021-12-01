@@ -13,7 +13,7 @@
 
 namespace Oyun
 {
-	class EngineExport LogSubsystem : public EngineSubsytem<LogSubsystem>
+	class OYUN_API LogSubsystem : public EngineSubsytem<LogSubsystem>
 	{
 		LogSubsystem();
 		~LogSubsystem();

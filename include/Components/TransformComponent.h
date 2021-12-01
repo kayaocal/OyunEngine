@@ -7,7 +7,7 @@
 namespace Oyun
 {
 
-	class EngineExport TransformComponent : public Component
+	class OYUN_API TransformComponent : public Component
 	{
 		glm::mat4 mModelMatrix;
 
@@ -19,7 +19,7 @@ namespace Oyun
 		glm::vec3 Scale;
 
 
-		const glm::mat4& GetModelMatrix();
+		glm::mat4& GetModelMatrix();
 
 	};
 }

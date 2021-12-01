@@ -1,8 +1,19 @@
 #include "EngineGlfwHandler.h"
+
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/glm.hpp>
+
+#include "components/TransformComponent.h"
 #include "subsystems\LogSubsystem.h"
 #include "Engine.h"
 #include "Camera.h"
 #include <cassert>
+#include "subsystems/WorldSubsystem.h"
+#include "Scene.h"
+#include "components/StaticMeshComponent.h"
 
 namespace Oyun
 {
@@ -78,6 +89,23 @@ namespace Oyun
         glEnable(GL_DEPTH_TEST);
         glClearColor(0.5f, 0.5f, 0.8f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
+
+        //// view/projection transformations
+        glm::mat4 projection = glm::perspective(glm::radians(cam->Zoom), (float)gWindowWidth / (float)gWindowHeight, 0.1f, 100.0f);
+        glm::mat4 view = cam->GetViewMatrix();
+
+
+        Scene* scn = WorldSubsystem::Get().GetScene();
+        for (auto ent : scn->EntityList)
+        {
+            TransformComponent* transformComp = ent->GetComponent<TransformComponent>();
+            StaticMeshComponent* staticMesh = ent->GetComponent<StaticMeshComponent>();
+            
+            staticMesh->Draw(glm::value_ptr(view), glm::value_ptr(projection), glm::value_ptr(transformComp->GetModelMatrix()));
+        }
+
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }

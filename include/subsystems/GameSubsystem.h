@@ -3,10 +3,15 @@
 
 #include "EngineSubsytem.h"
 #include <string>
+#ifdef OyunEngine_EXPORTS
+#define OYUN_API __declspec(dllexport)
+#else
+#define OYUN_API __declspec(dllimport)
+#endif
 
 namespace Oyun
 {
-	class EngineExport GameSubsystem : public EngineSubsytem<GameSubsystem>
+	class OYUN_API GameSubsystem : public EngineSubsytem<GameSubsystem>
 	{
 	protected:
 

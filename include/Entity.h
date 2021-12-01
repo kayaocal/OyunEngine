@@ -7,7 +7,11 @@
 #include <typeindex>
 #include <cassert>
 
-#define EngineExport   __declspec( dllexport )
+#ifdef OyunEngine_EXPORTS
+#define OYUN_API __declspec(dllexport)
+#else
+#define OYUN_API __declspec(dllimport)
+#endif
 
 namespace Oyun
 {
@@ -18,7 +22,7 @@ namespace Oyun
 	
 	
 	/// @brief Base class that can be placed in scene.
-	class EngineExport Entity
+	class OYUN_API Entity
 	{
 
 
@@ -101,11 +105,12 @@ namespace Oyun
 	///************************ STATIC MESH ENTITY ********************************
 	///****************************************************************************
 
+	class Model;
 
-	class EngineExport StaticMeshEntity : public Entity
+	class OYUN_API StaticMeshEntity : public Entity
 	{
 	public:
-		StaticMeshEntity(const char* model);
+		StaticMeshEntity(Model*);
 
 	private:
 		StaticMeshComponent* mStaticMesh;

@@ -1,12 +1,16 @@
 ﻿#ifndef OYUN_ENGINE_SUBSYSTEM_H__
 #define OYUN_ENGINE_SUBSYSTEM_H__
 
-#define EngineExport  __declspec( dllexport )
+#ifdef OyunEngine_EXPORTS
+#define OYUN_API __declspec(dllexport)
+#else
+#define OYUN_API __declspec(dllimport)
+#endif
 
 namespace Oyun
 {
     template <typename T>
-    class EngineExport EngineSubsytem
+    class OYUN_API EngineSubsytem
     {
 
     public:

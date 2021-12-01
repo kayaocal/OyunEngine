@@ -3,13 +3,17 @@
 
 #include <string>
 
-#define EngineExport  __declspec( dllexport )
+#ifdef OyunEngine_EXPORTS
+#define OYUN_API __declspec(dllexport)
+#else
+#define OYUN_API __declspec(dllimport)
+#endif
 
 namespace Oyun
 {
 	namespace Imgui
 	{
-		class EngineExport ImLayer
+		class OYUN_API ImLayer
 		{
 		public:
 			std::string name;

@@ -12,7 +12,7 @@ namespace Oyun
 	{
 	}
 
-	const glm::mat4& TransformComponent::GetModelMatrix()
+	glm::mat4& TransformComponent::GetModelMatrix()
 	{
 		mModelMatrix = glm::mat4(1.0f);
 

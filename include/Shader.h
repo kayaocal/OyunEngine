@@ -3,13 +3,17 @@
 
 #include <map>
 #include <string>
-#include "glm/glm.hpp"
-#define EngineExport   __declspec( dllexport )
+
+#ifdef OyunEngine_EXPORTS
+#define OYUN_API __declspec(dllexport)
+#else
+#define OYUN_API __declspec(dllimport)
+#endif
 
 namespace Oyun
 {
 
-	class EngineExport Shader
+	class OYUN_API Shader
 	{
 	public:
 
@@ -25,7 +29,7 @@ namespace Oyun
 		void SetMat4(const char* uniformName, float value) const;
 	};
 
-	class EngineExport ShaderManager
+	class OYUN_API ShaderManager
 	{
 		ShaderManager();
 	public:

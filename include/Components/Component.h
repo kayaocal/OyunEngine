@@ -1,11 +1,15 @@
 #ifndef OYUN_COMPONENT_H__
 #define OYUN_COMPONENT_H__
 
-#define EngineExport   __declspec( dllexport )
+#ifdef OyunEngine_EXPORTS
+#define OYUN_API __declspec(dllexport)
+#else
+#define OYUN_API __declspec(dllimport)
+#endif
 
 namespace Oyun
 {
-	class EngineExport Component
+	class OYUN_API Component
 	{
 	public:
 		Component();

@@ -3,11 +3,15 @@
 
 #include <glm/glm.hpp>
 
-#define EngineExport   __declspec( dllexport )
+#ifdef OyunEngine_EXPORTS
+#define OYUN_API __declspec(dllexport)
+#else
+#define OYUN_API __declspec(dllimport)
+#endif
 
 
 
-class EngineExport Vec2
+class OYUN_API Vec2
 {
 	glm::vec2 _Source;
 
@@ -36,7 +40,7 @@ public:
 };
 
 
-class EngineExport Vec3
+class OYUN_API Vec3
 {
 public:
 	float x;

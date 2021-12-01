@@ -3,12 +3,17 @@
 
 #include <string>
 #include <map>
-#define EngineExport   __declspec( dllexport )
+
+#ifdef OyunEngine_EXPORTS
+#define OYUN_API __declspec(dllexport)
+#else
+#define OYUN_API __declspec(dllimport)
+#endif
 
 namespace Oyun
 {
 
-	struct EngineExport Texture
+	struct OYUN_API Texture
 	{
 	public:
 		int width;
@@ -24,9 +29,8 @@ namespace Oyun
 	};
 
 
-	class EngineExport TextureStore
+	class OYUN_API TextureStore
 	{
-	private:
 		std::map<uint32_t, Texture*> mTextureMap;
 	public:
 		TextureStore();

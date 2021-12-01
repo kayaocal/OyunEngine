@@ -1,6 +1,12 @@
 #ifndef OYUN_ENGINE_GLFW_IMGUI_HANDLER_H__
 #define OYUN_ENGINE_GLFW_IMGUI_HANDLER_H__
 
+#ifdef OyunEngine_EXPORTS
+#define OYUN_API __declspec(dllexport)
+#else
+#define OYUN_API __declspec(dllimport)
+#endif
+
 struct GLFWwindow;
 namespace Oyun
 {
@@ -13,7 +19,7 @@ namespace Oyun
 
 		void Draw();
 
-		void AddLayer(ImLayer* layer);
+		OYUN_API void AddLayer(ImLayer* layer);
 	}
 }
 

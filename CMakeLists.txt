@@ -57,7 +57,7 @@ file (GLOB GLM_INCLUDES
 	${CMAKE_SOURCE_DIR}/include/glm/*/*.hpp
 	${CMAKE_SOURCE_DIR}/include/glm/*/*.cpp)
 
-add_library(OyunEngine STATIC ${ENGINE_SOURCES} ${IMGUI_SOURCES} ${ENGINE_INCLUDES} ${COMPONENT_SOURCES} ${COMPONENT_INCLUDES} ${SUBSYSTEM_INCLUDES} ${SUBSYSTEM_SOURCES} ${GLM_INCLUDES} ${ASSIMP_INCLUDES})
+add_library(OyunEngine SHARED ${ENGINE_SOURCES} ${IMGUI_SOURCES} ${ENGINE_INCLUDES} ${COMPONENT_SOURCES} ${COMPONENT_INCLUDES} ${SUBSYSTEM_INCLUDES} ${SUBSYSTEM_SOURCES} ${GLM_INCLUDES} ${ASSIMP_INCLUDES})
 
 source_group("Imgui" 				FILES ${IMGUI_SOURCES})
 source_group("Source Files/Components" 		FILES ${COMPONENT_SOURCES})
@@ -106,7 +106,7 @@ target_include_directories(OyunEditor
 	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui
 	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui/backends)
 
-target_link_libraries (OyunEditor $(OutDir)OyunEngine.lib ${CMAKE_SOURCE_DIR}/lib/glfw3.lib opengl32.lib)
+target_link_libraries (OyunEditor ${CMAKE_SOURCE_DIR}/lib/glfw3.lib opengl32.lib)
 
 add_dependencies(OyunEditor OyunEngine)
 

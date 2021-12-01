@@ -4,12 +4,17 @@
 #include <vector>
 #include <glm/glm.hpp>
 
-#define EngineExport  __declspec( dllexport )
+#ifdef OyunEngine_EXPORTS
+#define OYUN_API __declspec(dllexport)
+#else
+#define OYUN_API __declspec(dllimport)
+#endif
+
 namespace Oyun
 {
 	class Camera;
 
-	struct EngineExport Cameraman
+	struct OYUN_API Cameraman
 	{
 		Cameraman() = delete;
 
@@ -22,10 +27,10 @@ namespace Oyun
 	};
 
 
-	EngineExport extern std::vector<Cameraman*> CameramanList;
+	OYUN_API extern std::vector<Cameraman*> CameramanList;
 
-	EngineExport Cameraman* CreateCameraman(glm::vec3& pos);
-	EngineExport void DeleteAllCameramans();
+	OYUN_API Cameraman* CreateCameraman(glm::vec3& pos);
+	OYUN_API void DeleteAllCameramans();
 
 	
 

@@ -5,12 +5,12 @@
 #include <string>
 #include "Entity.h"
 
-#define EngineExport   __declspec( dllexport )
+
 
 namespace Oyun
 {
 
-	struct EngineExport Scene
+	struct OYUN_API Scene
 	{
 		std::vector<Entity*> EntityList;
 	};

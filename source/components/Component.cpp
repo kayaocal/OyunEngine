@@ -1,19 +1,23 @@
-#include "Components\Component.h"
+#include "components\Component.h"
 
-Oyun::Component::Component()
+namespace Oyun
 {
+	Component::Component()
+	{
+	}
+
+	Component::~Component()
+	{
+	}
+
+	void Component::BeginPlay()
+	{
+	}
+
+	void Component::EndPlay()
+	{
+	}
 }
 
-Oyun::Component::~Component()
-{
-}
-
-void Oyun::Component::BeginPlay()
-{
-}
-
-void Oyun::Component::EndPlay()
-{
-}
 
 

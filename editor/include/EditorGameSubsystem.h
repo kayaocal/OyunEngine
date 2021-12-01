@@ -1,6 +1,8 @@
 #pragma once
 #include <subsystems\GameSubsystem.h>
 
+#define EDITOR_API 
+
 namespace Oyun
 {
 	struct Cameraman;
@@ -8,7 +10,7 @@ namespace Oyun
 
 namespace Editor
 {
-	class EngineExport EditorGameSubsystem : public Oyun::GameSubsystem
+	class EDITOR_API EditorGameSubsystem : public Oyun::GameSubsystem
 	{
 	protected:
 		EditorGameSubsystem();

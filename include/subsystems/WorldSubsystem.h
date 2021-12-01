@@ -2,14 +2,19 @@
 #define OYUN_WORLD_SUBSYSTEM_H__
 
 #include "EngineSubsytem.h"
+#include <memory>
 
 namespace Oyun
 {
-	class EngineExport WorldSubsystem : public EngineSubsytem<WorldSubsystem>
+	class Scene;
+	class Entity;
+
+	class OYUN_API WorldSubsystem : public EngineSubsytem<WorldSubsystem>
 	{
 		WorldSubsystem(int width, int height);
 		~WorldSubsystem();
 
+		Scene* mScene;
 
 	public:
 
@@ -23,8 +28,9 @@ namespace Oyun
 		virtual void ShutDown() override;
 
 		
+		void AddEntityToScene(Entity* ent);
 
-		
+		Scene* GetScene() const;
 
 
 	};

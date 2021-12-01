@@ -2,14 +2,14 @@
 #include "components/TransformComponent.h"
 #include "components/StaticMeshComponent.h"
 #include "subsystems/LogSubsystem.h"
-
+#include "ModelStore.h"
 namespace Oyun
 {
 
-	StaticMeshEntity::StaticMeshEntity(const char* model)
+	StaticMeshEntity::StaticMeshEntity(Model* mdl)
 		:Entity()
 	{
-		mStaticMesh = AddComponent<StaticMeshComponent>(new StaticMeshComponent(model));
+		mStaticMesh = AddComponent<StaticMeshComponent>(new StaticMeshComponent(mdl));
 	}
 
 

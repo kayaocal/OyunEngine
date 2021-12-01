@@ -10,7 +10,7 @@ namespace Oyun
 
 
 
-	class EngineExport RenderSubsystem : public EngineSubsytem<RenderSubsystem>
+	class OYUN_API RenderSubsystem : public EngineSubsytem<RenderSubsystem>
 	{
 		RenderSubsystem(int width, int height);
 		~RenderSubsystem();
