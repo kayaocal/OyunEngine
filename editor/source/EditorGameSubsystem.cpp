@@ -92,17 +92,19 @@ namespace Editor
 		mdl->SetShader(shd);
 
 		ent = new StaticMeshEntity(mdl);
-
+		ent->SetUniqueId(0);
 		ent2 = new StaticMeshEntity(mdl);
 		ent2->GetTransform()->Position.z = -20;
-
+		ent2->SetUniqueId(1);
 		ent3 = new StaticMeshEntity(mdl);
 		ent3->GetTransform()->Position.x = -10;
+		ent3->SetUniqueId(2);
 		/*ent3->GetTransform()->EulerRotation.z = 90.0f;
 		ent3->GetTransform()->Position.x = 0;
 		*/
 		ent4 = new StaticMeshEntity(mdl);
 		ent4->GetTransform()->Position.x = 10.0f;
+		ent4->SetUniqueId(3);
 		/*ent4->GetTransform()->Position.z = 3;
 		ent4->GetTransform()->Position.x = 3;*/
 
@@ -125,13 +127,13 @@ namespace Editor
 		GameSubsystem::GameLoop(deltaTime);
 		using namespace Oyun;
 		static float angle = 0.0f;
-		EditorDefaultCameraman->camera->Position.x = 10*sinf(angle);
+		/*EditorDefaultCameraman->camera->Position.x = 10*sinf(angle);
 		EditorDefaultCameraman->camera->Position.z = 10*cosf(angle);
 		angle += deltaTime;
 
 		ent->GetTransform()->EulerRotation.y = 180.0f * sinf(angle);
 		ent3->GetTransform()->EulerRotation.z = 180.0f * sinf(angle);
-		ent4->GetTransform()->EulerRotation.x = 180.0f * sinf(angle);
+		ent4->GetTransform()->EulerRotation.x = 180.0f * sinf(angle);*/
 	}
 
 	void EditorGameSubsystem::CreateUIElements()

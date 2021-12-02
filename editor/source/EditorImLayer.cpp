@@ -4,12 +4,19 @@
 #include <iostream>
 #include <string>
 #include <Engine.h>
+#include <limits>
 #include <windows.h>
 #include <shellapi.h>
 #include <imgui.h>
+#include <subsystems/WorldSubsystem.h>
+#include <Scene.h>
+#include <components/TransformComponent.h>
 
 namespace Editor
 {
+
+    unsigned int selectedEntityUniqueId = -1;
+    Oyun::Entity* selectedEntity;
     EditorDockableWindowLayer::EditorDockableWindowLayer(const std::string rName)
         :Oyun::Imgui::ImLayer(rName)
     {
@@ -231,13 +238,72 @@ namespace Editor
     EditorPropertiesLayer::EditorPropertiesLayer(const std::string rName)
         :Oyun::Imgui::ImLayer(rName)
     {
+      
     }
 
+    
 
+    float trasnformPos[3];
+    float transformRot[3];
+    float transformScale[3];
     void EditorPropertiesLayer::Draw()
     {
-        ImGui::Begin(name.c_str());
         
+        ImGui::Begin(name.c_str());
+        if (selectedEntityUniqueId != -1)
+        {
+            if (selectedEntity == nullptr || (selectedEntity && selectedEntity->GetUniqueId() != selectedEntityUniqueId))
+            {
+                selectedEntity = Oyun::WorldSubsystem::Get().GetEntityByUniqueId(selectedEntityUniqueId);
+            }
+
+            if (selectedEntity == nullptr)
+            {
+                ImGui::End();
+                return;
+            }
+
+            if (ImGui::CollapsingHeader("Information"))
+            {
+                ImGui::Text("EntityName: ");
+                ImGui::SameLine();
+                ImGui::Text(selectedEntity->GetName().c_str());
+            }
+            if (ImGui::CollapsingHeader("Transform"))
+            {
+                trasnformPos[0] = selectedEntity->GetTransform()->Position.x;
+                trasnformPos[1] = selectedEntity->GetTransform()->Position.y;
+                trasnformPos[2] = selectedEntity->GetTransform()->Position.z;
+
+                transformRot[0] = selectedEntity->GetTransform()->EulerRotation.x;
+                transformRot[1] = selectedEntity->GetTransform()->EulerRotation.y;
+                transformRot[2] = selectedEntity->GetTransform()->EulerRotation.z;
+
+                transformScale[0] = selectedEntity->GetTransform()->Scale.x;
+                transformScale[1] = selectedEntity->GetTransform()->Scale.y;
+                transformScale[2] = selectedEntity->GetTransform()->Scale.z;
+
+                ImGui::DragFloat3("Position: ", trasnformPos, 0.01f, -FLT_MAX, FLT_MAX);
+                ImGui::DragFloat3("Rotation: ", transformRot, 0.01f, -FLT_MAX, FLT_MAX);
+                ImGui::DragFloat3("Scale: ", transformScale, 0.01f, -FLT_MAX, FLT_MAX);
+
+                selectedEntity->GetTransform()->Position.x = trasnformPos[0];
+                selectedEntity->GetTransform()->Position.y = trasnformPos[1];
+                selectedEntity->GetTransform()->Position.z = trasnformPos[2];
+
+                selectedEntity->GetTransform()->EulerRotation.x = transformRot[0];
+                selectedEntity->GetTransform()->EulerRotation.y = transformRot[1];
+                selectedEntity->GetTransform()->EulerRotation.z = transformRot[2];
+
+                selectedEntity->GetTransform()->Scale.x = transformScale[0];
+                selectedEntity->GetTransform()->Scale.y = transformScale[1];
+                selectedEntity->GetTransform()->Scale.z = transformScale[2];
+            }
+        }
+        else
+        {
+            selectedEntity = nullptr;
+        }
         ImGui::End();
     }
 
@@ -248,7 +314,59 @@ namespace Editor
     }
     void EditorSceneLayer::Draw()
     {
+        using namespace Oyun;
+
+        static bool b = true;
+        ImGui::ShowDemoWindow(&b);
         ImGui::Begin(name.c_str());
+        static ImGuiTreeNodeFlags base_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
+        int node_clicked = -1;
+        static int node_selected = -1;
+
+        if (ImGui::TreeNode("Root"))
+        {
+            Scene* scene = WorldSubsystem::Get().GetScene();
+            static bool test_drag_and_drop = false;
+            for (int i = 0; i < scene->EntityList.size(); i++)
+            {
+                ImGuiTreeNodeFlags node_flags = base_flags;
+                node_flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen; // ImGuiTreeNodeFlags_Bullet
+                if (node_selected == i)
+                {
+                    node_flags |= ImGuiTreeNodeFlags_Selected;
+                }
+                else
+                {
+                }
+                ImGui::TreeNodeEx((void*)(intptr_t)i, node_flags, scene->EntityList[i]->GetName().c_str());
+                if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen())
+                    node_clicked = i;
+                if (test_drag_and_drop && ImGui::BeginDragDropSource())
+                {
+                    ImGui::SetDragDropPayload("_TREENODE", NULL, 0);
+                    ImGui::Text("This is a drag and drop source");
+                    ImGui::EndDragDropSource();
+                }
+                
+            }
+            ImGui::TreePop();
+
+            if (node_clicked != -1)
+            {
+                if (node_selected == node_clicked)
+                {
+                    node_selected = -1;
+                    selectedEntityUniqueId = -1;
+
+                }
+                else
+                {
+                    node_selected = node_clicked;
+                    selectedEntityUniqueId = node_selected;
+
+                }
+            }
+        }
 
         ImGui::End();
     }

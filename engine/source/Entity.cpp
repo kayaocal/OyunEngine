@@ -14,7 +14,7 @@ namespace Oyun
 
 
 	Entity::Entity()
-		:isVisible(true), mEntityUniqueId(0)
+		:isVisible(true), mEntityUniqueId(0), mName("entity_01")
 	{
 		mTransformComponent = AddComponent<TransformComponent>(new TransformComponent());
 		SetTickEnabled(false);
@@ -52,6 +52,15 @@ namespace Oyun
 		return mEntityUniqueId;
 	}
 
+	std::string& Entity::GetName()
+	{
+		return mName;
+	}
+
+	void Entity::SetUniqueId(unsigned int id)
+	{
+		mEntityUniqueId = id;
+	}
 
 	
 }

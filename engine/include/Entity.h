@@ -6,6 +6,7 @@
 #include <memory>
 #include <typeindex>
 #include <cassert>
+#include <string>
 
 #ifdef OyunEngine_EXPORTS
 #define OYUN_API __declspec(dllexport)
@@ -56,11 +57,17 @@ namespace Oyun
 		void SetTickEnabled(bool);
 
 		const unsigned int GetUniqueId() const;
+
+		std::string& GetName();
+
+		void SetUniqueId(unsigned int id);
 	private:
 
 		std::map<std::type_index, Oyun::Component*> mComponentList;
 
-		const unsigned int mEntityUniqueId;
+		unsigned int mEntityUniqueId;
+
+		std::string mName;
 
 		TransformComponent* mTransformComponent;
 	};

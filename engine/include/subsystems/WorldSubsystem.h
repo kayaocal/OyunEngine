@@ -29,6 +29,7 @@ namespace Oyun
 
 		
 		void AddEntityToScene(Entity* ent);
+		Entity* GetEntityByUniqueId(unsigned int id);
 
 		Scene* GetScene() const;
 

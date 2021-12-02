@@ -51,6 +51,19 @@ namespace Oyun
 	{
 		mScene->EntityList.push_back(ent);
 	}
+	
+	Entity* WorldSubsystem::GetEntityByUniqueId(unsigned int id)
+	{
+		for (auto ent : mScene->EntityList)
+		{
+			if (ent->GetUniqueId() == id)
+			{
+				return ent;
+			}
+		}
+		return nullptr;
+	}
+
 	Scene* WorldSubsystem::GetScene() const
 	{
 		return mScene;

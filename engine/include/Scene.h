@@ -12,7 +12,11 @@ namespace Oyun
 
 	struct OYUN_API Scene
 	{
+
 		std::vector<Entity*> EntityList;
+
+		int entityCounter;
+
 	};
 
 
