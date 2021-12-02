@@ -1,6 +1,5 @@
 #pragma once
 #include <subsystems\GameSubsystem.h>
-
 #define EDITOR_API 
 
 namespace Oyun

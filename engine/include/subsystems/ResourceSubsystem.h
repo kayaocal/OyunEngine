@@ -17,6 +17,8 @@ namespace Oyun
 	class TextureStore;
 	class Model;
 	class ModelStore;
+	class ShaderStore;
+	class Shader;
 
 	class OYUN_API ResourceSubsystem : public EngineSubsytem<ResourceSubsystem>
 	{
@@ -43,9 +45,12 @@ namespace Oyun
 
 		Model* LoadModel(const char* path);
 
+		Shader* LoadShader(const char* path, const char* vertex, const char* frag);
+		Shader* LoadShader(const char* path);
 	private:
 		std::unique_ptr<TextureStore> mTextureStore;
 		std::unique_ptr<ModelStore> mModelStore;
+		std::unique_ptr<ShaderStore> mShaderStore;
 	};
 
 }

@@ -86,10 +86,10 @@ namespace Editor
 		EditorDefaultCameraman->isActive = true;
 		CreateUIElements();
 
-		ShaderManager::Get().CompileShader("testShader", vertexShaderSource, simplefragmentShaderSource);
+		Shader* shd = ResourceSubsystem::Get().LoadShader("testShader", vertexShaderSource, simplefragmentShaderSource);
 		Model* mdl = ResourceSubsystem::Get().LoadModel("backpack.obj");
 		
-		mdl->SetShader(ShaderManager::Get().GetShaderByName("testShader"));
+		mdl->SetShader(shd);
 
 		ent = new StaticMeshEntity(mdl);
 

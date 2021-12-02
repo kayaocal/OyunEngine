@@ -29,17 +29,16 @@ namespace Oyun
 		void SetMat4(const char* uniformName, float value) const;
 	};
 
-	class OYUN_API ShaderManager
+	class OYUN_API ShaderStore
 	{
-		ShaderManager();
 	public:
+		ShaderStore();
 
-		static ShaderManager& Get();
-		std::map<std::string, Shader*> shaderPrograms;
+		std::map<uint32_t, Shader*> shaderPrograms;
 
-		void CompileShader(const char* shaderName, const char* vertexShader, const char* fragmentShader);
+		Shader* CompileShader(uint32_t shaderCode, const char* vertexShader, const char* fragmentShader);
 
-		Shader* GetShaderByName(const char* shaderName);
+		Shader* GetShader(uint32_t shaderCode);
 
 
 

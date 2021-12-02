@@ -8,20 +8,13 @@
 namespace Oyun
 {
 
-	ShaderManager::ShaderManager()
+	ShaderStore::ShaderStore()
 	{
 	}
 
-	ShaderManager& ShaderManager::Get()
+	Shader* ShaderStore::CompileShader(uint32_t shaderCode, const char* vertexShaderSource, const char* fragmentShaderSource)
 	{
-		static ShaderManager shader;
-		return shader;
-		// TODO: insert return statement here
-	}
-
-	void ShaderManager::CompileShader(const char* shaderName, const char* vertexShaderSource, const char* fragmentShaderSource)
-	{
-		std::cout << "Compile Shader : " << shaderName << std::endl;
+		std::cout << "Compile Shader : " << shaderCode << std::endl;
 
 		//Vertex
 		unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -59,10 +52,13 @@ namespace Oyun
 		if (!success) {
 			glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
 			std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+			return nullptr;
 		}
 		else
 		{
-			shaderPrograms.insert(std::pair<std::string, Shader*>(shaderName, new Shader(shaderProgram)));
+			Shader* sh = new Shader(shaderProgram);
+			shaderPrograms.insert(std::pair<uint32_t, Shader*>(shaderCode, sh));
+			return sh;
 		}
 
 		glDeleteShader(vertexShader);
@@ -70,7 +66,7 @@ namespace Oyun
 
 	}
 
-	Shader* ShaderManager::GetShaderByName(const char* shaderName)
+	Shader* ShaderStore::GetShader(uint32_t shaderName)
 	{
 		auto program = shaderPrograms.find(shaderName);
 		if (program != shaderPrograms.end())
@@ -81,7 +77,7 @@ namespace Oyun
 		return nullptr;
 	}
 
-	void ShaderManager::DeleteShaders()
+	void ShaderStore::DeleteShaders()
 	{
 		for (auto itr = shaderPrograms.begin(); itr != shaderPrograms.end(); ++itr)
 		{
