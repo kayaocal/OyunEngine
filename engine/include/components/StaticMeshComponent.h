@@ -5,17 +5,21 @@
 
 namespace Oyun
 {
-
+	class Entity;
 	class Model;
 	class OYUN_API StaticMeshComponent : public Component
 	{
 	public:
-		StaticMeshComponent(Model*);
+		StaticMeshComponent(Entity*, Model*);
 
 		void Draw(float* view, float* proj, float* transform);
 
 	private:
 		Model* mModel;
+
+
+		// Inherited via Component
+		virtual void DrawAtEditorProps() override;
 
 	};
 }

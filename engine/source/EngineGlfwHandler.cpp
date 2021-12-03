@@ -100,10 +100,13 @@ namespace Oyun
         Scene* scn = WorldSubsystem::Get().GetScene();
         for (auto ent : scn->EntityList)
         {
-            TransformComponent* transformComp = ent->GetComponent<TransformComponent>();
-            StaticMeshComponent* staticMesh = ent->GetComponent<StaticMeshComponent>();
+            if (ent->IsVisible())
+            {
+                TransformComponent* transformComp = ent->GetComponent<TransformComponent>();
+                StaticMeshComponent* staticMesh = ent->GetComponent<StaticMeshComponent>();
             
-            staticMesh->Draw(glm::value_ptr(view), glm::value_ptr(projection), glm::value_ptr(transformComp->GetModelMatrix()));
+                staticMesh->Draw(glm::value_ptr(view), glm::value_ptr(projection), glm::value_ptr(transformComp->GetModelMatrix()));
+            }
         }
 
 

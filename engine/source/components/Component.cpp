@@ -1,8 +1,11 @@
 #include "components\Component.h"
+#include "Entity.h"
 
 namespace Oyun
 {
-	Component::Component()
+
+	Component::Component(Entity* ent)
+		:mEntity(ent)
 	{
 	}
 

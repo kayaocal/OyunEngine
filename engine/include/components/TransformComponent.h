@@ -6,6 +6,7 @@
 
 namespace Oyun
 {
+	class Entity;
 
 	class OYUN_API TransformComponent : public Component
 	{
@@ -13,13 +14,17 @@ namespace Oyun
 
 	public:
 
-		TransformComponent();
+		TransformComponent(Entity*);
 		glm::vec3 Position;
 		glm::vec3 EulerRotation;
 		glm::vec3 Scale;
 
 
 		glm::mat4& GetModelMatrix();
+
+
+		// Inherited via Component
+		virtual void DrawAtEditorProps() override;
 
 	};
 }

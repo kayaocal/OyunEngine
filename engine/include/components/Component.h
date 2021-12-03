@@ -9,15 +9,21 @@
 
 namespace Oyun
 {
+	class Entity;
+
 	class OYUN_API Component
 	{
 	public:
-		Component();
+		Component(Entity*);
 		~Component();
 
 		virtual void BeginPlay();
 		virtual void EndPlay();
 
+		virtual void DrawAtEditorProps() = 0;
+
+	private :
+		Entity* mEntity;
 	};
 }
 

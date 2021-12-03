@@ -41,7 +41,7 @@ namespace Oyun
 		TransformComponent* GetTransform();
 		
 		/// @brief Entity will be render if true
-		bool isVisible;
+		bool IsVisible();
 
 		/// @brief will be called after spawned in world
 		virtual void BeginPlay();
@@ -61,6 +61,13 @@ namespace Oyun
 		std::string& GetName();
 
 		void SetUniqueId(unsigned int id);
+
+		/// @brief To draw entity specs at editor properties window
+		virtual void DrawEntityProps();
+
+		/// @brief To draw entity's owned components at editor properties window
+		void DrawComponentProps();
+
 	private:
 
 		std::map<std::type_index, Oyun::Component*> mComponentList;
@@ -70,6 +77,8 @@ namespace Oyun
 		std::string mName;
 
 		TransformComponent* mTransformComponent;
+
+		bool mVisible;
 	};
 	
 	/// @brief Entiy can only have one for each type of components!

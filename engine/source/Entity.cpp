@@ -3,20 +3,22 @@
 #include "components/StaticMeshComponent.h"
 #include "subsystems/LogSubsystem.h"
 #include "ModelStore.h"
+#include "imgui.h"
+
 namespace Oyun
 {
 
 	StaticMeshEntity::StaticMeshEntity(Model* mdl)
 		:Entity()
 	{
-		mStaticMesh = AddComponent<StaticMeshComponent>(new StaticMeshComponent(mdl));
+		mStaticMesh = AddComponent<StaticMeshComponent>(new StaticMeshComponent(this, mdl));
 	}
 
 
 	Entity::Entity()
-		:isVisible(true), mEntityUniqueId(0), mName("entity_01")
+		: mEntityUniqueId(0), mName("entity_01"), mVisible(true)
 	{
-		mTransformComponent = AddComponent<TransformComponent>(new TransformComponent());
+		mTransformComponent = AddComponent<TransformComponent>(new TransformComponent(this));
 		SetTickEnabled(false);
 	}
 
@@ -26,6 +28,11 @@ namespace Oyun
 			return mTransformComponent;
 
 		return GetComponent<TransformComponent>();
+	}
+
+	bool Entity::IsVisible()
+	{
+		return mVisible;
 	}
 
 	void Entity::BeginPlay()
@@ -60,6 +67,24 @@ namespace Oyun
 	void Entity::SetUniqueId(unsigned int id)
 	{
 		mEntityUniqueId = id;
+	}
+
+	void Entity::DrawEntityProps()
+	{
+		ImGui::Text("EntityName: ");
+		ImGui::SameLine();
+		ImGui::Text(mName.c_str());
+		ImGui::Checkbox("Visible", &mVisible);
+
+		DrawComponentProps();
+	}
+
+	void Entity::DrawComponentProps()
+	{
+		for (auto comp : mComponentList)
+		{
+			comp.second->DrawAtEditorProps();
+		}
 	}
 
 	

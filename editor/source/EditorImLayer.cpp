@@ -11,6 +11,8 @@
 #include <subsystems/WorldSubsystem.h>
 #include <Scene.h>
 #include <components/TransformComponent.h>
+#include <Entity.h>
+
 
 namespace Editor
 {
@@ -22,9 +24,21 @@ namespace Editor
     {
     }
 
+    bool showStyleEditor = false;
     void EditorDockableWindowLayer::Draw()
     {
         DrawDockableWindow();
+
+        if (showStyleEditor)
+        {
+            ImGui::Begin("Dear ImGui  Editor", (bool*)0, ImGuiWindowFlags_Popup);
+            ImGui::ShowStyleEditor();
+            if (ImGui::Button("Close"))
+            {
+                showStyleEditor = false;
+            }
+            ImGui::End();
+        }
     }
 
     void EditorDockableWindowLayer::DrawDockableWindow()
@@ -157,6 +171,15 @@ namespace Editor
                 ImGui::EndMenu();
             }
 
+            if (ImGui::BeginMenu("Tools"))
+            {
+                if (ImGui::MenuItem("Style Editor")) 
+                {
+                    showStyleEditor = true;
+                }
+                ImGui::EndMenu();
+            }
+
             if (ImGui::BeginMenu("About"))
             {
                 if(ImGui::Button("Github Page"))
@@ -243,12 +266,11 @@ namespace Editor
 
     
 
-    float trasnformPos[3];
-    float transformRot[3];
-    float transformScale[3];
+   
     void EditorPropertiesLayer::Draw()
     {
         
+        ImGui::ShowDemoWindow();
         ImGui::Begin(name.c_str());
         if (selectedEntityUniqueId != -1)
         {
@@ -263,42 +285,8 @@ namespace Editor
                 return;
             }
 
-            if (ImGui::CollapsingHeader("Information"))
-            {
-                ImGui::Text("EntityName: ");
-                ImGui::SameLine();
-                ImGui::Text(selectedEntity->GetName().c_str());
-            }
-            if (ImGui::CollapsingHeader("Transform"))
-            {
-                trasnformPos[0] = selectedEntity->GetTransform()->Position.x;
-                trasnformPos[1] = selectedEntity->GetTransform()->Position.y;
-                trasnformPos[2] = selectedEntity->GetTransform()->Position.z;
 
-                transformRot[0] = selectedEntity->GetTransform()->EulerRotation.x;
-                transformRot[1] = selectedEntity->GetTransform()->EulerRotation.y;
-                transformRot[2] = selectedEntity->GetTransform()->EulerRotation.z;
-
-                transformScale[0] = selectedEntity->GetTransform()->Scale.x;
-                transformScale[1] = selectedEntity->GetTransform()->Scale.y;
-                transformScale[2] = selectedEntity->GetTransform()->Scale.z;
-
-                ImGui::DragFloat3("Position: ", trasnformPos, 0.01f, -FLT_MAX, FLT_MAX);
-                ImGui::DragFloat3("Rotation: ", transformRot, 0.01f, -FLT_MAX, FLT_MAX);
-                ImGui::DragFloat3("Scale: ", transformScale, 0.01f, -FLT_MAX, FLT_MAX);
-
-                selectedEntity->GetTransform()->Position.x = trasnformPos[0];
-                selectedEntity->GetTransform()->Position.y = trasnformPos[1];
-                selectedEntity->GetTransform()->Position.z = trasnformPos[2];
-
-                selectedEntity->GetTransform()->EulerRotation.x = transformRot[0];
-                selectedEntity->GetTransform()->EulerRotation.y = transformRot[1];
-                selectedEntity->GetTransform()->EulerRotation.z = transformRot[2];
-
-                selectedEntity->GetTransform()->Scale.x = transformScale[0];
-                selectedEntity->GetTransform()->Scale.y = transformScale[1];
-                selectedEntity->GetTransform()->Scale.z = transformScale[2];
-            }
+            selectedEntity->DrawEntityProps();
         }
         else
         {
