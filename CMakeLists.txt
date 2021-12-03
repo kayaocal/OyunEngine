@@ -22,6 +22,13 @@ file (GLOB IMGUI_SOURCES
 	${CMAKE_SOURCE_DIR}/external/imgui/backends/imgui_impl_opengl3.h
 	${CMAKE_SOURCE_DIR}/external/imgui/backends/imgui_impl_opengl3_loader.h)
 
+file (GLOB CAREAL_INCLUDES
+	${CMAKE_SOURCE_DIR}/external/careal/include/cereal/*.*
+	${CMAKE_SOURCE_DIR}/external/careal/include/cereal/*/*.*
+	${CMAKE_SOURCE_DIR}/external/careal/include/cereal/*/*/*.*
+	${CMAKE_SOURCE_DIR}/external/careal/include/cereal/*/*/*/*.*
+	)
+
 file (GLOB ASSIMP_INCLUDES
 	${ENGINE_SOURCE_DIR}/include/assimp/*.h
 	${ENGINE_SOURCE_DIR}/include/assimp/*/*.h)
@@ -59,9 +66,11 @@ file (GLOB GLM_INCLUDES
 	${ENGINE_SOURCE_DIR}/include/glm/*/*.hpp
 	${ENGINE_SOURCE_DIR}/include/glm/*/*.cpp)
 
-add_library(OyunEngine SHARED ${ENGINE_SOURCES} ${IMGUI_SOURCES} ${ENGINE_INCLUDES} ${COMPONENT_SOURCES} ${COMPONENT_INCLUDES} ${SUBSYSTEM_INCLUDES} ${SUBSYSTEM_SOURCES} ${GLM_INCLUDES} ${ASSIMP_INCLUDES})
+add_library(OyunEngine SHARED ${ENGINE_SOURCES} ${IMGUI_SOURCES} ${ENGINE_INCLUDES} ${COMPONENT_SOURCES} 
+	${COMPONENT_INCLUDES} ${SUBSYSTEM_INCLUDES} ${SUBSYSTEM_SOURCES} ${GLM_INCLUDES} ${ASSIMP_INCLUDES} ${CAREAL_INCLUDES})
 
 source_group("Imgui" 						FILES ${IMGUI_SOURCES})
+source_group("Careal" 						FILES ${CAREAL_INCLUDES})
 source_group("Source Files/Components" 		FILES ${COMPONENT_SOURCES})
 source_group("Header Files/Components" 		FILES ${COMPONENT_INCLUDES})
 source_group("Header Files/Subsystems" 		FILES ${SUBSYSTEM_INCLUDES})
@@ -71,6 +80,7 @@ source_group("Header Files/Assimp" 			FILES ${ASSIMP_INCLUDES})
 
 target_include_directories(OyunEngine 
 	PUBLIC ${PROJECT_SOURCE_DIR}/engine/include
+	PUBLIC ${PROJECT_SOURCE_DIR}/external/careal/include
 	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui
 	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui/backends)
 
@@ -107,6 +117,7 @@ add_executable(OyunEditor ${EDITOR_SOURCE_DIR}/editor_main.cpp ${EDITOR_INCLUDES
 target_include_directories(OyunEditor 
 	PUBLIC ${ENGINE_SOURCE_DIR}/include
 	PUBLIC ${EDITOR_SOURCE_DIR}/include
+	PUBLIC ${PROJECT_SOURCE_DIR}/external/careal/include
 	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui
 	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui/backends)
 
