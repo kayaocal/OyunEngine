@@ -5,3 +5,6 @@
 	branch = docking
 
 
+[submodule "external/careal"]
+	path = external/careal
+	url = https://github.com/USCiLab/cereal.git
