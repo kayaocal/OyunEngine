@@ -1,9 +1,8 @@
 #include "Entity.h"
-#include "components/TransformComponent.h"
-#include "components/StaticMeshComponent.h"
 #include "subsystems/LogSubsystem.h"
 #include "ModelStore.h"
 #include "imgui.h"
+
 
 namespace Oyun
 {
@@ -14,12 +13,24 @@ namespace Oyun
 		mStaticMesh = AddComponent<StaticMeshComponent>(new StaticMeshComponent(this, mdl));
 	}
 
+	void StaticMeshEntity::Serialize(std::stringstream& ss)
+	{
+		{
+			cereal::JSONOutputArchive oarchive(ss);
+			serialize(oarchive);
+		}
+	}
 
 	Entity::Entity()
-		: mEntityUniqueId(0), mName("entity_01"), mVisible(true)
+		: mEntityUniqueId(0), mName("entity_01"), mVisible(true), mStatic(false)
 	{
 		mTransformComponent = AddComponent<TransformComponent>(new TransformComponent(this));
 		SetTickEnabled(false);
+	}
+
+	const TransformComponent& Entity::GetTransform() const
+	{
+		return *mTransformComponent;
 	}
 
 	TransformComponent* Entity::GetTransform()
@@ -50,6 +61,14 @@ namespace Oyun
 		LOG << "Entity::Tick" << END;
 	}
 
+	void Entity::Serialize(std::stringstream& ss)
+	{
+		{
+			cereal::JSONOutputArchive oarchive(ss);
+			serialize(oarchive);
+		}
+	}
+
 	void Entity::SetTickEnabled(bool)
 	{
 	}
@@ -74,16 +93,22 @@ namespace Oyun
 		ImGui::Text("EntityName: ");
 		ImGui::SameLine();
 		ImGui::Text(mName.c_str());
-		ImGui::Checkbox("Visible", &mVisible);
+		ImGui::Checkbox("Is Visible", &mVisible);
+		ImGui::Checkbox("Is Static", &mStatic);
 
 		DrawComponentProps();
 	}
 
 	void Entity::DrawComponentProps()
 	{
+		GetTransform()->DrawAtEditorProps();
+
 		for (auto comp : mComponentList)
 		{
-			comp.second->DrawAtEditorProps();
+			if (comp.first != typeid(TransformComponent))
+			{
+				comp.second->DrawAtEditorProps();
+			}
 		}
 	}
 

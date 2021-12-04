@@ -14,6 +14,23 @@ namespace Oyun
 	{
 	}
 
+	TransformComponent::TransformComponent(const TransformComponent& c)
+		: Component(c.mEntity)
+	{
+		Position = c.Position;
+		EulerRotation = c.EulerRotation;
+		Scale = c.Scale;
+	}
+
+	TransformComponent& TransformComponent::operator=(const TransformComponent& other)
+	{
+		Position = other.Position;
+		EulerRotation = other.EulerRotation;
+		Scale = other.Scale;
+		mEntity = other.mEntity;
+		return *this;
+	}
+
 	glm::mat4& TransformComponent::GetModelMatrix()
 	{
 		mModelMatrix = glm::mat4(1.0f);

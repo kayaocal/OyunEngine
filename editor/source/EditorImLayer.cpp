@@ -12,7 +12,8 @@
 #include <Scene.h>
 #include <components/TransformComponent.h>
 #include <Entity.h>
-
+#include <cereal/archives/json.hpp>
+#include <fstream>
 
 namespace Editor
 {
@@ -291,6 +292,20 @@ namespace Editor
         else
         {
             selectedEntity = nullptr;
+        }
+
+        if (selectedEntity != nullptr)
+        {
+            if(ImGui::Button("SERIALIZE"))
+            {
+                std::stringstream ss;
+                
+                selectedEntity->Serialize(ss);
+
+                std::fstream fs("entitySaveTest.json", std::fstream::out);
+                fs << ss.rdbuf();
+                fs.close();
+            }
         }
         ImGui::End();
     }

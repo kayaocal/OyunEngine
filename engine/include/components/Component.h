@@ -22,7 +22,11 @@ namespace Oyun
 
 		virtual void DrawAtEditorProps() = 0;
 
-	private :
+		template<class Archive>
+		void serialize(Archive&) {  //... 
+		}
+
+	protected :
 		Entity* mEntity;
 	};
 }

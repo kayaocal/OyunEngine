@@ -7,7 +7,8 @@
 #include <typeindex>
 #include <cassert>
 #include <string>
-
+#include "components/TransformComponent.h"
+#include "components/StaticMeshComponent.h"
 #ifdef OyunEngine_EXPORTS
 #define OYUN_API __declspec(dllexport)
 #else
@@ -17,7 +18,6 @@
 namespace Oyun
 {
 	class Component;
-	class TransformComponent;
 	class StaticMeshComponent;
 
 	
@@ -39,6 +39,8 @@ namespace Oyun
 		T* GetComponent();
 
 		TransformComponent* GetTransform();
+
+		const TransformComponent& GetTransform() const;
 		
 		/// @brief Entity will be render if true
 		bool IsVisible();
@@ -52,6 +54,8 @@ namespace Oyun
 		/// @brief Ticks only if SetTickEnabled is setted as true
 		/// @param deltaTime 
 		virtual void Tick(float deltaTime);
+
+		virtual void Serialize(std::stringstream& ss);
 
 		/// @brief adds\removes entity to\from global tick list
 		void SetTickEnabled(bool);
@@ -68,6 +72,21 @@ namespace Oyun
 		/// @brief To draw entity's owned components at editor properties window
 		void DrawComponentProps();
 
+
+		template<class Archive>
+		void serialize(Archive& archive) const
+		{
+			archive(
+				cereal::make_nvp("Visible", mVisible),
+				cereal::make_nvp("Static", mStatic),
+				cereal::make_nvp("Name", mName),
+				mEntityUniqueId,
+				cereal::make_nvp("TransformComponent", this->GetTransform())
+				);
+
+
+		}
+		
 	private:
 
 		std::map<std::type_index, Oyun::Component*> mComponentList;
@@ -79,6 +98,8 @@ namespace Oyun
 		TransformComponent* mTransformComponent;
 
 		bool mVisible;
+
+		bool mStatic;
 	};
 	
 	/// @brief Entiy can only have one for each type of components!
@@ -127,6 +148,19 @@ namespace Oyun
 	{
 	public:
 		StaticMeshEntity(Model*);
+
+		void Serialize(std::stringstream& ss);
+
+		template<class Archive>
+		void serialize(Archive& archive) const
+		{
+			Entity::serialize(archive);
+			archive(
+				cereal::make_nvp("StaticMeshComponent", *mStaticMesh)
+			);
+
+
+		}
 
 	private:
 		StaticMeshComponent* mStaticMesh;
