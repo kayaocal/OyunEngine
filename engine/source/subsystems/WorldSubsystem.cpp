@@ -7,7 +7,7 @@ namespace Oyun
 {
 	WorldSubsystem* WorldSubsystem::system = nullptr;
 
-	WorldSubsystem::WorldSubsystem(int width, int height)
+	WorldSubsystem::WorldSubsystem()
 		:EngineSubsytem()
 	{
 		mScene = new Scene();
@@ -28,10 +28,10 @@ namespace Oyun
 		return *system;
 	}
 
-	WorldSubsystem& WorldSubsystem::Instantiate(int width, int height)
+	WorldSubsystem& WorldSubsystem::Instantiate()
 	{
 		assert(system == nullptr);
-		system = new WorldSubsystem(width, height);
+		system = new WorldSubsystem();
 		return *system;
 	}
 

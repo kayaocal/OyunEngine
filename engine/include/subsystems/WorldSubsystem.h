@@ -11,7 +11,7 @@ namespace Oyun
 
 	class OYUN_API WorldSubsystem : public EngineSubsytem<WorldSubsystem>
 	{
-		WorldSubsystem(int width, int height);
+		WorldSubsystem();
 		~WorldSubsystem();
 
 		Scene* mScene;
@@ -22,7 +22,7 @@ namespace Oyun
 
 		static WorldSubsystem* GetPtr();
 		static WorldSubsystem& Get();
-		static WorldSubsystem& Instantiate(int width = 800, int height = 600);
+		static WorldSubsystem& Instantiate();
 
 		virtual void StartUp() override;
 		virtual void ShutDown() override;
@@ -35,7 +35,6 @@ namespace Oyun
 
 
 	};
-
 }
 
 #endif //OYUN_WORLD_SUBSYSTEM_H__

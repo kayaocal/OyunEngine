@@ -1,6 +1,10 @@
 #pragma once
 #include <subsystems\GameSubsystem.h>
-#define EDITOR_API 
+#ifdef OyunEditor_EXPORTS
+#define EDITOR_API __declspec(dllexport)
+#else
+#define EDITOR_API __declspec(dllimport)
+#endif
 
 namespace Oyun
 {
@@ -14,7 +18,6 @@ namespace Editor
 	protected:
 		EditorGameSubsystem();
 		virtual ~EditorGameSubsystem();
-
 
 	public:
 

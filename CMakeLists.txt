@@ -98,8 +98,37 @@ if(WIN32)
 endif()
 
 # #######################################################################################
+#	FLOATING CUBES
+# 	Basic Project
+# #######################################################################################
+
+set(FLOATING_CUBES_SOURCE_DIR ${PROJECT_SOURCE_DIR}/Samples/FloatingCubes)
+
+file (GLOB FLOATING_CUBES_SOURCES
+	${FLOATING_CUBES_SOURCE_DIR}/source/*.cpp
+	${FLOATING_CUBES_SOURCE_DIR}/source/*.c)
+
+
+file (GLOB FLOATING_CUBES_INCLUDES
+	${FLOATING_CUBES_SOURCE_DIR}/include/*.hpp
+	${FLOATING_CUBES_SOURCE_DIR}/include/*.h)
+
+add_library(FloatingCubes SHARED ${FLOATING_CUBES_INCLUDES} ${FLOATING_CUBES_SOURCES} )
+
+target_include_directories(FloatingCubes 
+	PUBLIC ${ENGINE_SOURCE_DIR}/include
+	PUBLIC ${PROJECT_SOURCE_DIR}/external/careal/include
+	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui
+	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui/backends
+	PUBLIC ${FLOATING_CUBES_SOURCE_DIR}/include)
+
+target_link_libraries (FloatingCubes $(OutDir)OyunEngine.lib ${CMAKE_SOURCE_DIR}/lib/glfw3.lib opengl32.lib)
+
+add_dependencies(FloatingCubes OyunEngine)
+
+# #######################################################################################
 #	EDITOR
-# 	Define the executable
+# 	DLL the executable
 # #######################################################################################
 
 set(EDITOR_SOURCE_DIR ${PROJECT_SOURCE_DIR}/editor)
@@ -112,7 +141,7 @@ file (GLOB EDITOR_INCLUDES
 	${EDITOR_SOURCE_DIR}/include/*.h
 	${EDITOR_SOURCE_DIR}/include/*.hpp)
 
-add_executable(OyunEditor ${EDITOR_SOURCE_DIR}/editor_main.cpp ${EDITOR_INCLUDES} ${EDITOR_SOURCES})
+add_library(OyunEditor SHARED ${EDITOR_INCLUDES} ${EDITOR_SOURCES})
 
 target_include_directories(OyunEditor 
 	PUBLIC ${ENGINE_SOURCE_DIR}/include
@@ -125,3 +154,23 @@ target_link_libraries (OyunEditor $(OutDir)OyunEngine.lib ${CMAKE_SOURCE_DIR}/li
 
 add_dependencies(OyunEditor OyunEngine)
 
+# #######################################################################################
+#	EDITOR STARTER
+# 	Define the executable
+# #######################################################################################
+
+set(EDITOR_STARTER_DIR ${PROJECT_SOURCE_DIR}/editor_starter)
+
+add_executable(OyunEditorStarter ${EDITOR_STARTER_DIR}/editor_starter.cpp)
+
+target_include_directories(OyunEditorStarter
+	PUBLIC ${ENGINE_SOURCE_DIR}/include
+	PUBLIC ${EDITOR_SOURCE_DIR}/include
+	PUBLIC ${PROJECT_SOURCE_DIR}/external/careal/include
+	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui
+	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui/backends)
+
+
+target_link_libraries (OyunEditorStarter $(OutDir)OyunEditor.lib $(OutDir)OyunEngine.lib ${CMAKE_SOURCE_DIR}/lib/glfw3.lib opengl32.lib)
+
+add_dependencies(OyunEditor OyunEngine OyunEditor)
