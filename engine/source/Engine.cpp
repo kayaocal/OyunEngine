@@ -17,7 +17,7 @@ namespace Oyun
 	bool gEngineRunning = false;
 
 	unsigned long gFrameCount = 0;
-	double gDeltaTime = 0;
+	float gDeltaTime = 0;
 	double gRenderTime = 0;
 	double gGameTime = 0;
 	double gInstantFps = 0;
@@ -64,7 +64,7 @@ namespace Oyun
 		gFrameCount++;
 		gGameTime = static_cast<double>(duration_cast<microseconds>(gameLoopEnd - gameLoopStart).count()) / 1000000.0;
 		gRenderTime = static_cast<double>(duration_cast<microseconds>(renderEnd - gameLoopEnd).count()) / 1000000.0;
-		gDeltaTime = gRenderTime + gGameTime;
+		gDeltaTime = (float)(gRenderTime + gGameTime);
 		gInstantFps = (gDeltaTime > 0.0) ? (1.0 / gDeltaTime) : 0.0;
 
 		static double fpsTimer = 0;
@@ -74,7 +74,7 @@ namespace Oyun
 		if (fpsTimer >= 1.0)
 		{
 			gFps = fpsSum;
-			fpsSum = 0.0;
+			fpsSum = 0;
 			fpsTimer = 0;
 		}
 

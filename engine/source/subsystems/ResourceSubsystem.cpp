@@ -5,6 +5,7 @@
 #include "Shader.h"
 #include "lookup3.h"
 #include "Texture.h"
+#include "FileIO.h"
 
 namespace Oyun
 {
@@ -46,6 +47,7 @@ namespace Oyun
 		mTextureStore = std::make_unique<TextureStore>();
 		mModelStore = std::make_unique<ModelStore>();
 		mShaderStore = std::make_unique<ShaderStore>();
+
 	}
 
 	void ResourceSubsystem::ShutDown()
@@ -57,7 +59,17 @@ namespace Oyun
 
 	Texture* ResourceSubsystem::LoadTexture(const char* path)
 	{
-		return mTextureStore->Load(path, GetHash(path));
+		uint32_t hash = GetHash(path);
+		Texture* texture = mTextureStore->GetTexture(hash);
+		if (texture != nullptr)
+		{
+			return texture;
+		}
+
+		size_t size = 0;
+		unsigned char* buffer = Oyun::ReadFile<unsigned char>(path, &size);
+		return mTextureStore->Load(path, buffer, size, hash);
+		delete[] buffer;
 	}
 
 	Texture* ResourceSubsystem::GetTexture(const char* path)
@@ -72,10 +84,21 @@ namespace Oyun
 
 	Model* ResourceSubsystem::LoadModel(const char* path)
 	{
-		return mModelStore->Load(path, GetHash(path));
+		uint32_t hash = GetHash(path);
+		Model* model = mModelStore->GetModel(hash);
+		if (model != nullptr)
+		{
+			return model;
+		}
+
+		size_t size = 0;
+		char* buffer = Oyun::ReadFile<char>(path, &size);
+		model = mModelStore->Load(path, buffer, size, hash);
+		delete[] buffer;
+		return model;
 	}
 
-	Shader* ResourceSubsystem::LoadShader(const char* path, const char* vertex, const char* frag)
+	Shader* ResourceSubsystem::LoadShader(const char* path, const char* vertexPath, const char* fragPath)
 	{
 		uint32_t shaderCode = GetHash(path);
 		Shader* shader = mShaderStore->GetShader(shaderCode);
@@ -84,8 +107,17 @@ namespace Oyun
 		{
 			return shader;
 		}
+
+		size_t vertexSize = 0;
+		char* vertexShaderBuffer = Oyun::ReadFile<char>(vertexPath, &vertexSize);
 		
-		return mShaderStore->CompileShader(shaderCode, vertex, frag);
+		size_t fragmentSize = 0;
+		char* fragmentShaderBuffer = Oyun::ReadFile<char>(fragPath, &fragmentSize);
+		shader = mShaderStore->CompileShader(shaderCode, vertexShaderBuffer, fragmentShaderBuffer);
+
+		delete[] fragmentShaderBuffer;
+		delete[] vertexShaderBuffer;
+		return shader;
 	}
 
 	Shader* ResourceSubsystem::LoadShader(const char* path)

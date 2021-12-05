@@ -36,6 +36,7 @@ namespace Oyun
 		TextureStore();
 
 		Texture* Load(const char* path, uint32_t hash);
+		Texture* Load(const char* path,  unsigned char* buffer, size_t size, uint32_t hash);
 
 		Texture* GetTextureByPath(const char* path);
 		Texture* GetTexture(uint32_t hash);

@@ -225,8 +225,8 @@ namespace Editor
         ImGui::Begin(name.c_str());
 
 
-        int width = ImGui::GetWindowWidth();
-        int height = ImGui::GetWindowHeight();
+        int width = static_cast<int>(ImGui::GetWindowWidth());
+        int height = static_cast<int>(ImGui::GetWindowHeight());
 
         if (defaultCamera)
         {

@@ -87,6 +87,7 @@ namespace Oyun
         
         void ProcessNode(Model* mdl, aiNode* node, const aiScene* scene);
         Mesh* ProcessMesh(aiMesh* mesh, const aiScene* scene);
+        Model* Load(const char* path, char* buffer, size_t size, uint32_t hash);
         void LoadMaterialTextures(Material* engineMat, aiMaterial* mat, aiTextureType type);
     };
 

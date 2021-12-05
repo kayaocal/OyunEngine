@@ -17,7 +17,7 @@ namespace Oyun
 	OYUN_API extern unsigned long gFrameCount;
 
 	/// @brief time of last frame. (seconds)
-	OYUN_API extern double gDeltaTime;
+	OYUN_API extern float gDeltaTime;
 	
 	/// @brief time spent to render scene (seconds)
 	OYUN_API extern double glastRenderTime;

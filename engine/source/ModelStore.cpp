@@ -208,6 +208,25 @@ namespace Oyun
         return new Mesh(vertices, indices, engineMat);
     }
 
+    Model* ModelStore::Load(const char* path, char* buffer, size_t size, uint32_t hash)
+    {
+
+        Assimp::Importer import;
+        const aiScene* scene = import.ReadFileFromMemory(buffer, size, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace, "OBJ");
+
+        if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
+        {
+            LOG << "ERROR::ASSIMP::" << import.GetErrorString() << END;
+            return nullptr;
+        }
+
+        Model* mdl = new Model(path);
+        ProcessNode(mdl, scene->mRootNode, scene);
+
+        mModelMap.insert(std::pair<uint32_t, Model*>(hash, mdl));
+        return mdl;
+    }
+
     Model* ModelStore::Load(const char* path, uint32_t hash)
     {
         Assimp::Importer import;

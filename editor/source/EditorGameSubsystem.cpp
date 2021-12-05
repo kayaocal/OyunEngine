@@ -48,29 +48,6 @@ namespace Editor
 	}
 
 
-	const char* vertexShaderSource = "#version 330 core\n"
-		"layout (location = 0) in vec3 aPos;\n"
-		"layout (location = 1) in vec3 aNormal;\n"
-		"layout (location = 2) in vec2 aTexCoords;\n"
-		"out vec2 TexCoords;\n"
-		"uniform mat4 model;\n"
-		"uniform mat4 view;\n"
-		"uniform mat4 projection;\n"
-		"void main()\n"
-		"{\n"
-		"    TexCoords = aTexCoords;    \n"
-		"    gl_Position = projection * view * model * vec4(aPos, 1.0);\n"
-		"}\0";
-
-	const char* simplefragmentShaderSource = "#version 330 core\n"
-		"out vec4 FragColor;\n"
-		"in vec2 TexCoords;\n"
-		"uniform sampler2D texture_diffuse0;\n"
-		"void main()\n"
-		"{    \n"
-		"    FragColor = texture(texture_diffuse0, TexCoords);\n"
-		"}\0";
-
 	Oyun::StaticMeshEntity* ent;
 	Oyun::StaticMeshEntity* ent2;
 	Oyun::StaticMeshEntity* ent3;
@@ -86,7 +63,9 @@ namespace Editor
 		EditorDefaultCameraman->isActive = true;
 		CreateUIElements();
 
-		Shader* shd = ResourceSubsystem::Get().LoadShader("testShader", vertexShaderSource, simplefragmentShaderSource);
+		Shader* shd = ResourceSubsystem::Get().LoadShader("testShader", 
+			"C:\\Development\\Test\\Engine\\engine\\resources\\shaders\\simple_vertex.shader", 
+			"C:\\Development\\Test\\Engine\\engine\\resources\\shaders\\simple_fragment.shader");
 		Model* mdl = ResourceSubsystem::Get().LoadModel("backpack.obj");
 		
 		mdl->SetShader(shd);

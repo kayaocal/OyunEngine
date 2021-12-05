@@ -45,7 +45,7 @@ namespace Oyun
 
 		Model* LoadModel(const char* path);
 
-		Shader* LoadShader(const char* path, const char* vertex, const char* frag);
+		Shader* LoadShader(const char* path, const char* vertexPath, const char* fragPath);
 		Shader* LoadShader(const char* path);
 	private:
 		std::unique_ptr<TextureStore> mTextureStore;

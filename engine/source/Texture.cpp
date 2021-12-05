@@ -53,6 +53,25 @@ namespace Oyun
 		return store;
 	}
 
+	Texture* TextureStore::Load(const char* path, unsigned char* buffer, size_t size, uint32_t hash)
+	{
+		int width, height, nrChannels;
+		stbi_set_flip_vertically_on_load(true);
+		
+		unsigned char* data = stbi_load_from_memory(buffer, size, &width, &height, &nrChannels, 0);
+		if (data == nullptr)
+		{
+			std::cout << "Texture failed to load at path : " << path << std::endl;
+			return nullptr;
+		}
+
+		std::cout << "Texture succesfull to load at path : " << path << std::endl;
+		Texture* tex = new Texture{ path, width, height, nrChannels, data };
+		stbi_image_free(data);
+		mTextureMap.insert(std::pair<uint32_t, Texture*>(hash, tex));
+		return tex;
+	}
+
 	Texture* TextureStore::Load(const char* path, uint32_t hash)
 	{
 		Texture* tex = GetTexture(hash);

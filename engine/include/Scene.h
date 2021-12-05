@@ -5,14 +5,12 @@
 #include <string>
 #include "Entity.h"
 
-
-
 namespace Oyun
 {
 
 	struct OYUN_API Scene
 	{
-
+		Scene();
 		std::vector<Entity*> EntityList;
 
 		int entityCounter;
