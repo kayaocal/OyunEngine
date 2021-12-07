@@ -6,6 +6,7 @@
 #include "Material.h"
 #include "Texture.h"
 #include "Shader.h"
+#include "FileIO.h"
 
 #include "ModelStore.h"
 #include <assimp/postprocess.h>
@@ -258,7 +259,7 @@ namespace Oyun
 
     Model* ModelStore::GetModelByPath(const char* path)
     {
-        uint32_t hash = ResourceSubsystem::Get().GetHash(path);
+        uint32_t hash = GetHash(path);
         return GetModel(hash);
     }
 

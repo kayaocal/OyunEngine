@@ -3,7 +3,6 @@
 #include "subsystems/LogSubsystem.h"
 #include "ModelStore.h"
 #include "Shader.h"
-#include "lookup3.h"
 #include "Texture.h"
 #include "FileIO.h"
 
@@ -47,7 +46,8 @@ namespace Oyun
 		mTextureStore = std::make_unique<TextureStore>();
 		mModelStore = std::make_unique<ModelStore>();
 		mShaderStore = std::make_unique<ShaderStore>();
-
+		mResourceDb = std::make_unique<ResourceDB>();
+		mResourceDb->LoadDB();
 	}
 
 	void ResourceSubsystem::ShutDown()
@@ -120,20 +120,9 @@ namespace Oyun
 		return shader;
 	}
 
-	Shader* ResourceSubsystem::LoadShader(const char* path)
+	void ResourceSubsystem::ImportFile(const wchar_t* file)
 	{
-		return nullptr;
-	}
-
-	uint32_t ResourceSubsystem::GetHash(const char* chr)
-	{
-		uint32_t hash = hashlittle(chr, strlen(chr), 0);
-		return hash;
-	}
-
-	uint32_t ResourceSubsystem::GetHash(const std::string& str)
-	{
-		uint32_t hash = hashlittle(str.c_str(), str.length(), 0);
-		return hash;
+		mResourceDb->AddItemToDb("C:\\game\\test\\pathtest.obj");
+		mResourceDb->SaveDB();
 	}
 }

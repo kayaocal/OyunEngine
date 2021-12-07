@@ -8,31 +8,30 @@ namespace Oyun
 {
 	class Scene;
 	class Entity;
+	struct Engine;
 
 	class OYUN_API WorldSubsystem : public EngineSubsytem<WorldSubsystem>
 	{
+	public:
+		
 		WorldSubsystem();
 		~WorldSubsystem();
 
-		Scene* mScene;
-
-	public:
-
-		static WorldSubsystem* system;
-
-		static WorldSubsystem* GetPtr();
-		static WorldSubsystem& Get();
-		static WorldSubsystem& Instantiate();
 
 		virtual void StartUp() override;
 		virtual void ShutDown() override;
 
-		
+		void SetEngine(Engine*);
+			
 		void AddEntityToScene(Entity* ent);
 		Entity* GetEntityByUniqueId(unsigned int id);
 
 		Scene* GetScene() const;
 
+	private:
+		Scene* mScene;
+
+		Engine* mEngine;
 
 	};
 }

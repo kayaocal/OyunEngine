@@ -5,36 +5,16 @@
 
 namespace Oyun
 {
-	WorldSubsystem* WorldSubsystem::system = nullptr;
 
 	WorldSubsystem::WorldSubsystem()
-		:EngineSubsytem()
+		:EngineSubsytem(),mEngine(nullptr)
 	{
 		mScene = new Scene();
 	}
 
 	WorldSubsystem::~WorldSubsystem()
 	{
-		system = nullptr;
 	}
-
-	WorldSubsystem* WorldSubsystem::GetPtr()
-	{
-		return system;
-	}
-
-	WorldSubsystem& WorldSubsystem::Get()
-	{
-		return *system;
-	}
-
-	WorldSubsystem& WorldSubsystem::Instantiate()
-	{
-		assert(system == nullptr);
-		system = new WorldSubsystem();
-		return *system;
-	}
-
 
 	void WorldSubsystem::StartUp()
 	{
@@ -47,6 +27,12 @@ namespace Oyun
 		LOG << "WorldSubsystem Shutdown" << END;
 		delete this;
 	}
+
+	void WorldSubsystem::SetEngine(Engine* engine)
+	{
+		mEngine = engine;
+	}
+
 	void WorldSubsystem::AddEntityToScene(Entity* ent)
 	{
 		mScene->EntityList.push_back(ent);

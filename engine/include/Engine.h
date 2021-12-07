@@ -12,36 +12,63 @@ namespace Oyun
 	OYUN_API extern const char* EngineName;
 	OYUN_API extern const char* EngineVersion;
 	OYUN_API extern const char* EngineDescription;
+	OYUN_API extern int gFrameCount;
 	
-	/// @brief Frame count since game started
-	OYUN_API extern unsigned long gFrameCount;
-
-	/// @brief time of last frame. (seconds)
-	OYUN_API extern float gDeltaTime;
-	
-	/// @brief time spent to render scene (seconds)
-	OYUN_API extern double glastRenderTime;
-	
-	/// @brief 1.0f / gDeltaTime
-	OYUN_API extern double gInstantFps;
-	/// @brief Frame count in last seconds
-	OYUN_API extern int gFps;
-
 	class GameSubsystem;
+	class RenderSubsystem;
+	class WorldSubsystem;
 	
-	/// @brief Initializes and starts engine and it's all subsystems.
-	/// After initialization process it starts main loop.
-	/// @param Pointer of class derrived from GameSubsystem
-	OYUN_API void StartEngine(GameSubsystem* game);
+
+	struct OYUN_API Engine
+	{
+		/// @brief Frame count since game started
+		unsigned long frameCount;
+
+		/// @brief time of last frame. (seconds)
+		float deltaTime;
 	
-	/// @brief Closes engine and game
-	OYUN_API void ShutdownEngine();
+		/// @brief time spent to render scene (seconds)
+		double lastRenderTime;
+	
+		/// @brief 1.0f / mDeltaTime
+		double instantFps;
+		/// @brief Frame count in last seconds
+		int fps;
+
+		bool engineRunning;
+		
+		Engine(GameSubsystem* game, RenderSubsystem* renderer, WorldSubsystem* world);
+		~Engine();
+
+		GameSubsystem* GetGameSubsystem() const;
+		RenderSubsystem* GetRenderSubsystem() const;
+		WorldSubsystem* GetWorldSubsystem() const;
+
+		template <class T>
+		T* GetGameSubsystem() const
+		{
+			return dynamic_cast<T*>(mGameSubsystem);
+		}
+		
+		void StartUp();
+
+		void ShutDown();
+
+		void Loop();
+
+		void Close();
+		
+		private:
+		
+		GameSubsystem* mGameSubsystem;
+		RenderSubsystem* mRenderSubsystem;
+		WorldSubsystem* mWorldSubsystem;
 
 
-	OYUN_API void Loop(GameSubsystem* game);
-
-
-
+		double mFpsTimer = 0;
+		int mFpsSum = 0;
+		
+	};
 
 }
 

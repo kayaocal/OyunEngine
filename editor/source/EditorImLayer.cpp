@@ -1,10 +1,8 @@
 #include "EditorImLayer.h"
 #include "EditorGameSubsystem.h"
 #include <Camera.h>
-#include <iostream>
 #include <string>
 #include <Engine.h>
-#include <limits>
 #include <windows.h>
 #include <shellapi.h>
 #include <imgui.h>
@@ -14,14 +12,17 @@
 #include <Entity.h>
 #include <cereal/archives/json.hpp>
 #include <fstream>
+#include "subsystems/ResourceSubsystem.h"
+#include "FileIO.h"
+#include  "subsystems/LogSubsystem.h"
 
 namespace Editor
 {
 
     unsigned int selectedEntityUniqueId = -1;
     Oyun::Entity* selectedEntity;
-    EditorDockableWindowLayer::EditorDockableWindowLayer(const std::string rName)
-        :Oyun::Imgui::ImLayer(rName)
+    EditorDockableWindowLayer::EditorDockableWindowLayer(const std::string rName, Oyun::Engine* engine)
+        :Oyun::Imgui::ImLayer(rName, engine)
     {
     }
 
@@ -107,67 +108,18 @@ namespace Editor
         {
             if (ImGui::BeginMenu("File"))
             {
-                if (ImGui::MenuItem("Open")) {}
-                if (ImGui::BeginMenu("Open Recent"))
+                if (ImGui::MenuItem("Import"))
                 {
-                    ImGui::MenuItem("fish_hat.c");
-                    ImGui::MenuItem("fish_hat.inl");
-                    ImGui::MenuItem("fish_hat.h");
-                    ImGui::EndMenu();
-                }
-                if (ImGui::MenuItem("Save", "Ctrl+S")) {}
-                if (ImGui::MenuItem("Save As..")) {}
-
-                ImGui::Separator();
-                if (ImGui::BeginMenu("Options"))
-                {
-                    static bool enabled = true;
-                    ImGui::MenuItem("Enabled", "", &enabled);
-                    ImGui::BeginChild("child", ImVec2(0, 60), true);
-                    for (int i = 0; i < 10; i++)
-                        ImGui::Text("Scrolling Text %d", i);
-                    ImGui::EndChild();
-                    static float f = 0.5f;
-                    static int n = 0;
-                    ImGui::SliderFloat("Value", &f, 0.0f, 1.0f);
-                    ImGui::InputFloat("Input", &f, 0.1f);
-                    ImGui::Combo("Combo", &n, "Yes\0No\0Maybe\0\0");
-                    ImGui::EndMenu();
-                }
-
-                if (ImGui::BeginMenu("Colors"))
-                {
-                    float sz = ImGui::GetTextLineHeight();
-                    for (int i = 0; i < ImGuiCol_COUNT; i++)
+                    const wchar_t* file = Oyun::OpenFileDialog();
+                    if (file != nullptr)
                     {
-                        const char* name = ImGui::GetStyleColorName((ImGuiCol)i);
-                        ImVec2 p = ImGui::GetCursorScreenPos();
-                        ImGui::GetWindowDrawList()->AddRectFilled(p, ImVec2(p.x + sz, p.y + sz), ImGui::GetColorU32((ImGuiCol)i));
-                        ImGui::Dummy(ImVec2(sz, sz));
-                        ImGui::SameLine();
-                        ImGui::MenuItem(name);
+                        Oyun::ResourceSubsystem::Get().ImportFile(file);
                     }
-                    ImGui::EndMenu();
                 }
 
-                // Here we demonstrate appending again to the "Options" menu (which we already created above)
-                // Of course in this demo it is a little bit silly that this function calls BeginMenu("Options") twice.
-                // In a real code-base using it would make senses to use this feature from very different code locations.
-                if (ImGui::BeginMenu("Options")) // <-- Append!
-                {
-                    static bool b = true;
-                    ImGui::Checkbox("SomeOption", &b);
-                    ImGui::EndMenu();
-                }
-
-                if (ImGui::BeginMenu("Disabled", false)) // Disabled
-                {
-                    IM_ASSERT(0);
-                }
-                if (ImGui::MenuItem("Checked", NULL, true)) {}
                 if (ImGui::MenuItem("Quit")) 
                 {
-                    Oyun::ShutdownEngine();
+                    mEngine->Close();
                 }
                 ImGui::EndMenu();
             }
@@ -188,10 +140,10 @@ namespace Editor
                     ShellExecute(0, 0, "https://github.com/kayaocal/Engine", 0, 0, SW_SHOW);
                 }
                 ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 1.0f),
-                    Editor::EditorGameSubsystem::Get().GameName.c_str());
+                    mEngine->GetGameSubsystem<EditorGameSubsystem>()->GameName.c_str());
                 ImGui::SameLine();
                 ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f),
-                    Editor::EditorGameSubsystem::Get().GameVersion.c_str());
+                    mEngine->GetGameSubsystem<EditorGameSubsystem>()->GameVersion.c_str());
                 ImGui::Separator();
                 ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 1.0f),
                     Oyun::EngineName);
@@ -211,8 +163,8 @@ namespace Editor
     }
 
 
-    EditorViewPortLayer::EditorViewPortLayer(const std::string rName, Oyun::Camera* cam)
-        :Oyun::Imgui::ImLayer(rName), mShowStats(false), defaultCamera(cam)
+    EditorViewPortLayer::EditorViewPortLayer(const std::string rName, Oyun::Engine* engine, Oyun::Camera* cam)
+        :Oyun::Imgui::ImLayer(rName, engine), mShowStats(false), defaultCamera(cam)
     {
     }
 
@@ -242,9 +194,9 @@ namespace Editor
             
             if (mShowStats)
             {
-                FpsStr = "Fps: " + std::to_string(Oyun::gFps);
-                InstantFpsStr = "Instant Fps: " + std::to_string(Oyun::gInstantFps);
-                DeltaStr = "Delta Time: " + std::to_string(Oyun::gDeltaTime);
+                FpsStr = "Fps: " + std::to_string(mEngine->fps);
+                InstantFpsStr = "Instant Fps: " + std::to_string(mEngine->instantFps);
+                DeltaStr = "Delta Time: " + std::to_string(mEngine->deltaTime);
                 
                 ImGui::SetCursorPos(ImVec2(10.0f, 60.0f));
                 ImGui::TextColored(statsColor, FpsStr.c_str());
@@ -259,8 +211,8 @@ namespace Editor
         ImGui::End();
     }
 
-    EditorPropertiesLayer::EditorPropertiesLayer(const std::string rName)
-        :Oyun::Imgui::ImLayer(rName)
+    EditorPropertiesLayer::EditorPropertiesLayer(const std::string rName, Oyun::Engine* engine)
+        :Oyun::Imgui::ImLayer(rName, engine)
     {
       
     }
@@ -277,7 +229,7 @@ namespace Editor
         {
             if (selectedEntity == nullptr || (selectedEntity && selectedEntity->GetUniqueId() != selectedEntityUniqueId))
             {
-                selectedEntity = Oyun::WorldSubsystem::Get().GetEntityByUniqueId(selectedEntityUniqueId);
+                selectedEntity = mEngine->GetWorldSubsystem()->GetEntityByUniqueId(selectedEntityUniqueId);
             }
 
             if (selectedEntity == nullptr)
@@ -310,8 +262,8 @@ namespace Editor
         ImGui::End();
     }
 
-    EditorSceneLayer::EditorSceneLayer(const std::string rName)
-        :Oyun::Imgui::ImLayer(rName)
+    EditorSceneLayer::EditorSceneLayer(const std::string rName, Oyun::Engine* engine)
+        :Oyun::Imgui::ImLayer(rName, engine)
     {
 
     }
@@ -328,7 +280,7 @@ namespace Editor
 
         if (ImGui::TreeNode("Root"))
         {
-            Scene* scene = WorldSubsystem::Get().GetScene();
+            Scene* scene = mEngine->GetWorldSubsystem()->GetScene();
             static bool test_drag_and_drop = false;
             for (int i = 0; i < scene->EntityList.size(); i++)
             {

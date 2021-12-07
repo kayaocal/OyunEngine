@@ -13,77 +13,83 @@ namespace Oyun
 	const char* EngineName = "Oyun Engine";
 	const char* EngineVersion = "v0.0.0.1d";
 	const char* EngineDescription = "Designed to make good games.";
+	int gFrameCount = 0;
 
-	bool gEngineRunning = false;
-
-	unsigned long gFrameCount = 0;
-	float gDeltaTime = 0;
-	double gRenderTime = 0;
-	double gGameTime = 0;
-	double gInstantFps = 0;
-	int gFps = 0;
-
-	RenderSubsystem* renderSubsystem;
-	void StartEngine(Oyun::GameSubsystem* game)
+	Engine::Engine(GameSubsystem* game, RenderSubsystem* renderer, WorldSubsystem* world)
+		:mGameSubsystem(game), mRenderSubsystem(renderer), mWorldSubsystem(world), engineRunning(true),
+		fps(0), deltaTime(0.0f), mFpsSum(0), mFpsTimer(0.0), frameCount(0), instantFps(0), lastRenderTime(0)
 	{
-		Oyun::LogSubsystem::Instantiate().StartUp();
-		Oyun::ResourceSubsystem::Instantiate().StartUp();
-		Oyun::RenderSubsystem::Instantiate(1366, 768).StartUp();
-		renderSubsystem = Oyun::RenderSubsystem::GetPtr();
-		Oyun::WorldSubsystem::Instantiate().StartUp();
-		game->StartUp();
-
-		LOG << "Engine Started." << END;
-
-		gEngineRunning = true;
-		while (gEngineRunning)
-		{
-			Loop(game);
-		}
-
-		game->ShutDown();
-
-		Oyun::WorldSubsystem::Get().ShutDown();
-		Oyun::RenderSubsystem::Get().ShutDown();
-		Oyun::ResourceSubsystem::Get().ShutDown();
-		Oyun::LogSubsystem::Get().ShutDown();
+		mGameSubsystem->SetEngine(this);
+		mRenderSubsystem->SetEngine(this);
+		mWorldSubsystem->SetEngine(this);
 	}
 
+	Engine::~Engine()
+	{
+	}
 
-	void Loop(Oyun::GameSubsystem* game)
+	GameSubsystem* Engine::GetGameSubsystem() const
+	{
+		return mGameSubsystem;
+	}
+
+	RenderSubsystem* Engine::GetRenderSubsystem() const
+	{
+		return mRenderSubsystem;
+	}
+
+	WorldSubsystem* Engine::GetWorldSubsystem() const
+	{
+		return mWorldSubsystem;
+	}
+
+	void Engine::StartUp()
+	{
+		mWorldSubsystem->StartUp();		
+		mRenderSubsystem->StartUp();
+		mGameSubsystem->StartUp();
+	}
+
+	void Engine::ShutDown()
+	{
+		mWorldSubsystem->ShutDown();
+		mGameSubsystem->ShutDown();
+		mRenderSubsystem->ShutDown();
+	}
+
+	void Engine::Loop()
 	{
 		using namespace std::chrono;
 
 		auto gameLoopStart = high_resolution_clock::now();
-		game->GameLoop(gDeltaTime);
+		mGameSubsystem->GameLoop(deltaTime);
 		auto gameLoopEnd = high_resolution_clock::now();
-		renderSubsystem->RenderLoop();
+		mRenderSubsystem->RenderLoop();
 		auto renderEnd = high_resolution_clock::now();
 
 
-		gFrameCount++;
-		gGameTime = static_cast<double>(duration_cast<microseconds>(gameLoopEnd - gameLoopStart).count()) / 1000000.0;
-		gRenderTime = static_cast<double>(duration_cast<microseconds>(renderEnd - gameLoopEnd).count()) / 1000000.0;
-		gDeltaTime = (float)(gRenderTime + gGameTime);
-		gInstantFps = (gDeltaTime > 0.0) ? (1.0 / gDeltaTime) : 0.0;
+		frameCount++;
+		double gameTime = static_cast<double>(duration_cast<microseconds>(gameLoopEnd - gameLoopStart).count()) / 1000000.0;
+		double renderTime = static_cast<double>(duration_cast<microseconds>(renderEnd - gameLoopEnd).count()) / 1000000.0;
+		deltaTime = static_cast<float>(renderTime + gameTime);
+		instantFps = (deltaTime > 0.0) ? (1.0 / deltaTime) : 0.0;
 
-		static double fpsTimer = 0;
-		static int fpsSum = 0;
-		fpsSum += 1;
-		fpsTimer+=gDeltaTime;
-		if (fpsTimer >= 1.0)
+		
+		mFpsSum += 1;
+		mFpsTimer+=deltaTime;
+		if (mFpsTimer >= 1.0)
 		{
-			gFps = fpsSum;
-			fpsSum = 0;
-			fpsTimer = 0;
+			fps = mFpsSum;
+			mFpsSum = 0;
+			mFpsTimer = 0;
 		}
 
+		gFrameCount++;
 	}
 
-
-	void ShutdownEngine()
+	void Engine::Close()
 	{
-		gEngineRunning = false;
+		engineRunning = false;
 	}
 
 }

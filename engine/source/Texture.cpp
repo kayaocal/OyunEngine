@@ -4,6 +4,7 @@
 #include "stb_image.h"
 #include <glad/glad.h>
 #include <iostream>
+#include "FileIO.h"
 
 namespace Oyun
 {
@@ -109,7 +110,7 @@ namespace Oyun
 
 	Texture* TextureStore::GetTextureByPath(const char* path)
 	{
-		uint32_t hash = ResourceSubsystem::Get().GetHash(path);
+		uint32_t hash = GetHash(path);
 		return GetTexture(hash);
 	}
 

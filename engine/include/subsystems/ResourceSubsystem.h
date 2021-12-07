@@ -5,6 +5,8 @@
 #include <string>
 #include <memory>
 
+#include "ResourceLibrary.h"
+
 #ifdef OyunEngine_EXPORTS
 #define OYUN_API __declspec(dllexport)
 #else
@@ -36,9 +38,6 @@ namespace Oyun
 		virtual void StartUp() override;
 		virtual void ShutDown() override;
 
-		uint32_t GetHash(const std::string& str);
-		uint32_t GetHash(const char* chr);
-
 		Texture* LoadTexture(const char* path);
 		Texture* GetTexture(const char* path);
 		Texture* GetTexture(uint32_t hash);
@@ -46,11 +45,14 @@ namespace Oyun
 		Model* LoadModel(const char* path);
 
 		Shader* LoadShader(const char* path, const char* vertexPath, const char* fragPath);
-		Shader* LoadShader(const char* path);
+		
+		void ImportFile(const wchar_t* file);
+
 	private:
 		std::unique_ptr<TextureStore> mTextureStore;
 		std::unique_ptr<ModelStore> mModelStore;
 		std::unique_ptr<ShaderStore> mShaderStore;
+		std::unique_ptr<ResourceDB> mResourceDb;
 	};
 
 }

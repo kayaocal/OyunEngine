@@ -1,8 +1,6 @@
 #ifndef FILE_IO_H__
 #define FILE_IO_H__
 
-#include <iostream>
-#include <fstream>
 
 #ifdef OyunEngine_EXPORTS
 #define OYUN_API __declspec(dllexport)
@@ -10,13 +8,20 @@
 #define OYUN_API __declspec(dllimport)
 #endif
 
+#include <iostream>
+#include <fstream>
+#include <sstream>
+
+
 namespace Oyun
 {
+	OYUN_API const wchar_t* OpenFileDialog();
+
+
 	template<typename T>
-	OYUN_API T* ReadFile(const char* path, size_t* fileSize)
+	T* ReadFile(const char* path, size_t* fileSize)
 	{
 		std::streampos begin, end;
-		//std::ifstream stream;
 		std::basic_ifstream<T> stream;
 
 		stream.open(path, std::ifstream::in | std::ifstream::binary);
@@ -39,6 +44,14 @@ namespace Oyun
 
 		return nullptr;
 	}
+
+	OYUN_API void ReadFileSS(std::stringstream& ss, const char* path);
+	
+	void SaveFile(const char* path, const std::stringstream& ss);
+
+	OYUN_API uint32_t GetHash(const std::string& str);
+	
+	OYUN_API uint32_t GetHash(const char* chr);
 
 }
 

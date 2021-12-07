@@ -11,6 +11,8 @@
 
 namespace Oyun
 {
+	struct Engine;
+
 	namespace Imgui
 	{
 		class OYUN_API ImLayer
@@ -18,12 +20,16 @@ namespace Oyun
 		public:
 			std::string name;
 
-			ImLayer(const std::string rName)
-				:name{rName}
+
+			ImLayer(const std::string rName, Engine* engine)
+				:name{rName}, mEngine(engine)
 			{
 			};
 
 			virtual void Draw() = 0;
+
+		protected:
+			Engine* mEngine;	
 		};
 	}
 }

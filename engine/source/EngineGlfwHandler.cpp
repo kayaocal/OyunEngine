@@ -14,26 +14,20 @@
 #include "subsystems/WorldSubsystem.h"
 #include "Scene.h"
 #include "components/StaticMeshComponent.h"
+#include <vector>
 
 namespace Oyun
 {
 
+    std::vector<Window*> windows;
+
     GLFWwindow* gWindow = nullptr;
 
-    int gWindowWidth = 0;
-    int gWindowHeight = 0;
-    int gWindowPosX = 0;
-    int gWindowPosY = 0;
     const char* gGlslVersion = "#version 420";
 
-    void SetupRenderer(int width, int height, const char* title)
+    void SetupRenderer(Window* wnd)
     {
         LOG << "GlfwRenderer::SetupRenderer" << END;
-
-        gWindowWidth = width;
-        gWindowHeight = height;
-        gWindowPosX = 300;
-        gWindowPosY = 300;
 
         glfwSetErrorCallback(glfw_error_callback);
         glfwInit();
@@ -42,17 +36,17 @@ namespace Oyun
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
         // Create window with graphics context
-        gWindow = glfwCreateWindow(gWindowWidth, gWindowHeight, title, NULL, NULL);
-        assert(gWindow != NULL);
+        wnd->window = glfwCreateWindow(wnd->width, wnd->height, wnd->title.c_str(), NULL, NULL);
+        assert(wnd->window != NULL);
 
-        glfwSetWindowPos(gWindow, gWindowPosX, gWindowPosY);
-        glfwSetWindowSizeCallback(gWindow, glfw_window_size_changed);
-        glfwSetWindowCloseCallback(gWindow, glfw_window_close_callback);
-        glfwSetWindowPosCallback(gWindow, glfw_window_pos_changed);
-        glfwSetWindowMaximizeCallback(gWindow, glfw_window_maximized_callback);
-        glfwSetWindowFocusCallback(gWindow, glfw_window_focus_callback);
+        glfwSetWindowPos(wnd->window, wnd->posx, wnd->posy);
+        glfwSetWindowSizeCallback(wnd->window, glfw_window_size_changed);
+        glfwSetWindowCloseCallback(wnd->window, glfw_window_close_callback);
+        glfwSetWindowPosCallback(wnd->window, glfw_window_pos_changed);
+        glfwSetWindowMaximizeCallback(wnd->window, glfw_window_maximized_callback);
+        glfwSetWindowFocusCallback(wnd->window, glfw_window_focus_callback);
 
-        glfwMakeContextCurrent(gWindow);
+        glfwMakeContextCurrent(wnd->window);
 
        /* if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
         {
@@ -66,13 +60,19 @@ namespace Oyun
 
         glfwSwapInterval(0); // Enable vsync
 
+        windows.push_back(wnd);
     }
 
-    void Render(Camera* cam)
+    void PollWindowEvents()
+    {
+        glfwPollEvents();
+    }
+
+    void Render(Window* wnd, Camera* cam, Scene* scn)
     {
         assert(cam != nullptr, "Render without camera is not possible");
 
-        glfwPollEvents();
+        PollWindowEvents();
 
         if (cam->RenderTexture)
         {
@@ -81,23 +81,19 @@ namespace Oyun
         }
         else
         {
-            glfwGetFramebufferSize(gWindow, &gWindowWidth, &gWindowHeight);
-            glViewport(0, 0, gWindowWidth, gWindowHeight);
+            glfwGetFramebufferSize(wnd->window, &wnd->width, &wnd->height);
+            glViewport(0, 0, wnd->width, wnd->height);
         }
-
 
         glEnable(GL_DEPTH_TEST);
         glClearColor(0.5f, 0.5f, 0.8f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
-
         //// view/projection transformations
-        glm::mat4 projection = glm::perspective(glm::radians(cam->Zoom), (float)gWindowWidth / (float)gWindowHeight, 0.1f, 100.0f);
+        glm::mat4 projection = glm::perspective(glm::radians(cam->Zoom), (float)wnd->width / (float)wnd->height, 0.1f, 100.0f);
         glm::mat4 view = cam->GetViewMatrix();
 
 
-        Scene* scn = WorldSubsystem::Get().GetScene();
         for (auto ent : scn->EntityList)
         {
             if (ent->IsVisible())
@@ -113,16 +109,25 @@ namespace Oyun
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 
-    void RenderEnd()
+    void RenderEnd(Window* wnd)
     {
-        glfwSwapBuffers(gWindow);
+        glfwSwapBuffers(wnd->window);
     }
 
-    void TerminateRenderer()
+    void TerminateWindow(Window* wnd)
+    {
+        glfwDestroyWindow(wnd->window);
+    }
+
+    void TerminateRenderer(Window* wnd)
     {
         // Cleanup
+        for (auto wnd : windows)
+        {
+            TerminateWindow(wnd);
+        }
 
-        glfwDestroyWindow(gWindow);
+        windows.clear();
         glfwTerminate();
     }
 
@@ -135,47 +140,84 @@ namespace Oyun
         fprintf(stderr, "Glfw Error %d: %s\n", error, description);
     }
 
-    void glfw_window_size_changed(GLFWwindow* wnd, int width, int height)
+    void glfw_window_size_changed(GLFWwindow* window, int width, int height)
     {
-        LOG << "Window size changed! ( " << width << " , " << height << " )" << END;
-        gWindowWidth = width;
-        gWindowHeight = height;
+        for (auto wnd : windows)
+        {
+            if (wnd->window == window)
+            {
+                LOG << "Window " << wnd->title <<" : "<<" size changed! ( " << width << " , " << height << " )" << END;
+                wnd->height = height;
+                wnd->width = width;
+                break;
+            }
+        }
     }
 
-    void glfw_window_pos_changed(GLFWwindow* wnd, int x, int y)
+    void glfw_window_pos_changed(GLFWwindow* window, int x, int y)
     {
-        LOG << "Window position changed! ( " << x << " , " << y << " )" << END;
-        gWindowPosX = x;
-        gWindowPosY = y;
+        for (auto wnd : windows)
+        {
+            if (wnd->window == window)
+            {
+                LOG << "Window " << wnd->title << " : " << " position changed! ( " << x << " , " << y << " )" << END;
+                wnd->posx = x;
+                wnd->posy = y;
+                break;
+            }
+        }
     }
 
-    void glfw_window_close_callback(GLFWwindow* wnd)
+    void glfw_window_close_callback(GLFWwindow* window)
     {
-        LOG << "Close window!" << END;
-        ShutdownEngine();
+        for (auto wnd : windows)
+        {
+            if (wnd->window == window)
+            {
+                LOG << "Close window : " << wnd->title << END;
+                wnd->windowShuldClose = true;
+                break;
+            }
+        }
     }
 
     void glfw_window_focus_callback(GLFWwindow* window, int focused)
     {
-        if (focused == GLFW_FALSE)
+        for (auto wnd : windows)
         {
-            LOG << "Window focus lost!" << END;
-        }
-        else
-        {
-            LOG << "Window focus gained!" << END;
+            if (wnd->window == window)
+            {
+                if (focused == GLFW_FALSE)
+                {
+                    LOG << "Window focus lost! " << wnd->title << END;
+                    wnd->windowFocused = false;
+                }
+                else
+                {
+                    LOG << "Window focus gained!" << wnd->title << END;
+                    wnd->windowFocused = true;
+                }
+                break;
+            }
         }
     }
 
     void glfw_window_maximized_callback(GLFWwindow* window, int maximized)
     {
-        if (maximized == GLFW_FALSE)
+        for (auto wnd : windows)
         {
-            LOG << "Window unmaximized!" << END;
-        }
-        else
-        {
-            LOG << "Window maximized!" << END;
+            if (wnd->window == window)
+            {
+                if (maximized == GLFW_FALSE)
+                {
+                    LOG << "Window unmaximized!" << wnd->title << END;
+                }
+                else
+                {
+                    LOG << "Window maximized!" << wnd->title << END;
+                }
+                break;
+            }
         }
     }
 }

@@ -4,8 +4,6 @@
 
 namespace Oyun
 {
-	GameSubsystem* GameSubsystem::system = nullptr;
-
 
 	GameSubsystem::GameSubsystem()
 		:EngineSubsytem()
@@ -14,24 +12,6 @@ namespace Oyun
 
 	GameSubsystem::~GameSubsystem()
 	{
-		system = nullptr;
-	}
-
-	GameSubsystem* GameSubsystem::GetPtr()
-	{
-		return system;
-	}
-
-	GameSubsystem& GameSubsystem::Get()
-	{
-		return *system;
-	}
-
-	GameSubsystem& GameSubsystem::Instantiate()
-	{
-		assert(system == nullptr);
-		system = new GameSubsystem();
-		return *system;
 	}
 
 	void GameSubsystem::StartUp()
@@ -44,6 +24,11 @@ namespace Oyun
 	{
 		LOG << "GameSubsystem Shutdown" << END;
 		delete this;
+	}
+
+	void GameSubsystem::SetEngine(Engine* engine)
+	{
+		mEngine = engine;
 	}
 
 	void GameSubsystem::GameLoop(float deltaTime)

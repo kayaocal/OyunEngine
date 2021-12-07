@@ -15,7 +15,7 @@ namespace Editor
 	public:
 
 
-		EditorDockableWindowLayer(const std::string rName);
+		EditorDockableWindowLayer(const std::string rName, Oyun::Engine* engine);
 
 		virtual void Draw();
 
@@ -26,7 +26,7 @@ namespace Editor
 	class EditorPropertiesLayer : public Oyun::Imgui::ImLayer
 	{
 	public:
-		EditorPropertiesLayer(const std::string rName);
+		EditorPropertiesLayer(const std::string rName, Oyun::Engine*);
 
 		virtual void Draw();
 	};
@@ -34,7 +34,7 @@ namespace Editor
 	class EditorSceneLayer : public Oyun::Imgui::ImLayer
 	{
 	public:
-		EditorSceneLayer(const std::string rName);
+		EditorSceneLayer(const std::string rName, Oyun::Engine*);
 
 		virtual void Draw();
 	};
@@ -43,7 +43,7 @@ namespace Editor
 	{
 	public:
 
-		EditorViewPortLayer(const std::string rName, Oyun::Camera* cam);
+		EditorViewPortLayer(const std::string rName,Oyun::Engine*, Oyun::Camera* cam);
 
 		virtual void Draw();
 

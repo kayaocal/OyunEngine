@@ -15,17 +15,10 @@ namespace Editor
 {
 	class EDITOR_API EditorGameSubsystem : public Oyun::GameSubsystem
 	{
-	protected:
+	public:
+		
 		EditorGameSubsystem();
 		virtual ~EditorGameSubsystem();
-
-	public:
-
-		static EditorGameSubsystem* system;
-
-		static EditorGameSubsystem* GetPtr();
-		static EditorGameSubsystem& Get();
-		static EditorGameSubsystem& Instantiate();
 
 		virtual void StartUp() override;
 		virtual void ShutDown() override;

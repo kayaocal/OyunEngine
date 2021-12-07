@@ -1,8 +1,10 @@
 #include "subsystems\RenderSubsystem.h"
-#include <cassert>
 #include "subsystems\LogSubsystem.h"
 #include <CameraManager.h>
 
+#include "Engine.h"
+#include "subsystems/WorldSubsystem.h"
+#include "Scene.h"
 #define USE_GLFW
 
 #ifdef USE_GLFW
@@ -12,62 +14,65 @@
 
 namespace Oyun
 {
-	RenderSubsystem* RenderSubsystem::system = nullptr;
 
 	RenderSubsystem::RenderSubsystem(int width, int height)
-		:EngineSubsytem()
+		:EngineSubsytem(), mEngine(nullptr), mWindow(new Oyun::Window())
 	{
-		gWindowWidth = width;
-		gWindowHeight = height;
+		mWindow->width = width;
+		mWindow->height = height;
+		mWindow->title = "Test Title";
+		mWindow->posx = 300;
+		mWindow->posy = 300;
 	}
 
 	RenderSubsystem::~RenderSubsystem()
 	{
-		system = nullptr;
 	}
 
-	RenderSubsystem* RenderSubsystem::GetPtr()
-	{
-		return system;
-	}
 
-	RenderSubsystem& RenderSubsystem::Get()
-	{
-		return *system;
-	}
-
-	RenderSubsystem& RenderSubsystem::Instantiate(int width, int height)
-	{
-		assert(system == nullptr);
-		system = new RenderSubsystem(width, height);
-		return *system;
-	}
-
+	void SetupRenderer(Oyun::Window* wnd);
 
 	void RenderSubsystem::StartUp()
 	{
 		LOG<<"RenderSubsystem Startup"<<END;
-		SetupRenderer(gWindowWidth, gWindowHeight, "Test Window");
-		Imgui::SetupImgui(gWindow, gGlslVersion);
+		SetupRenderer(mWindow);
+		Imgui::SetupImgui(mWindow->window, gGlslVersion);
 
 	}
 
 	void RenderSubsystem::ShutDown()
 	{
 		LOG << "RenderSubsystem Shutdown" << END;
-		TerminateRenderer();
+		TerminateWindow(mWindow);
 		DeleteAllCameramans();
 		delete this;
 	}
 
+	void RenderSubsystem::SetEngine(Engine* engine)
+	{
+		mEngine = engine;
+	}
+
+	void PollWindowEvents();
 	void RenderSubsystem::RenderLoop()
 	{
+		if (!mWindow->runWindowUnFocused && !mWindow->windowFocused)
+		{
+			PollWindowEvents();
+			return;
+		}
+
+		if (mWindow->windowShuldClose)
+		{
+			mEngine->Close();
+		}
+
 		for (auto cam : CameramanList)
 		{
-			Render(cam->camera);
+			Render(mWindow, cam->camera, mEngine->GetWorldSubsystem()->GetScene());
 		}
 		Imgui::Draw();
-		RenderEnd();
+		RenderEnd(mWindow);
 	}
 
 

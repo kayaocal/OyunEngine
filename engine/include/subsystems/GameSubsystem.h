@@ -11,29 +11,27 @@
 
 namespace Oyun
 {
+	struct Engine;
 	class OYUN_API GameSubsystem : public EngineSubsytem<GameSubsystem>
 	{
 	protected:
-
 		GameSubsystem();
 		virtual ~GameSubsystem();
 
 
 	public:
 
-		static GameSubsystem* system;
-
-		static GameSubsystem* GetPtr();
-		static GameSubsystem& Get();
-		static GameSubsystem& Instantiate();
-
 		virtual void StartUp() override;
 		virtual void ShutDown() override;
 
+		void SetEngine(Engine* engine);
 		virtual void GameLoop(float deltaTime);
 		
 		std::string GameName;
 		std::string GameVersion;
+
+		protected:
+		Engine* mEngine;
 
 	};
 

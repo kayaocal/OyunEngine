@@ -7,28 +7,25 @@
 
 namespace Oyun
 {
-
-
+	struct Engine;
+	struct Window;
 
 	class OYUN_API RenderSubsystem : public EngineSubsytem<RenderSubsystem>
 	{
-		RenderSubsystem(int width, int height);
-		~RenderSubsystem();
-	
 
 	public:
-
-		static RenderSubsystem* system;
-
-		static RenderSubsystem* GetPtr();
-		static RenderSubsystem& Get();
-		static RenderSubsystem& Instantiate(int width = 800, int height = 600);
 		
+		RenderSubsystem(int width, int height);
+		~RenderSubsystem();
+
 		virtual void StartUp() override;
 		virtual void ShutDown() override;
-
+		void SetEngine(Engine*);
 		void RenderLoop();
 
+	private:
+		Engine* mEngine;
+		Window* mWindow;
 	};
 
 }
