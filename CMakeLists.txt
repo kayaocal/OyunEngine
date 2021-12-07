@@ -173,4 +173,4 @@ target_include_directories(OyunEditorStarter
 
 target_link_libraries (OyunEditorStarter $(OutDir)OyunEditor.lib $(OutDir)OyunEngine.lib ${CMAKE_SOURCE_DIR}/lib/glfw3.lib opengl32.lib)
 
-add_dependencies(OyunEditor OyunEngine OyunEditor)
+add_dependencies(OyunEditorStarter OyunEngine OyunEditor)
