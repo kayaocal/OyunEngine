@@ -48,17 +48,17 @@ namespace Oyun
 
 	void Entity::BeginPlay()
 	{
-		LOG << "Entity::BeginPlay" << END;
+		LOG << "Entity::BeginPlay";
 	}
 
 	void Entity::EndPlay()
 	{
-		LOG << "Entity::EndPlay" << END;
+		LOG << "Entity::EndPlay";
 	}
 
 	void Entity::Tick(float deltaTime)
 	{
-		LOG << "Entity::Tick" << END;
+		LOG << "Entity::Tick";
 	}
 
 	void Entity::Serialize(std::stringstream& ss)

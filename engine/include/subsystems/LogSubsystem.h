@@ -8,17 +8,19 @@
 #include <sstream>
 
 
-#define LOG LogSubsystem::Get()
-#define END std::endl
+#define LOG			LogSubsystem::Get()<<"INFO: "
+#define LOG_ERR		LogSubsystem::Get()<<"ERROR: "
+#define LOG_WARN	LogSubsystem::Get()<<"WARNING: "
 
 namespace Oyun
 {
+
+	OYUN_API extern std::ostringstream oss;
 	class OYUN_API LogSubsystem : public EngineSubsytem<LogSubsystem>
 	{
 		LogSubsystem();
 		~LogSubsystem();
 
-		std::ostringstream oss;
 
 	public:
 
@@ -32,10 +34,13 @@ namespace Oyun
 		LogSubsystem& operator<<(T a)
 		{
 			oss << a;
+			PrintLog();
 			return *this;
 		}
 
 		LogSubsystem& LogSubsystem::operator<<(std::ostream& (*f)(std::ostream&));
+
+		void PrintLog();
 
 		virtual void StartUp() override;
 		virtual void ShutDown() override;

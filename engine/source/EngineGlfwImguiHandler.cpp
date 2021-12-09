@@ -17,7 +17,7 @@ namespace Oyun
 
         void SetupImgui(GLFWwindow* wnd, const char* glslVersion)
         {
-            LOG << ":SetupImgui" << END;
+            LOG << ":SetupImgui";
             IMGUI_CHECKVERSION();
             ImGui::CreateContext();
             ImGuiIO& io = ImGui::GetIO(); (void)io;

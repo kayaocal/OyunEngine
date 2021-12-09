@@ -1,4 +1,5 @@
 #include "..\include\Shader.h"
+#include "subsystems/LogSubsystem.h"
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -14,7 +15,7 @@ namespace Oyun
 
 	Shader* ShaderStore::CompileShader(uint32_t shaderCode, const char* vertexShaderSource, const char* fragmentShaderSource)
 	{
-		std::cout << "Compile Shader : " << shaderCode << std::endl;
+		LOG_ERR << "Compile Shader : " << shaderCode;
 
 		//Vertex
 		unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -28,7 +29,7 @@ namespace Oyun
 		if (!success)
 		{
 			glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-			std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+			LOG << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog;
 		}
 
 		//Fragment
@@ -39,7 +40,7 @@ namespace Oyun
 		if (!success)
 		{
 			glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-			std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
+			LOG << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog;
 		}
 
 		unsigned int shaderProgram = glCreateProgram();
@@ -51,7 +52,7 @@ namespace Oyun
 		glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
 		if (!success) {
 			glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-			std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+			LOG << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog;
 			return nullptr;
 		}
 		else

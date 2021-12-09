@@ -18,13 +18,13 @@ namespace Oyun
 
 	void WorldSubsystem::StartUp()
 	{
-		LOG << "WorldSubsystem Startup" << END;
+		LOG << "WorldSubsystem Startup";
 
 	}
 
 	void WorldSubsystem::ShutDown()
 	{
-		LOG << "WorldSubsystem Shutdown" << END;
+		LOG << "WorldSubsystem Shutdown";
 		delete this;
 	}
 

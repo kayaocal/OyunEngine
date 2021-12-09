@@ -16,13 +16,13 @@ namespace Oyun
 
 	void GameSubsystem::StartUp()
 	{
-		LOG << "GameSubsystem Startup" << END;
+		LOG << "GameSubsystem Startup";
 
 	}
 
 	void GameSubsystem::ShutDown()
 	{
-		LOG << "GameSubsystem Shutdown" << END;
+		LOG << "GameSubsystem Shutdown";
 		delete this;
 	}
 

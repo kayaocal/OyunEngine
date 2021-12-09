@@ -41,7 +41,7 @@ namespace Oyun
 
 	void ResourceSubsystem::StartUp()
 	{
-		LOG << "ResourceSubsystem Startup" << END;
+		LOG << "ResourceSubsystem Startup";
 
 		mTextureStore = std::make_unique<TextureStore>();
 		mModelStore = std::make_unique<ModelStore>();
@@ -52,7 +52,7 @@ namespace Oyun
 
 	void ResourceSubsystem::ShutDown()
 	{
-		LOG << "ResourceSubsystem Shutdown" << END;
+		LOG << "ResourceSubsystem Shutdown";
 		delete this;
 	}
 

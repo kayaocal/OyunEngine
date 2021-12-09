@@ -217,7 +217,7 @@ namespace Oyun
 
         if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
         {
-            LOG << "ERROR::ASSIMP::" << import.GetErrorString() << END;
+            LOG << "ERROR::ASSIMP::" << import.GetErrorString();
             return nullptr;
         }
 
@@ -235,7 +235,7 @@ namespace Oyun
 
         if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
         {
-            LOG << "ERROR::ASSIMP::" << import.GetErrorString() << END;
+            LOG << "ERROR::ASSIMP::" << import.GetErrorString();
             return nullptr;
         }
         
@@ -285,7 +285,7 @@ namespace Oyun
             Texture* loadedTexture = ResourceSubsystem::Get().LoadTexture(str.C_Str());
             if (loadedTexture == nullptr)
             {
-                LOG << "Can not load texute at : " << str.C_Str() << END;
+                LOG << "Can not load texute at : " << str.C_Str();
                 continue;
             }
 

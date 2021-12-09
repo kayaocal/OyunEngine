@@ -27,7 +27,7 @@ namespace Oyun
 
     void SetupRenderer(Window* wnd)
     {
-        LOG << "GlfwRenderer::SetupRenderer" << END;
+        LOG << "GlfwRenderer::SetupRenderer";
 
         glfwSetErrorCallback(glfw_error_callback);
         glfwInit();
@@ -87,6 +87,7 @@ namespace Oyun
 
         glEnable(GL_DEPTH_TEST);
         glClearColor(0.5f, 0.5f, 0.8f, 1.0f);
+        
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         //// view/projection transformations
@@ -146,7 +147,7 @@ namespace Oyun
         {
             if (wnd->window == window)
             {
-                LOG << "Window " << wnd->title <<" : "<<" size changed! ( " << width << " , " << height << " )" << END;
+                LOG << "Window " << wnd->title <<" : "<<" size changed! ( " << width << " , " << height << " )";
                 wnd->height = height;
                 wnd->width = width;
                 break;
@@ -160,7 +161,7 @@ namespace Oyun
         {
             if (wnd->window == window)
             {
-                LOG << "Window " << wnd->title << " : " << " position changed! ( " << x << " , " << y << " )" << END;
+                LOG << "Window " << wnd->title << " : " << " position changed! ( " << x << " , " << y << " )";
                 wnd->posx = x;
                 wnd->posy = y;
                 break;
@@ -174,7 +175,7 @@ namespace Oyun
         {
             if (wnd->window == window)
             {
-                LOG << "Close window : " << wnd->title << END;
+                LOG << "Close window : " << wnd->title;
                 wnd->windowShuldClose = true;
                 break;
             }
@@ -189,12 +190,12 @@ namespace Oyun
             {
                 if (focused == GLFW_FALSE)
                 {
-                    LOG << "Window focus lost! " << wnd->title << END;
+                    LOG << "Window focus lost! " << wnd->title;
                     wnd->windowFocused = false;
                 }
                 else
                 {
-                    LOG << "Window focus gained!" << wnd->title << END;
+                    LOG << "Window focus gained!" << wnd->title;
                     wnd->windowFocused = true;
                 }
                 break;
@@ -210,11 +211,11 @@ namespace Oyun
             {
                 if (maximized == GLFW_FALSE)
                 {
-                    LOG << "Window unmaximized!" << wnd->title << END;
+                    LOG << "Window unmaximized!" << wnd->title;
                 }
                 else
                 {
-                    LOG << "Window maximized!" << wnd->title << END;
+                    LOG << "Window maximized!" << wnd->title;
                 }
                 break;
             }

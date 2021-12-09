@@ -117,7 +117,7 @@ namespace Editor
 	void FloatingCubesGameSubsystem::ShutDown()
 	{
 		using namespace Oyun;
-		LOG << "FloatingCubesGameSubsystem Shutdown" << END;
+		LOG << "FloatingCubesGameSubsystem Shutdown";
 		delete this;
 	}
 

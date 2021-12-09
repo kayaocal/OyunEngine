@@ -39,7 +39,7 @@ namespace Editor
 		GameSubsystem::StartUp();
 
 		using namespace Oyun;
-		LOG << "EditorGameSubsystem Startup" << END;
+		LOG << "EditorGameSubsystem Startup";
 
 		EditorDefaultCameraman = Oyun::CreateCameraman(glm::vec3(0.0f, 0.0f, 10.0f));
 		EditorDefaultCameraman->isActive = true;
@@ -79,7 +79,7 @@ namespace Editor
 	void EditorGameSubsystem::ShutDown()
 	{
 		using namespace Oyun;
-		LOG << "EditorGameSubsystem Shutdown" << END;
+		LOG << "EditorGameSubsystem Shutdown";
 		delete this;
 	}
 

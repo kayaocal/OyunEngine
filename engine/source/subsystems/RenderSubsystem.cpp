@@ -34,7 +34,7 @@ namespace Oyun
 
 	void RenderSubsystem::StartUp()
 	{
-		LOG<<"RenderSubsystem Startup"<<END;
+		LOG<<"RenderSubsystem Startup";
 		SetupRenderer(mWindow);
 		Imgui::SetupImgui(mWindow->window, gGlslVersion);
 
@@ -42,7 +42,7 @@ namespace Oyun
 
 	void RenderSubsystem::ShutDown()
 	{
-		LOG << "RenderSubsystem Shutdown" << END;
+		LOG << "RenderSubsystem Shutdown";
 		TerminateWindow(mWindow);
 		DeleteAllCameramans();
 		delete this;
