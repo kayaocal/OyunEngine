@@ -5,8 +5,8 @@ namespace Oyun
 {
 	std::vector<Cameraman*> CameramanList;
 
-	Cameraman::Cameraman(glm::vec3 pos)
-		:camera(new Camera(pos)), isActive(false)
+	Cameraman::Cameraman(glm::vec3 pos, Window* w)
+		:camera(new Camera(pos)),wnd(w), isActive(false)
 	{
 	}
 
@@ -15,20 +15,31 @@ namespace Oyun
 		delete camera;
 	}
 
-	Cameraman* CreateCameraman(glm::vec3& pos)
+	Cameraman* CreateCameraman(glm::vec3& pos, Window* w)
 	{
 		assert(CameramanList.size() < 14);
-		Cameraman* cam = new Cameraman(pos);
+		Cameraman* cam = new Cameraman(pos, w);
 		CameramanList.push_back(cam);
 		return cam;
 	}
 
-	void DeleteAllCameramans()
+	void DeleteAllCameramans(Window* wnd)
 	{
-		for (auto cam : CameramanList)
-		{
-			delete cam;
-		}
+		
+
+		auto iterator = std::remove_if(CameramanList.begin(), CameramanList.end(), [&](Cameraman* cam)
+			{
+				
+				if (cam->wnd == wnd)
+				{
+					delete cam;
+					return true;
+				}
+				return false;
+			});
+
+		CameramanList.erase(iterator, CameramanList.end());
+
 	}
 
 

@@ -1,34 +1,34 @@
 #pragma once
 #include <subsystems\GameSubsystem.h>
-#define EDITOR_API 
+#include "ImLayer.h"
+
+#ifdef FloatingCubes_EXPORTS
+#define FLOATINGCUBES_API __declspec(dllexport)
+#else
+#define FLOATINGCUBES_API __declspec(dllimport)
+#endif
 
 namespace Oyun
 {
 	struct Cameraman;
+	struct Engine;
 }
 
-namespace Editor
+
+namespace Cubes
 {
-	class EDITOR_API FloatingCubesGameSubsystem : public Oyun::GameSubsystem
+	class FLOATINGCUBES_API FloatingCubesGameSubsystem : public Oyun::GameSubsystem
 	{
-	protected:
+	public:
 		FloatingCubesGameSubsystem();
 		virtual ~FloatingCubesGameSubsystem();
 
-
-	public:
-
-		static FloatingCubesGameSubsystem* system;
-
-		static FloatingCubesGameSubsystem* GetPtr();
-		static FloatingCubesGameSubsystem& Get();
-		static FloatingCubesGameSubsystem& Instantiate();
 
 		virtual void StartUp() override;
 		virtual void ShutDown() override;
 
 		void GameLoop(float deltaTime);
-
+		void SetEngine(Oyun::Engine*);
 
 		
 	};

@@ -9,6 +9,7 @@ namespace Oyun
 {
 	struct Engine;
 	struct Window;
+	class EngineImGui;
 
 	class OYUN_API RenderSubsystem : public EngineSubsytem<RenderSubsystem>
 	{
@@ -23,9 +24,13 @@ namespace Oyun
 		void SetEngine(Engine*);
 		void RenderLoop();
 
+		Window* GetWindow() const;
+		EngineImGui* GetImGui() const;
 	private:
 		Engine* mEngine;
 		Window* mWindow;
+		
+		EngineImGui* mImGui;
 	};
 
 }

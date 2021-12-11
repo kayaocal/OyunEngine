@@ -15,6 +15,7 @@
 #include "Scene.h"
 #include "components/StaticMeshComponent.h"
 #include <vector>
+#include "ImLayer.h"
 
 namespace Oyun
 {
@@ -25,15 +26,21 @@ namespace Oyun
 
     const char* gGlslVersion = "#version 420";
 
-    void SetupRenderer(Window* wnd)
+    void InitializeRenderer()
     {
-        LOG << "GlfwRenderer::SetupRenderer";
-
         glfwSetErrorCallback(glfw_error_callback);
         glfwInit();
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+
+    }
+
+
+    void SetupRenderer(Window* wnd)
+    {
+        LOG << "GlfwRenderer::SetupRenderer";
 
         // Create window with graphics context
         wnd->window = glfwCreateWindow(wnd->width, wnd->height, wnd->title.c_str(), NULL, NULL);
@@ -46,21 +53,23 @@ namespace Oyun
         glfwSetWindowMaximizeCallback(wnd->window, glfw_window_maximized_callback);
         glfwSetWindowFocusCallback(wnd->window, glfw_window_focus_callback);
 
+        GLFWwindow* old = glfwGetCurrentContext();
         glfwMakeContextCurrent(wnd->window);
+        gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
        /* if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
         {
             std::cout << "Failed to initialize GLAD" << std::endl;
         }*/
-        if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-        {
-            assert(false);
-        }
+
        //assert(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress));
 
-        glfwSwapInterval(0); // Enable vsync
 
         windows.push_back(wnd);
+        if (old != NULL)
+        {
+            glfwMakeContextCurrent(old);
+        }
     }
 
     void PollWindowEvents()
@@ -68,11 +77,14 @@ namespace Oyun
         glfwPollEvents();
     }
 
+    void RenderStart(Window* wnd)
+    {
+        glfwMakeContextCurrent(wnd->window);
+    }
+
     void Render(Window* wnd, Camera* cam, Scene* scn)
     {
         assert(cam != nullptr, "Render without camera is not possible");
-
-        PollWindowEvents();
 
         if (cam->RenderTexture)
         {
@@ -84,9 +96,12 @@ namespace Oyun
             glfwGetFramebufferSize(wnd->window, &wnd->width, &wnd->height);
             glViewport(0, 0, wnd->width, wnd->height);
         }
-
+        glfwSwapInterval(0); // Enable/Disable vsync
         glEnable(GL_DEPTH_TEST);
-        glClearColor(0.5f, 0.5f, 0.8f, 1.0f);
+        static float colorx = 0.5f;
+        colorx += 0.0005;
+        if (colorx > 1.0f) colorx = 0.0f;
+        glClearColor(colorx, 0.5f, 0.8f, 1.0f);
         
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -105,7 +120,6 @@ namespace Oyun
                 staticMesh->Draw(glm::value_ptr(view), glm::value_ptr(projection), glm::value_ptr(transformComp->GetModelMatrix()));
             }
         }
-
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
@@ -138,7 +152,7 @@ namespace Oyun
 
     void glfw_error_callback(int error, const char* description)
     {
-        fprintf(stderr, "Glfw Error %d: %s\n", error, description);
+        LOG_ERR << "Glfw :"<<error << " - "<< description;
     }
 
     void glfw_window_size_changed(GLFWwindow* window, int width, int height)

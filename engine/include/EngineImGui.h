@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <string>
-
+#include "ImLayer.h"
 
 #ifdef OyunEngine_EXPORTS
 #define OYUN_API __declspec(dllexport)
@@ -13,24 +13,29 @@
 
 
 struct GLFWwindow;
+struct ImGuiContext;
 
 namespace Oyun
 {
-	class OYUN_API EngineImLayer
+
+	struct Engine;
+
+	class OYUN_API TestImgui : public Oyun::Imgui::ImLayer
 	{
 	public:
-		std::string name;
-
-		EngineImLayer(const std::string rName);
 
 
-		virtual void Draw() = 0;
+		TestImgui(const std::string rName, Oyun::Engine* engine);
+
+		virtual void Draw();
+
 	};
+	
 
 	struct OYUN_API EngineImGui
 	{
 	public:
-		std::vector<EngineImLayer*> layers;
+		std::vector<Imgui::ImLayer*> layers;
 
 		void Init(GLFWwindow* wnd, const char* glslVersion);
 
@@ -38,12 +43,14 @@ namespace Oyun
 
 		void Terminate();
 
-		void AddLayer(EngineImLayer* layer);
+		void AddLayer(Imgui::ImLayer* layer);
 
 		//TO_DO: void RemoveLayer(EngineImLayer* layer);
 
 		void Draw();
 
+	private:
+		ImGuiContext* Context;
 		
 	};
 

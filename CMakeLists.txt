@@ -148,11 +148,12 @@ target_include_directories(OyunEditor
 	PUBLIC ${EDITOR_SOURCE_DIR}/include
 	PUBLIC ${PROJECT_SOURCE_DIR}/external/careal/include
 	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui
-	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui/backends)
+	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui/backends
+	PUBLIC ${FLOATING_CUBES_SOURCE_DIR}/include)
 
-target_link_libraries (OyunEditor $(OutDir)OyunEngine.lib ${CMAKE_SOURCE_DIR}/lib/glfw3.lib opengl32.lib)
+target_link_libraries (OyunEditor $(OutDir)OyunEngine.lib $(OutDir)FloatingCubes.lib ${CMAKE_SOURCE_DIR}/lib/glfw3.lib opengl32.lib)
 
-add_dependencies(OyunEditor OyunEngine)
+add_dependencies(OyunEditor OyunEngine FloatingCubes)
 
 # #######################################################################################
 #	EDITOR STARTER
@@ -173,4 +174,4 @@ target_include_directories(OyunEditorStarter
 
 target_link_libraries (OyunEditorStarter $(OutDir)OyunEditor.lib $(OutDir)OyunEngine.lib ${CMAKE_SOURCE_DIR}/lib/glfw3.lib opengl32.lib)
 
-add_dependencies(OyunEditorStarter OyunEngine OyunEditor)
+add_dependencies(OyunEditorStarter OyunEngine OyunEditor FloatingCubes)

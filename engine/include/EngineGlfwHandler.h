@@ -16,7 +16,6 @@ struct GLFWwindow;
 namespace Oyun
 {
 
-
     void glfw_window_maximized_callback(GLFWwindow* window, int maximized);
     void glfw_window_focus_callback(GLFWwindow* window, int focused);
     void glfw_window_close_callback(GLFWwindow* wnd);
@@ -41,6 +40,8 @@ namespace Oyun
 
 
         bool runWindowUnFocused;
+
+      
     };
 
 
@@ -49,9 +50,11 @@ namespace Oyun
     
     class Camera;
     class Scene;
-    
+    OYUN_API void PollWindowEvents();
+    void RenderStart(Window*);
     void Render(Window*, Camera*, Scene*);
     void RenderEnd(Window*);
+    OYUN_API void InitializeRenderer();
 
 
     extern const char* gGlslVersion;

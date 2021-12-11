@@ -2,8 +2,7 @@
 #include <subsystems/LogSubsystem.h>
 #include <subsystems/WorldSubsystem.h>
 #include <subsystems/ResourceSubsystem.h>
-
-#include <EngineGlfwImguiHandler.h>
+#include <subsystems/RenderSubsystem.h>
 #include <EditorImLayer.h>
 #include <CameraManager.h>
 #include <Camera.h>
@@ -12,6 +11,7 @@
 #include <components/TransformComponent.h>
 
 #include "Engine.h"
+#include "EngineImGui.h"
 
 
 namespace Editor
@@ -41,7 +41,7 @@ namespace Editor
 		using namespace Oyun;
 		LOG << "EditorGameSubsystem Startup";
 
-		EditorDefaultCameraman = Oyun::CreateCameraman(glm::vec3(0.0f, 0.0f, 10.0f));
+		EditorDefaultCameraman = Oyun::CreateCameraman(glm::vec3(0.0f, 0.0f, 10.0f), mEngine->GetRenderSubsystem()->GetWindow());
 		EditorDefaultCameraman->isActive = true;
 		CreateUIElements();
 
@@ -102,9 +102,12 @@ namespace Editor
 		using namespace Editor;
 		using namespace Oyun;
 
-		Imgui::AddLayer(new EditorDockableWindowLayer("DockWnd", mEngine));
-		Imgui::AddLayer(new EditorPropertiesLayer("Properties", mEngine));
-		Imgui::AddLayer(new EditorViewPortLayer("Viewport", mEngine, EditorDefaultCameraman->camera));
+		mEngine->GetRenderSubsystem()->GetImGui()->AddLayer(static_cast<Imgui::ImLayer*>(new EditorDockableWindowLayer("DockWnd", mEngine)));
+		mEngine->GetRenderSubsystem()->GetImGui()->AddLayer(new EditorPropertiesLayer("Properties", mEngine));
+		mEngine->GetRenderSubsystem()->GetImGui()->AddLayer(new EditorViewPortLayer("Viewport", mEngine, EditorDefaultCameraman->camera));
+		mEngine->GetRenderSubsystem()->GetImGui()->AddLayer(new EditorSceneLayer("Scene", mEngine));
+
+		
 	/*	 Oyun::Cameraman* cam = Oyun::CreateCameraman(glm::vec3(0.0f));
 		 cam->isActive = true;
 		AddLayer(new EditorViewPortLayer("Viewport2", cam->camera));
@@ -112,6 +115,5 @@ namespace Editor
 		cam2->isActive = true;
 		AddLayer(new EditorViewPortLayer("Viewport3", cam2->camera));*/
 
-		Imgui::AddLayer(new EditorSceneLayer("Scene", mEngine));
 	}
 }

@@ -9,14 +9,15 @@
 
 #ifdef USE_GLFW
 #include "EngineGlfwHandler.h"
-#include "EngineGlfwImguiHandler.h"
 #endif
+#include <GLFW/glfw3.h>
+#include <EngineImGui.h>
 
 namespace Oyun
 {
 
 	RenderSubsystem::RenderSubsystem(int width, int height)
-		:EngineSubsytem(), mEngine(nullptr), mWindow(new Oyun::Window())
+		:EngineSubsytem(), mEngine(nullptr), mWindow(new Oyun::Window()), mImGui( new Oyun::EngineImGui())
 	{
 		mWindow->width = width;
 		mWindow->height = height;
@@ -27,6 +28,8 @@ namespace Oyun
 
 	RenderSubsystem::~RenderSubsystem()
 	{
+		delete mImGui;
+		delete mWindow;
 	}
 
 
@@ -36,15 +39,14 @@ namespace Oyun
 	{
 		LOG<<"RenderSubsystem Startup";
 		SetupRenderer(mWindow);
-		Imgui::SetupImgui(mWindow->window, gGlslVersion);
-
+		mImGui->Init(mWindow->window, gGlslVersion);
 	}
 
 	void RenderSubsystem::ShutDown()
 	{
 		LOG << "RenderSubsystem Shutdown";
+		DeleteAllCameramans(mWindow);
 		TerminateWindow(mWindow);
-		DeleteAllCameramans();
 		delete this;
 	}
 
@@ -56,23 +58,39 @@ namespace Oyun
 	void PollWindowEvents();
 	void RenderSubsystem::RenderLoop()
 	{
-		if (!mWindow->runWindowUnFocused && !mWindow->windowFocused)
-		{
-			PollWindowEvents();
-			return;
-		}
+		//if (!mWindow->runWindowUnFocused && !mWindow->windowFocused)
+		//{
+		//	PollWindowEvents();
+		//	return;
+		//}
 
 		if (mWindow->windowShuldClose)
 		{
 			mEngine->Close();
 		}
 
+		RenderStart(mWindow);
+
 		for (auto cam : CameramanList)
 		{
-			Render(mWindow, cam->camera, mEngine->GetWorldSubsystem()->GetScene());
+			if (cam->wnd->window == mWindow->window)
+			{
+				Render(mWindow, cam->camera, mEngine->GetWorldSubsystem()->GetScene());
+			}
 		}
-		Imgui::Draw();
+
+		mImGui->Draw();
 		RenderEnd(mWindow);
+	}
+
+	Window* RenderSubsystem::GetWindow() const
+	{
+		return mWindow;
+	}
+
+	EngineImGui* RenderSubsystem::GetImGui() const
+	{
+		return mImGui;
 	}
 
 

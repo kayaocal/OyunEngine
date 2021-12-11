@@ -13,15 +13,18 @@
 namespace Oyun
 {
 	class Camera;
+	struct Window;
 
 	struct OYUN_API Cameraman
 	{
 		Cameraman() = delete;
 
-		Cameraman(glm::vec3 pos);
+		Cameraman(glm::vec3 pos, Window* w);
 		~Cameraman();
 
+
 		Camera* camera;
+		Window* wnd;
 		bool isActive;
 
 	};
@@ -29,8 +32,8 @@ namespace Oyun
 
 	OYUN_API extern std::vector<Cameraman*> CameramanList;
 
-	OYUN_API Cameraman* CreateCameraman(glm::vec3& pos);
-	OYUN_API void DeleteAllCameramans();
+	OYUN_API Cameraman* CreateCameraman(glm::vec3& pos, Window* w);
+	OYUN_API void DeleteAllCameramans(Window* wnd);
 
 	
 

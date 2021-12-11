@@ -9,6 +9,7 @@ namespace Oyun
 
 namespace Editor
 {
+	struct Editor;
 
 	class EditorDockableWindowLayer : public Oyun::Imgui::ImLayer
 	{

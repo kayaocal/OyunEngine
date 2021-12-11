@@ -15,7 +15,11 @@
 #include "subsystems/ResourceSubsystem.h"
 #include "FileIO.h"
 #include  "subsystems/LogSubsystem.h"
-
+#include "FloatingCubesGameSubsystem.h"
+#include "subsystems/RenderSubsystem.h"
+#include "Editor.h"
+#include <GLFW/glfw3.h>
+#include "EngineGlfwHandler.h"
 namespace Editor
 {
 
@@ -92,8 +96,8 @@ namespace Editor
         ImGuiIO& io = ImGui::GetIO();
         if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
         {
-            ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
-            ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
+        ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
+        ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
         }
         DrawMenuBar();
 
@@ -117,7 +121,15 @@ namespace Editor
                     }
                 }
 
-                if (ImGui::MenuItem("Quit")) 
+                if (ImGui::MenuItem("New Editor"))
+                {
+                    Oyun::Engine* gGame = new Oyun::Engine(new Cubes::FloatingCubesGameSubsystem(),
+                        new Oyun::RenderSubsystem(1366, 768), new Oyun::WorldSubsystem());
+                    gGame->StartUp();
+                    static_cast<Editor*>(mEngine)->subEngineInstances.push_back(gGame);
+                }
+
+                if (ImGui::MenuItem("Quit"))
                 {
                     mEngine->Close();
                 }
@@ -126,7 +138,7 @@ namespace Editor
 
             if (ImGui::BeginMenu("Tools"))
             {
-                if (ImGui::MenuItem("Style Editor")) 
+                if (ImGui::MenuItem("Style Editor"))
                 {
                     showStyleEditor = true;
                 }
@@ -135,7 +147,7 @@ namespace Editor
 
             if (ImGui::BeginMenu("About"))
             {
-                if(ImGui::Button("Github Page"))
+                if (ImGui::Button("Github Page"))
                 {
                     ShellExecute(0, 0, "https://github.com/kayaocal/Engine", 0, 0, SW_SHOW);
                 }
@@ -171,11 +183,10 @@ namespace Editor
     std::string FpsStr;
     std::string InstantFpsStr;
     std::string DeltaStr;
-
     void EditorViewPortLayer::Draw()
     {
         ImGui::Begin(name.c_str());
-
+        
 
         int width = static_cast<int>(ImGui::GetWindowWidth());
         int height = static_cast<int>(ImGui::GetWindowHeight());
@@ -184,10 +195,11 @@ namespace Editor
         {
             static ImVec4 statsColor = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
             static ImVec4 backup_color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
-           
+
             defaultCamera->CreateRenderTexture(width, height);
-           
+
             ImGui::Checkbox("Stats", &mShowStats);
+
             
             ImGui::Image((void*)(intptr_t)(defaultCamera->RenderTexture->id),
                 ImVec2(width, height), ImVec2(0, 1), ImVec2(1, 0));

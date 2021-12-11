@@ -5,14 +5,35 @@
 #include <imgui_impl_opengl3.h>
 #include <imgui_internal.h>
 #include <GLFW/glfw3.h>
-
 #include <iostream>
+
+
 
 void Oyun::EngineImGui::Init(GLFWwindow* wnd, const char* glslVersion)
 {
+    if (GImGui != NULL)
+    {
+        Context = ImGui::CreateContext();
+        ImGuiContext* oldContext = ImGui::GetCurrentContext();
+        ImGui::SetCurrentContext(Context);
+
+        ImGuiIO& io = ImGui::GetIO(); (void)io;
+        io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
+        io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
+        io.Fonts->AddFontFromFileTTF("..\\..\\assets\\fonts\\OpenSans-Regular.ttf", 18.0f);
+
+        ImGui::StyleColorsDark();
+        ApplyDarkTheme();
+
+        ImGui_ImplGlfw_InitForOpenGL(wnd, true);
+        ImGui_ImplOpenGL3_Init(glslVersion);
+
+        ImGui::SetCurrentContext(oldContext);
+        return;
+    }
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
+    Context = ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
     io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
@@ -95,13 +116,20 @@ void Oyun::EngineImGui::Terminate()
     ImGui::DestroyContext();
 }
 
-void Oyun::EngineImGui::AddLayer(EngineImLayer* layer)
+void Oyun::EngineImGui::AddLayer(Imgui::ImLayer* layer)
 {
     layers.push_back(layer);
 }
 
 void Oyun::EngineImGui::Draw()
 {
+    if (layers.size() <= 0)
+    {
+
+        return;
+    }
+
+    ImGui::SetCurrentContext(Context);
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
@@ -128,9 +156,13 @@ void Oyun::EngineImGui::Draw()
     }
 }
 
-Oyun::EngineImLayer::EngineImLayer(const std::string rName)
+Oyun::TestImgui::TestImgui(const std::string rName, Oyun::Engine* engine)
+    :Oyun::Imgui::ImLayer(rName, engine)
 {
-    this->name = rName;
-    std::cout << "EngineImLayer created as " << name << std::endl;
+
 }
 
+void Oyun::TestImgui::Draw()
+{
+    ImGui::ShowDemoWindow();
+}
