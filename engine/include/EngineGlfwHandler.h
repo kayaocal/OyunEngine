@@ -29,19 +29,29 @@ namespace Oyun
         Window() : width(1366), height(768), posx(300), 
             posy(300), window(nullptr), 
             windowShuldClose(false), windowFocused(true),
-            runWindowUnFocused(false), title("")
-        {}
+            runWindowUnFocused(false), title(""), windowIndex(0)
+        {
+            srand(time(NULL));
+
+            R = rand() % 255;
+            R /= 255.0f;
+            G = rand() % 255;
+            G /= 255.0f;
+            B = rand() % 255;
+            B /= 255.0f;
+        
+        }
 
         int width, height, posx, posy;
         GLFWwindow* window;
         bool windowShuldClose;
         bool windowFocused;
         std::string title;
-
+        unsigned int windowIndex;
 
         bool runWindowUnFocused;
 
-      
+        float R, G, B;
     };
 
 

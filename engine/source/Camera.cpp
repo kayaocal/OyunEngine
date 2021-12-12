@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 
+#include "subsystems\LogSubsystem.h"
 #include "Camera.h"
 
 
@@ -121,7 +122,7 @@ namespace Oyun
 
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         {
-            std::cout << "ERROR ON GLDRAWBUFFERS!" << std::endl;
+            LOG_ERR << "ERROR ON GLDRAWBUFFERS!";
         }
 
     }

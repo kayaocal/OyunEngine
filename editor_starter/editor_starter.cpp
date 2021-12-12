@@ -24,22 +24,21 @@ int main()
 	
 	gEditorEngine->StartUp();
 
-	auto removeEngineInstances = [&](Oyun::Engine* eng)
-	{
-		if (!eng->engineRunning)
-		{
-			eng->ShutDown();
-			delete eng;
-			return true;
-		}
-		return false;
-	};
 
 	while(gEditorEngine->engineRunning)
 	{
 		gEditorEngine->Loop();
 
-		auto iterator = std::remove_if(gEditorEngine->subEngineInstances.begin(), gEditorEngine->subEngineInstances.end(), removeEngineInstances);
+		auto iterator = std::remove_if(gEditorEngine->subEngineInstances.begin(), gEditorEngine->subEngineInstances.end(), [&](Oyun::Engine* eng)
+			{
+				if (!eng->engineRunning)
+				{
+					eng->ShutDown();
+					delete eng;
+					return true;
+				}
+				return false;
+			});
 		gEditorEngine->subEngineInstances.erase(iterator, gEditorEngine->subEngineInstances.end());
 
 		for (auto m : gEditorEngine->subEngineInstances)

@@ -12,7 +12,7 @@ namespace Oyun
 	public:
 		StaticMeshComponent(Entity*, Model*);
 
-		void Draw(float* view, float* proj, float* transform);
+		void Draw(float* view, float* proj, float* transform, Window* wnd);
 
 		template<class Archive>
 		void serialize(Archive& archive) const

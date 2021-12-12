@@ -20,6 +20,9 @@
 #include "Editor.h"
 #include <GLFW/glfw3.h>
 #include "EngineGlfwHandler.h"
+#include "EngineImGui.h"
+#include "CameraManager.h"
+
 namespace Editor
 {
 
@@ -124,7 +127,7 @@ namespace Editor
                 if (ImGui::MenuItem("New Editor"))
                 {
                     Oyun::Engine* gGame = new Oyun::Engine(new Cubes::FloatingCubesGameSubsystem(),
-                        new Oyun::RenderSubsystem(1366, 768), new Oyun::WorldSubsystem());
+                        new Oyun::RenderSubsystem(1366, 768), new Oyun::WorldSubsystem(), mEngine->GetRenderSubsystem()->GetWindow());
                     gGame->StartUp();
                     static_cast<Editor*>(mEngine)->subEngineInstances.push_back(gGame);
                 }
@@ -200,6 +203,19 @@ namespace Editor
 
             ImGui::Checkbox("Stats", &mShowStats);
 
+            /*ImGui::SameLine();
+            if (ImGui::Button("PLAY"))
+            {
+                Oyun::Engine* gGame = new Oyun::Engine(new Cubes::FloatingCubesGameSubsystem(),
+                    new Oyun::RenderSubsystem(1366, 768), new Oyun::WorldSubsystem());
+                gGame->StartUp();
+                gGame->Loop();
+                static_cast<Editor*>(mEngine)->subEngineInstances.push_back(gGame);
+               
+
+                mEngine->GetRenderSubsystem()->GetImGui()->AddLayer(static_cast<Oyun::Imgui::ImLayer*>(new EditorGameViewPortLayer("Game", gGame, gGame->GetGameSubsystem()->godCam->camera)));
+             
+            }*/
             
             ImGui::Image((void*)(intptr_t)(defaultCamera->RenderTexture->id),
                 ImVec2(width, height), ImVec2(0, 1), ImVec2(1, 0));
@@ -235,7 +251,6 @@ namespace Editor
     void EditorPropertiesLayer::Draw()
     {
         
-        ImGui::ShowDemoWindow();
         ImGui::Begin(name.c_str());
         if (selectedEntityUniqueId != -1)
         {
@@ -283,8 +298,6 @@ namespace Editor
     {
         using namespace Oyun;
 
-        static bool b = true;
-        ImGui::ShowDemoWindow(&b);
         ImGui::Begin(name.c_str());
         static ImGuiTreeNodeFlags base_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
         int node_clicked = -1;
@@ -336,5 +349,53 @@ namespace Editor
         }
 
         ImGui::End();
+    }
+    EditorGameViewPortLayer::EditorGameViewPortLayer(const std::string rName, Oyun::Engine* engine, Oyun::Camera* cam)
+        :Oyun::Imgui::ImLayer(rName, engine), mShowStats(false), defaultCamera(cam)
+    {
+    }
+
+    std::string GameFpsStr;
+    std::string GameInstantFpsStr;
+    std::string GameDeltaStr;
+    void EditorGameViewPortLayer::Draw()
+    {
+        ImGui::Begin(name.c_str());
+
+
+        int width = static_cast<int>(ImGui::GetWindowWidth());
+        int height = static_cast<int>(ImGui::GetWindowHeight());
+
+        if (defaultCamera)
+        {
+            static ImVec4 statsColor = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+            static ImVec4 backup_color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+
+            defaultCamera->CreateRenderTexture(width, height);
+
+            ImGui::Checkbox("Stats", &mShowStats);
+
+
+            ImGui::Image((void*)(intptr_t)(defaultCamera->RenderTexture->id),
+                ImVec2(width, height), ImVec2(0, 1), ImVec2(1, 0));
+
+            if (mShowStats)
+            {
+                GameFpsStr = "Fps: " + std::to_string(mEngine->fps);
+                GameInstantFpsStr = "Instant Fps: " + std::to_string(mEngine->instantFps);
+                GameDeltaStr = "Delta Time: " + std::to_string(mEngine->deltaTime);
+
+                ImGui::SetCursorPos(ImVec2(10.0f, 60.0f));
+                ImGui::TextColored(statsColor, GameFpsStr.c_str());
+                ImGui::SetCursorPos(ImVec2(10.0f, 75.0f));
+                ImGui::TextColored(statsColor, GameInstantFpsStr.c_str());
+                ImGui::SetCursorPos(ImVec2(10.0f, 90.0f));
+                ImGui::TextColored(statsColor, GameDeltaStr.c_str());
+            }
+
+
+        }
+        ImGui::End();
+
     }
 }

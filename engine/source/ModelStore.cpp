@@ -12,29 +12,35 @@
 #include <assimp/postprocess.h>
 #include <glm/gtc/type_ptr.hpp>
 #include "Camera.h"
+#include "EngineGlfwHandler.h"
 
 namespace Oyun
 {
-    Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, Material* material)
+    Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, Material* material, Window* wnd)
     {
         this->vertices = vertices;
         this->indices = indices;
         this->material = material;
-        SetupMesh();
+        if (wnd != nullptr)
+        {
+            SetupMesh(wnd);
+        }
     }
     
-    void Mesh::SetupMesh()
+    MeshBuffers* Mesh::SetupMesh(Window* wnd)
     {
-        glGenVertexArrays(1, &mVao);
-        glGenBuffers(1, &mVbo);
-        glGenBuffers(1, &mEbo);
+        MeshBuffers* buff = new MeshBuffers();
+        Buffers.insert(std::pair<unsigned int, MeshBuffers*>(wnd->windowIndex, buff));
+        glGenVertexArrays(1, &buff->mVao);
+        glGenBuffers(1, &buff->mVbo);
+        glGenBuffers(1, &buff->mEbo);
 
-        glBindVertexArray(mVao);
-        glBindBuffer(GL_ARRAY_BUFFER, mVbo);
+        glBindVertexArray(buff->mVao);
+        glBindBuffer(GL_ARRAY_BUFFER, buff->mVbo);
 
         glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
 
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mEbo);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buff->mEbo);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int),
             &indices[0], GL_STATIC_DRAW);
 
@@ -57,16 +63,30 @@ namespace Oyun
         glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, boneWeights));
 
         glBindVertexArray(0);
+        return buff;
     }
 
 
-    void Mesh::Draw(float* view, float* proj, float* transform)
+    void Mesh::Draw(float* view, float* proj, float* transform, Window* wnd)
     {
+        MeshBuffers* mb = nullptr;
+        auto mdl = Buffers.find(wnd->windowIndex);
+        if (mdl == Buffers.end())
+        {
+            mb = SetupMesh(wnd);
+        }
+        else
+        {
+            mb = mdl->second;
+        }
+        
+
+
         material->UseShader();
         material->ApplyTexturesToShader();
         material->ApplyShaderMatrix(view, proj, transform);
         // draw mesh
-        glBindVertexArray(mVao);
+        glBindVertexArray(mb->mVao);
         glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
 
@@ -88,13 +108,11 @@ namespace Oyun
         }
     }
 
-    void  Model::Draw(float* view, float* proj, float* transform)
+    void  Model::Draw(float* view, float* proj, float* transform, Window* wnd)
     {
-      
-
         for(auto m : meshes)
         {
-            m->Draw(view, proj, transform);
+            m->Draw(view, proj, transform, wnd);
         }
     }
 

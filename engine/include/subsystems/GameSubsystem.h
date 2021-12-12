@@ -12,6 +12,7 @@
 namespace Oyun
 {
 	struct Engine;
+	struct Cameraman;
 	class OYUN_API GameSubsystem : public EngineSubsytem<GameSubsystem>
 	{
 	protected:
@@ -30,6 +31,7 @@ namespace Oyun
 		std::string GameName;
 		std::string GameVersion;
 
+		Cameraman* godCam;
 		protected:
 		Engine* mEngine;
 

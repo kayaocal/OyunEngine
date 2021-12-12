@@ -15,7 +15,7 @@ namespace Oyun
 
 	Shader* ShaderStore::CompileShader(uint32_t shaderCode, const char* vertexShaderSource, const char* fragmentShaderSource)
 	{
-		LOG_ERR << "Compile Shader : " << shaderCode;
+		LOG << "Compile Shader : " << shaderCode;
 
 		//Vertex
 		unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);

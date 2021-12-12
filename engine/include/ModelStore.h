@@ -34,24 +34,30 @@ namespace Oyun
         float boneWeights[MAX_BONE_INFLUENCE];
     };
 
+    struct OYUN_API MeshBuffers
+    {
+        unsigned int mVbo, mVao, mEbo;
+    };
+
+    struct Window;
+
     class OYUN_API Mesh
     {
     protected:
 
-        unsigned int mVbo, mVao, mEbo;
-
-        void SetupMesh();
+        std::map<unsigned int, MeshBuffers*> Buffers;
 
 
     public:
+        MeshBuffers* SetupMesh(Window*);
 
         std::vector<Vertex>         vertices;
         std::vector<unsigned int>   indices;
         struct Material* material;
 
-        Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, Material* mat);
+        Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, Material* mat, Window* wnd = nullptr);
 
-        void Draw(float* view, float* proj, float* transform);
+        void Draw(float* view, float* proj, float* transform, Window* wnd);
 
     };
 
@@ -64,7 +70,7 @@ namespace Oyun
 
         Model(const char*);
 
-        void Draw(float* view, float* proj, float* transform);
+        void Draw(float* view, float* proj, float* transform, Window* wnd);
 
         void SetShader(struct Shader*);
     private:

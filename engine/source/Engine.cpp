@@ -15,12 +15,12 @@ namespace Oyun
 	const char* EngineDescription = "Designed to make good games.";
 	int gFrameCount = 0;
 
-	Engine::Engine(GameSubsystem* game, RenderSubsystem* renderer, WorldSubsystem* world)
+	Engine::Engine(GameSubsystem* game, RenderSubsystem* renderer, WorldSubsystem* world, Window* baseWindow)
 		:mGameSubsystem(game), mRenderSubsystem(renderer), mWorldSubsystem(world), engineRunning(true),
 		fps(0), deltaTime(0.0f), mFpsSum(0), mFpsTimer(0.0), frameCount(0), instantFps(0), lastRenderTime(0)
 	{
 		mGameSubsystem->SetEngine(this);
-		mRenderSubsystem->SetEngine(this);
+		mRenderSubsystem->SetEngine(this, baseWindow);
 		mWorldSubsystem->SetEngine(this);
 	}
 

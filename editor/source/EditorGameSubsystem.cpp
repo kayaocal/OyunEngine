@@ -12,8 +12,8 @@
 
 #include "Engine.h"
 #include "EngineImGui.h"
-
-
+#include "FloatingCubesGameSubsystem.h"
+#include "Editor.h"
 namespace Editor
 {
 
@@ -43,36 +43,41 @@ namespace Editor
 
 		EditorDefaultCameraman = Oyun::CreateCameraman(glm::vec3(0.0f, 0.0f, 10.0f), mEngine->GetRenderSubsystem()->GetWindow());
 		EditorDefaultCameraman->isActive = true;
+
+		
 		CreateUIElements();
+		Shader* shd = ResourceSubsystem::Get().LoadShader("testShader",
+			"C:\\Development\\Test\\Engine\\engine\\resources\\shaders\\simple_vertex.shader",
+			"C:\\Development\\Test\\Engine\\engine\\resources\\shaders\\simple_fragment.shader");
+		Model* mdl = ResourceSubsystem::Get().LoadModel("backpack.obj");
+		/*Shader* shd = ResourceSubsystem::Get().LoadShader("testShader", 
+			"C:\\Development\\Test\\Engine\\engine\\resources\\shaders\\simple_vertex.shader", 
+			"C:\\Development\\Test\\Engine\\engine\\resources\\shaders\\simple_fragment.shader");
+		Model* mdl = ResourceSubsystem::Get().LoadModel("backpack.obj");
+		
+		mdl->SetShader(shd);
 
-		//Shader* shd = ResourceSubsystem::Get().LoadShader("testShader", 
-		//	"C:\\Development\\Test\\Engine\\engine\\resources\\shaders\\simple_vertex.shader", 
-		//	"C:\\Development\\Test\\Engine\\engine\\resources\\shaders\\simple_fragment.shader");
-		//Model* mdl = ResourceSubsystem::Get().LoadModel("backpack.obj");
-		//
-		//mdl->SetShader(shd);
+		ent = new StaticMeshEntity(mdl);
+		ent->SetUniqueId(0);
+		ent2 = new StaticMeshEntity(mdl);
+		ent2->GetTransform()->Position.z = -20;
+		ent2->SetUniqueId(1);
+		ent3 = new StaticMeshEntity(mdl);
+		ent3->GetTransform()->Position.x = -10;
+		ent3->SetUniqueId(2);
+		ent3->GetTransform()->EulerRotation.z = 90.0f;
+		ent3->GetTransform()->Position.x = 0;
+		
+		ent4 = new StaticMeshEntity(mdl);
+		ent4->GetTransform()->Position.x = 10.0f;
+		ent4->SetUniqueId(3);
+		ent4->GetTransform()->Position.z = 3;
+		ent4->GetTransform()->Position.x = 3;
 
-		//ent = new StaticMeshEntity(mdl);
-		//ent->SetUniqueId(0);
-		//ent2 = new StaticMeshEntity(mdl);
-		//ent2->GetTransform()->Position.z = -20;
-		//ent2->SetUniqueId(1);
-		//ent3 = new StaticMeshEntity(mdl);
-		//ent3->GetTransform()->Position.x = -10;
-		//ent3->SetUniqueId(2);
-		///*ent3->GetTransform()->EulerRotation.z = 90.0f;
-		//ent3->GetTransform()->Position.x = 0;
-		//*/
-		//ent4 = new StaticMeshEntity(mdl);
-		//ent4->GetTransform()->Position.x = 10.0f;
-		//ent4->SetUniqueId(3);
-		///*ent4->GetTransform()->Position.z = 3;
-		//ent4->GetTransform()->Position.x = 3;*/
-
-		//mEngine->GetWorldSubsystem()->AddEntityToScene(ent);
-		//mEngine->GetWorldSubsystem()->AddEntityToScene(ent);
-		//mEngine->GetWorldSubsystem()->AddEntityToScene(ent);
-		//mEngine->GetWorldSubsystem()->AddEntityToScene(ent);
+		mEngine->GetWorldSubsystem()->AddEntityToScene(ent);
+		mEngine->GetWorldSubsystem()->AddEntityToScene(ent);
+		mEngine->GetWorldSubsystem()->AddEntityToScene(ent);
+		mEngine->GetWorldSubsystem()->AddEntityToScene(ent);*/
 		
 	}
 
@@ -88,6 +93,8 @@ namespace Editor
 		GameSubsystem::GameLoop(deltaTime);
 		using namespace Oyun;
 		static float angle = 0.0f;
+
+		
 		/*EditorDefaultCameraman->camera->Position.x = 10*sinf(angle);
 		EditorDefaultCameraman->camera->Position.z = 10*cosf(angle);
 		angle += deltaTime;

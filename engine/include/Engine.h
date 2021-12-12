@@ -17,7 +17,7 @@ namespace Oyun
 	class GameSubsystem;
 	class RenderSubsystem;
 	class WorldSubsystem;
-	
+	struct Window;
 
 	struct OYUN_API Engine
 	{
@@ -37,7 +37,7 @@ namespace Oyun
 
 		bool engineRunning;
 		
-		Engine(GameSubsystem* game, RenderSubsystem* renderer, WorldSubsystem* world);
+		Engine(GameSubsystem* game, RenderSubsystem* renderer, WorldSubsystem* world, Window* shared = nullptr);
 		~Engine();
 
 		GameSubsystem* GetGameSubsystem() const;

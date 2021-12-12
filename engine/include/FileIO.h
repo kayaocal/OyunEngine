@@ -12,6 +12,7 @@
 #include <fstream>
 #include <sstream>
 
+#include <chrono>
 
 namespace Oyun
 {
@@ -21,10 +22,14 @@ namespace Oyun
 	template<typename T>
 	T* ReadFile(const char* path, size_t* fileSize)
 	{
+		using namespace std::chrono;
+		auto gameLoopStart = high_resolution_clock::now();
+	
+
 		std::streampos begin, end;
 		std::basic_ifstream<T> stream;
 
-		stream.open(path, std::ifstream::in | std::ifstream::binary);
+		stream.open(path, std::ifstream::binary);
 
 		if (stream.is_open())
 		{
@@ -37,6 +42,10 @@ namespace Oyun
 			*fileSize = length;
 			stream.read((fileBuffer), length);
 			fileBuffer[length] = '\0';
+			auto gameLoopEnd = high_resolution_clock::now();
+
+			double gameTime = static_cast<double>(duration_cast<microseconds>(gameLoopEnd - gameLoopStart).count()) / 1000000.0;
+			LOG << "File Read Time : " << gameTime;
 			return fileBuffer;
 		}
 

@@ -21,13 +21,15 @@ namespace Oyun
 
 		virtual void StartUp() override;
 		virtual void ShutDown() override;
-		void SetEngine(Engine*);
+		void SetEngine(Engine*, Window*);
 		void RenderLoop();
 
 		Window* GetWindow() const;
+		Window* GetShareWindow() const;
 		EngineImGui* GetImGui() const;
 	private:
 		Engine* mEngine;
+		Window* mShareWindow;
 		Window* mWindow;
 		
 		EngineImGui* mImGui;

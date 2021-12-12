@@ -33,12 +33,12 @@ namespace Oyun
 	}
 
 
-	void SetupRenderer(Oyun::Window* wnd);
+	void SetupRenderer(Oyun::Window* wnd, Oyun::Window* shared);
 
 	void RenderSubsystem::StartUp()
 	{
 		LOG<<"RenderSubsystem Startup";
-		SetupRenderer(mWindow);
+		SetupRenderer(mWindow, mShareWindow);
 		mImGui->Init(mWindow->window, gGlslVersion);
 	}
 
@@ -50,9 +50,10 @@ namespace Oyun
 		delete this;
 	}
 
-	void RenderSubsystem::SetEngine(Engine* engine)
+	void RenderSubsystem::SetEngine(Engine* engine, Window* baseWindow)
 	{
 		mEngine = engine;
+		mShareWindow = baseWindow;
 	}
 
 	void PollWindowEvents();

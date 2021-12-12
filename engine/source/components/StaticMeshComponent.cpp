@@ -10,9 +10,9 @@ namespace Oyun
 
 	}
 
-	void StaticMeshComponent::Draw(float* view, float* proj, float* transform)
+	void StaticMeshComponent::Draw(float* view, float* proj, float* transform, Window* wnd)
 	{
-		mModel->Draw(view, proj, transform);
+		mModel->Draw(view, proj, transform, wnd);
 	}
 
 	void StaticMeshComponent::DrawAtEditorProps()

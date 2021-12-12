@@ -52,4 +52,17 @@ namespace Editor
 		Oyun::Camera* defaultCamera;
 		bool mShowStats;
 	};
+
+	class EditorGameViewPortLayer : public Oyun::Imgui::ImLayer
+	{
+	public:
+
+		EditorGameViewPortLayer(const std::string rName, Oyun::Engine*, Oyun::Camera* cam);
+
+		virtual void Draw();
+
+	private:
+		Oyun::Camera* defaultCamera;
+		bool mShowStats;
+	};
 }

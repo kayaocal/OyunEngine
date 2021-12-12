@@ -5,7 +5,7 @@
 #include <glad/glad.h>
 #include <iostream>
 #include "FileIO.h"
-
+#include "subsystems/LogSubsystem.h"
 namespace Oyun
 {
 	Texture::Texture(int width, int height)
@@ -62,11 +62,11 @@ namespace Oyun
 		unsigned char* data = stbi_load_from_memory(buffer, size, &width, &height, &nrChannels, 0);
 		if (data == nullptr)
 		{
-			std::cout << "Texture failed to load at path : " << path << std::endl;
+			LOG_ERR << "Texture failed to load at path : " << path;
 			return nullptr;
 		}
 
-		std::cout << "Texture succesfull to load at path : " << path << std::endl;
+		LOG << "Texture succesfull to load at path : " << path;
 		Texture* tex = new Texture{ path, width, height, nrChannels, data };
 		stbi_image_free(data);
 		mTextureMap.insert(std::pair<uint32_t, Texture*>(hash, tex));
@@ -83,11 +83,11 @@ namespace Oyun
 			unsigned char* data = stbi_load(path, &width, &height, &nrChannels, 0);
 			if (data == nullptr)
 			{
-				std::cout << "Texture failed to load at path : "<< path << std::endl;
+				LOG_ERR << "Texture failed to load at path : "<< path;
 				return nullptr;
 			}
 
-			std::cout << "Texture succesfull to load at path : "<< path << std::endl;
+			LOG << "Texture succesfull to load at path : "<< path;
 			tex = new Texture{ path, width, height, nrChannels, data };
 			stbi_image_free(data);
 			mTextureMap.insert(std::pair<uint32_t, Texture*>(hash, tex));

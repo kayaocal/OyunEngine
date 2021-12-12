@@ -38,12 +38,21 @@ namespace Oyun
     }
 
 
-    void SetupRenderer(Window* wnd)
+    void SetupRenderer(Window* wnd, Window* base)
     {
         LOG << "GlfwRenderer::SetupRenderer";
 
         // Create window with graphics context
-        wnd->window = glfwCreateWindow(wnd->width, wnd->height, wnd->title.c_str(), NULL, NULL);
+
+        GLFWwindow* sharedWindow = nullptr;
+        if (base != nullptr)
+        {
+            sharedWindow = base->window;
+        }
+        wnd->window = glfwCreateWindow(wnd->width, wnd->height, wnd->title.c_str(), NULL, sharedWindow);
+        static unsigned int windowIndex = 0;
+        wnd->windowIndex = windowIndex;
+        windowIndex++;
         assert(wnd->window != NULL);
 
         glfwSetWindowPos(wnd->window, wnd->posx, wnd->posy);
@@ -56,7 +65,7 @@ namespace Oyun
         GLFWwindow* old = glfwGetCurrentContext();
         glfwMakeContextCurrent(wnd->window);
         gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-
+        glfwSwapInterval(1); // Enable/Disable vsync
        /* if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
         {
             std::cout << "Failed to initialize GLAD" << std::endl;
@@ -96,12 +105,14 @@ namespace Oyun
             glfwGetFramebufferSize(wnd->window, &wnd->width, &wnd->height);
             glViewport(0, 0, wnd->width, wnd->height);
         }
-        glfwSwapInterval(0); // Enable/Disable vsync
+       // 
         glEnable(GL_DEPTH_TEST);
         static float colorx = 0.5f;
         colorx += 0.0005;
         if (colorx > 1.0f) colorx = 0.0f;
-        glClearColor(colorx, 0.5f, 0.8f, 1.0f);
+
+        
+        glClearColor(wnd->R, wnd->G, wnd->B, 1.0f);
         
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -114,10 +125,10 @@ namespace Oyun
         {
             if (ent->IsVisible())
             {
-                TransformComponent* transformComp = ent->GetComponent<TransformComponent>();
+                TransformComponent* transformComp = ent->GetTransform();
                 StaticMeshComponent* staticMesh = ent->GetComponent<StaticMeshComponent>();
-            
-                staticMesh->Draw(glm::value_ptr(view), glm::value_ptr(projection), glm::value_ptr(transformComp->GetModelMatrix()));
+                
+                staticMesh->Draw(glm::value_ptr(view), glm::value_ptr(projection), glm::value_ptr(transformComp->GetModelMatrix()), wnd);
             }
         }
 

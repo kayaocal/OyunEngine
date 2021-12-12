@@ -175,3 +175,24 @@ target_include_directories(OyunEditorStarter
 target_link_libraries (OyunEditorStarter $(OutDir)OyunEditor.lib $(OutDir)OyunEngine.lib ${CMAKE_SOURCE_DIR}/lib/glfw3.lib opengl32.lib)
 
 add_dependencies(OyunEditorStarter OyunEngine OyunEditor FloatingCubes)
+
+# #######################################################################################
+#	FLOATING CUBES STARTER
+# 	Define the executable
+# #######################################################################################
+
+set(FLOATING_CUBES_STARTER_DIR ${PROJECT_SOURCE_DIR}/floating_cubes_starter)
+
+add_executable(FloatingCubesStarter ${FLOATING_CUBES_STARTER_DIR}/floating_starter.cpp)
+
+target_include_directories(FloatingCubesStarter
+	PUBLIC ${ENGINE_SOURCE_DIR}/include
+	PUBLIC ${FLOATING_CUBES_SOURCE_DIR}/include
+	PUBLIC ${PROJECT_SOURCE_DIR}/external/careal/include
+	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui
+	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui/backends)
+
+
+target_link_libraries (FloatingCubesStarter $(OutDir)FloatingCubes.lib $(OutDir)OyunEngine.lib ${CMAKE_SOURCE_DIR}/lib/glfw3.lib opengl32.lib)
+
+add_dependencies(FloatingCubesStarter OyunEngine FloatingCubes)

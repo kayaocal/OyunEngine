@@ -12,6 +12,7 @@ namespace Oyun
 {
 	struct Cameraman;
 	struct Engine;
+	class StaticMeshEntity;
 }
 
 
@@ -30,6 +31,13 @@ namespace Cubes
 		void GameLoop(float deltaTime);
 		void SetEngine(Oyun::Engine*);
 
-		
+	private:
+		float mAngle;
+		Oyun::StaticMeshEntity* ent;
+		Oyun::StaticMeshEntity* ent2;
+		Oyun::StaticMeshEntity* ent3;
+		Oyun::StaticMeshEntity* ent4;
+
+
 	};
 }

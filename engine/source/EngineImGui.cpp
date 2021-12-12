@@ -164,5 +164,7 @@ Oyun::TestImgui::TestImgui(const std::string rName, Oyun::Engine* engine)
 
 void Oyun::TestImgui::Draw()
 {
-    ImGui::ShowDemoWindow();
+    ImGui::Begin(name.c_str());
+    ImGui::Text(name.c_str());
+    ImGui::End();
 }
