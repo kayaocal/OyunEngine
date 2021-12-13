@@ -13,14 +13,6 @@ namespace Oyun
 		mStaticMesh = AddComponent<StaticMeshComponent>(new StaticMeshComponent(this, mdl));
 	}
 
-	void StaticMeshEntity::Serialize(std::stringstream& ss)
-	{
-		{
-			cereal::JSONOutputArchive oarchive(ss);
-			serialize(oarchive);
-		}
-	}
-
 	Entity::Entity()
 		: mEntityUniqueId(0), mName("entity_01"), mVisible(true), mStatic(false)
 	{
@@ -59,14 +51,6 @@ namespace Oyun
 	void Entity::Tick(float deltaTime)
 	{
 		LOG << "Entity::Tick";
-	}
-
-	void Entity::Serialize(std::stringstream& ss)
-	{
-		{
-			cereal::JSONOutputArchive oarchive(ss);
-			serialize(oarchive);
-		}
 	}
 
 	void Entity::SetTickEnabled(bool)

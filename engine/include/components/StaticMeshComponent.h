@@ -14,13 +14,6 @@ namespace Oyun
 
 		void Draw(float* view, float* proj, float* transform, Window* wnd);
 
-		template<class Archive>
-		void serialize(Archive& archive) const
-		{
-			
-			archive(cereal::make_nvp("ModelName", mModel->path)
-				);
-		}
 
 	private:
 		Model* mModel;

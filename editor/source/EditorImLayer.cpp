@@ -10,7 +10,6 @@
 #include <Scene.h>
 #include <components/TransformComponent.h>
 #include <Entity.h>
-#include <cereal/archives/json.hpp>
 #include <fstream>
 #include "subsystems/ResourceSubsystem.h"
 #include "FileIO.h"
@@ -277,13 +276,7 @@ namespace Editor
         {
             if(ImGui::Button("SERIALIZE"))
             {
-                std::stringstream ss;
-                
-                selectedEntity->Serialize(ss);
 
-                std::fstream fs("entitySaveTest.json", std::fstream::out);
-                fs << ss.rdbuf();
-                fs.close();
             }
         }
         ImGui::End();

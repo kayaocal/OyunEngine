@@ -46,8 +46,6 @@ namespace Oyun
 		mTextureStore = std::make_unique<TextureStore>();
 		mModelStore = std::make_unique<ModelStore>();
 		mShaderStore = std::make_unique<ShaderStore>();
-		mResourceDb = std::make_unique<ResourceDB>();
-		mResourceDb->LoadDB();
 	}
 
 	void ResourceSubsystem::ShutDown()
@@ -122,7 +120,5 @@ namespace Oyun
 
 	void ResourceSubsystem::ImportFile(const wchar_t* file)
 	{
-		mResourceDb->AddItemToDb("C:\\game\\test\\pathtest.obj");
-		mResourceDb->SaveDB();
 	}
 }

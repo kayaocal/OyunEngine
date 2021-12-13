@@ -5,7 +5,6 @@
 #include <string>
 #include <memory>
 
-#include "ResourceLibrary.h"
 
 #ifdef OyunEngine_EXPORTS
 #define OYUN_API __declspec(dllexport)
@@ -52,7 +51,6 @@ namespace Oyun
 		std::unique_ptr<TextureStore> mTextureStore;
 		std::unique_ptr<ModelStore> mModelStore;
 		std::unique_ptr<ShaderStore> mShaderStore;
-		std::unique_ptr<ResourceDB> mResourceDb;
 	};
 
 }

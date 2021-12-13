@@ -22,12 +22,6 @@ file (GLOB IMGUI_SOURCES
 	${CMAKE_SOURCE_DIR}/external/imgui/backends/imgui_impl_opengl3.h
 	${CMAKE_SOURCE_DIR}/external/imgui/backends/imgui_impl_opengl3_loader.h)
 
-file (GLOB CAREAL_INCLUDES
-	${CMAKE_SOURCE_DIR}/external/careal/include/cereal/*.*
-	${CMAKE_SOURCE_DIR}/external/careal/include/cereal/*/*.*
-	${CMAKE_SOURCE_DIR}/external/careal/include/cereal/*/*/*.*
-	${CMAKE_SOURCE_DIR}/external/careal/include/cereal/*/*/*/*.*
-	)
 
 file (GLOB ASSIMP_INCLUDES
 	${ENGINE_SOURCE_DIR}/include/assimp/*.h
@@ -67,10 +61,9 @@ file (GLOB GLM_INCLUDES
 	${ENGINE_SOURCE_DIR}/include/glm/*/*.cpp)
 
 add_library(OyunEngine SHARED ${ENGINE_SOURCES} ${IMGUI_SOURCES} ${ENGINE_INCLUDES} ${COMPONENT_SOURCES} 
-	${COMPONENT_INCLUDES} ${SUBSYSTEM_INCLUDES} ${SUBSYSTEM_SOURCES} ${GLM_INCLUDES} ${ASSIMP_INCLUDES} ${CAREAL_INCLUDES})
+	${COMPONENT_INCLUDES} ${SUBSYSTEM_INCLUDES} ${SUBSYSTEM_SOURCES} ${GLM_INCLUDES} ${ASSIMP_INCLUDES})
 
 source_group("Imgui" 						FILES ${IMGUI_SOURCES})
-source_group("Careal" 						FILES ${CAREAL_INCLUDES})
 source_group("Source Files/Components" 		FILES ${COMPONENT_SOURCES})
 source_group("Header Files/Components" 		FILES ${COMPONENT_INCLUDES})
 source_group("Header Files/Subsystems" 		FILES ${SUBSYSTEM_INCLUDES})
@@ -80,7 +73,6 @@ source_group("Header Files/Assimp" 			FILES ${ASSIMP_INCLUDES})
 
 target_include_directories(OyunEngine 
 	PUBLIC ${PROJECT_SOURCE_DIR}/engine/include
-	PUBLIC ${PROJECT_SOURCE_DIR}/external/careal/include
 	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui
 	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui/backends)
 
@@ -117,7 +109,6 @@ add_library(FloatingCubes SHARED ${FLOATING_CUBES_INCLUDES} ${FLOATING_CUBES_SOU
 
 target_include_directories(FloatingCubes 
 	PUBLIC ${ENGINE_SOURCE_DIR}/include
-	PUBLIC ${PROJECT_SOURCE_DIR}/external/careal/include
 	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui
 	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui/backends
 	PUBLIC ${FLOATING_CUBES_SOURCE_DIR}/include)
@@ -146,7 +137,6 @@ add_library(OyunEditor SHARED ${EDITOR_INCLUDES} ${EDITOR_SOURCES})
 target_include_directories(OyunEditor 
 	PUBLIC ${ENGINE_SOURCE_DIR}/include
 	PUBLIC ${EDITOR_SOURCE_DIR}/include
-	PUBLIC ${PROJECT_SOURCE_DIR}/external/careal/include
 	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui
 	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui/backends
 	PUBLIC ${FLOATING_CUBES_SOURCE_DIR}/include)
@@ -167,7 +157,6 @@ add_executable(OyunEditorStarter ${EDITOR_STARTER_DIR}/editor_starter.cpp)
 target_include_directories(OyunEditorStarter
 	PUBLIC ${ENGINE_SOURCE_DIR}/include
 	PUBLIC ${EDITOR_SOURCE_DIR}/include
-	PUBLIC ${PROJECT_SOURCE_DIR}/external/careal/include
 	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui
 	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui/backends)
 
@@ -188,7 +177,6 @@ add_executable(FloatingCubesStarter ${FLOATING_CUBES_STARTER_DIR}/floating_start
 target_include_directories(FloatingCubesStarter
 	PUBLIC ${ENGINE_SOURCE_DIR}/include
 	PUBLIC ${FLOATING_CUBES_SOURCE_DIR}/include
-	PUBLIC ${PROJECT_SOURCE_DIR}/external/careal/include
 	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui
 	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui/backends)
 

@@ -55,8 +55,6 @@ namespace Oyun
 		/// @param deltaTime 
 		virtual void Tick(float deltaTime);
 
-		virtual void Serialize(std::stringstream& ss);
-
 		/// @brief adds\removes entity to\from global tick list
 		void SetTickEnabled(bool);
 
@@ -73,19 +71,7 @@ namespace Oyun
 		void DrawComponentProps();
 
 
-		template<class Archive>
-		void serialize(Archive& archive) const
-		{
-			archive(
-				cereal::make_nvp("Visible", mVisible),
-				cereal::make_nvp("Static", mStatic),
-				cereal::make_nvp("Name", mName),
-				mEntityUniqueId,
-				cereal::make_nvp("TransformComponent", this->GetTransform())
-				);
-
-
-		}
+		
 		
 	private:
 
@@ -148,19 +134,6 @@ namespace Oyun
 	{
 	public:
 		StaticMeshEntity(Model*);
-
-		void Serialize(std::stringstream& ss);
-
-		template<class Archive>
-		void serialize(Archive& archive) const
-		{
-			Entity::serialize(archive);
-			archive(
-				cereal::make_nvp("StaticMeshComponent", *mStaticMesh)
-			);
-
-
-		}
 
 	private:
 		StaticMeshComponent* mStaticMesh;
