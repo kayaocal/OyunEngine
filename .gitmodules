@@ -3,8 +3,3 @@
 	path = external/imgui
 	url = https://github.com/ocornut/imgui.git
 	branch = docking
-
-
-[submodule "external/careal"]
-	path = external/careal
-	url = https://github.com/USCiLab/cereal.git
