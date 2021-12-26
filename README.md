@@ -27,3 +27,4 @@ run build/engine.bat
 * [GLFW - 3.3.5](https://www.glfw.org)
 * [assimp - The Open-Asset-Importer-Lib - 5.0.1](http://assimp.org)
 * [lookup3 hash algorithm by Bob Jenkins](https://burtleburtle.net/bob/c/lookup3.c)
+* [JSONes json reader writer](https://github.com/kayaocal/JSONes)
