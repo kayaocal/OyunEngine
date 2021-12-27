@@ -3,6 +3,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "imgui.h"
 #include "Entity.h"
+#include "Jsones.h"
 
 namespace Oyun
 {
@@ -81,5 +82,33 @@ namespace Oyun
 			Scale.z = transformScale[2];
 		}
 	}
+
+	Jsones::JObj* TransformComponent::ConvertToJson()
+	{
+		using namespace Jsones;
+
+		JObj* obj = new JObj{
+			JPair("Name", "TransformComponent"),
+			JPair("Position", JObj{
+				JPair("X", Position.x),
+				JPair("Y", Position.y),
+				JPair("Z", Position.z)
+				}),
+			JPair("Rotation", JObj{
+				JPair("X", EulerRotation.x),
+				JPair("Y", EulerRotation.y),
+				JPair("Z", EulerRotation.z)
+				}),
+			JPair("Scale", JObj{
+				JPair("X", Scale.x),
+				JPair("Y", Scale.y),
+				JPair("Z", Scale.z)
+				}),
+		};
+
+		return obj;
+	}
+
+	
 
 }

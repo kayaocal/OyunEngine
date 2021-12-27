@@ -15,12 +15,19 @@ namespace Oyun
 		void Draw(float* view, float* proj, float* transform, Window* wnd);
 
 
+		// Inherited via Component
+		virtual Jsones::JObj* ConvertToJson() override;
+
+		// Inherited via Component
+		virtual void DrawAtEditorProps() override;
+
 	private:
 		Model* mModel;
 
 
-		// Inherited via Component
-		virtual void DrawAtEditorProps() override;
+
+
+
 
 	};
 }

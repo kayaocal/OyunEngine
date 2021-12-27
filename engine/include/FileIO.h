@@ -25,7 +25,6 @@ namespace Oyun
 		using namespace std::chrono;
 		auto gameLoopStart = high_resolution_clock::now();
 	
-
 		std::streampos begin, end;
 		std::basic_ifstream<T> stream;
 

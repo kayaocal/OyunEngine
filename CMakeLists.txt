@@ -1,14 +1,13 @@
 cmake_minimum_required(VERSION 3.10)
 
-set (CMAKE_CXX_STANDARD 11)
-
 # set the project name
 project(OyunEngine VERSION 0.0.1 DESCRIPTION "Best OyunEngine is your OyunEngine")
 
 set (ENGINE_SOURCE_DIR ${CMAKE_SOURCE_DIR}/engine)
 
+
 file (GLOB IMGUI_SOURCES
-	${CMAKE_SOURCE_DIR}/external/imconfig.h
+	${CMAKE_SOURCE_DIR}/external/imgui/imconfig.h
 	${CMAKE_SOURCE_DIR}/external/imgui/imgui.cpp
 	${CMAKE_SOURCE_DIR}/external/imgui/imgui.h
 	${CMAKE_SOURCE_DIR}/external/imgui/imgui_demo.cpp
@@ -22,6 +21,12 @@ file (GLOB IMGUI_SOURCES
 	${CMAKE_SOURCE_DIR}/external/imgui/backends/imgui_impl_opengl3.h
 	${CMAKE_SOURCE_DIR}/external/imgui/backends/imgui_impl_opengl3_loader.h)
 
+
+file (GLOB JSONES_INCLUDE
+	${CMAKE_SOURCE_DIR}/external/JSONes/Jsones.h)
+
+file (GLOB JSONES_SOURCE
+	${CMAKE_SOURCE_DIR}/external/JSONes/Jsones.cpp)
 
 file (GLOB ASSIMP_INCLUDES
 	${ENGINE_SOURCE_DIR}/include/assimp/*.h
@@ -60,19 +65,24 @@ file (GLOB GLM_INCLUDES
 	${ENGINE_SOURCE_DIR}/include/glm/*/*.hpp
 	${ENGINE_SOURCE_DIR}/include/glm/*/*.cpp)
 
-add_library(OyunEngine SHARED ${ENGINE_SOURCES} ${IMGUI_SOURCES} ${ENGINE_INCLUDES} ${COMPONENT_SOURCES} 
-	${COMPONENT_INCLUDES} ${SUBSYSTEM_INCLUDES} ${SUBSYSTEM_SOURCES} ${GLM_INCLUDES} ${ASSIMP_INCLUDES})
+
+add_library(OyunEngine SHARED ${ENGINE_SOURCES} ${JSONES_SOURCE} ${JSONES_INCLUDE} ${IMGUI_SOURCES} ${ENGINE_INCLUDES} ${COMPONENT_SOURCES} ${COMPONENT_INCLUDES} ${SUBSYSTEM_INCLUDES} ${SUBSYSTEM_SOURCES} ${GLM_INCLUDES} ${ASSIMP_INCLUDES})
+
+target_compile_features(OyunEngine PRIVATE cxx_std_11)
 
 source_group("Imgui" 						FILES ${IMGUI_SOURCES})
 source_group("Source Files/Components" 		FILES ${COMPONENT_SOURCES})
 source_group("Header Files/Components" 		FILES ${COMPONENT_INCLUDES})
+source_group("Header Files/Tools/JSONes"	FILES ${JSONES_INCLUDE})
 source_group("Header Files/Subsystems" 		FILES ${SUBSYSTEM_INCLUDES})
 source_group("Source Files/Subsystems" 		FILES ${SUBSYSTEM_SOURCES})
+source_group("Source Files/Tools/JSONes"	FILES ${JSONES_SOURCE})
 source_group("Header Files/GLM" 			FILES ${GLM_INCLUDES})
 source_group("Header Files/Assimp" 			FILES ${ASSIMP_INCLUDES})
 
 target_include_directories(OyunEngine 
 	PUBLIC ${PROJECT_SOURCE_DIR}/engine/include
+	PUBLIC ${PROJECT_SOURCE_DIR}/external/JSONes/
 	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui
 	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui/backends)
 
@@ -107,6 +117,8 @@ file (GLOB FLOATING_CUBES_INCLUDES
 
 add_library(FloatingCubes SHARED ${FLOATING_CUBES_INCLUDES} ${FLOATING_CUBES_SOURCES} )
 
+target_compile_features(FloatingCubes PRIVATE cxx_std_11)
+
 target_include_directories(FloatingCubes 
 	PUBLIC ${ENGINE_SOURCE_DIR}/include
 	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui
@@ -137,11 +149,14 @@ add_library(OyunEditor SHARED ${EDITOR_INCLUDES} ${EDITOR_SOURCES})
 target_include_directories(OyunEditor 
 	PUBLIC ${ENGINE_SOURCE_DIR}/include
 	PUBLIC ${EDITOR_SOURCE_DIR}/include
+	PUBLIC ${PROJECT_SOURCE_DIR}/external/JSONes/
 	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui
 	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui/backends
 	PUBLIC ${FLOATING_CUBES_SOURCE_DIR}/include)
 
 target_link_libraries (OyunEditor $(OutDir)OyunEngine.lib $(OutDir)FloatingCubes.lib ${CMAKE_SOURCE_DIR}/lib/glfw3.lib opengl32.lib)
+
+target_compile_features(OyunEditor PRIVATE cxx_std_11)
 
 add_dependencies(OyunEditor OyunEngine FloatingCubes)
 
@@ -163,6 +178,8 @@ target_include_directories(OyunEditorStarter
 
 target_link_libraries (OyunEditorStarter $(OutDir)OyunEditor.lib $(OutDir)OyunEngine.lib ${CMAKE_SOURCE_DIR}/lib/glfw3.lib opengl32.lib)
 
+target_compile_features(OyunEditorStarter PRIVATE cxx_std_11)
+
 add_dependencies(OyunEditorStarter OyunEngine OyunEditor FloatingCubes)
 
 # #######################################################################################
@@ -177,10 +194,13 @@ add_executable(FloatingCubesStarter ${FLOATING_CUBES_STARTER_DIR}/floating_start
 target_include_directories(FloatingCubesStarter
 	PUBLIC ${ENGINE_SOURCE_DIR}/include
 	PUBLIC ${FLOATING_CUBES_SOURCE_DIR}/include
+	PUBLIC ${PROJECT_SOURCE_DIR}/external/JSONes/
 	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui
 	PUBLIC ${PROJECT_SOURCE_DIR}/external/imgui/backends)
 
 
 target_link_libraries (FloatingCubesStarter $(OutDir)FloatingCubes.lib $(OutDir)OyunEngine.lib ${CMAKE_SOURCE_DIR}/lib/glfw3.lib opengl32.lib)
+
+target_compile_features(FloatingCubesStarter PRIVATE cxx_std_11)
 
 add_dependencies(FloatingCubesStarter OyunEngine FloatingCubes)

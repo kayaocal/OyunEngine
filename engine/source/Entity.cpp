@@ -2,7 +2,7 @@
 #include "subsystems/LogSubsystem.h"
 #include "ModelStore.h"
 #include "imgui.h"
-
+#include "Jsones.h"
 
 namespace Oyun
 {
@@ -12,6 +12,7 @@ namespace Oyun
 	{
 		mStaticMesh = AddComponent<StaticMeshComponent>(new StaticMeshComponent(this, mdl));
 	}
+
 
 	Entity::Entity()
 		: mEntityUniqueId(0), mName("entity_01"), mVisible(true), mStatic(false)
@@ -94,6 +95,27 @@ namespace Oyun
 				comp.second->DrawAtEditorProps();
 			}
 		}
+	}
+
+	Jsones::JObj* Entity::ConvertToJson()
+	{
+		using namespace Jsones;
+
+		JArr* arr = new JArr();
+		for (auto it : mComponentList)
+		{
+			arr->Add(it.second->ConvertToJson());
+		}
+
+		JObj* obj = new JObj
+		{
+			JPair("Name", mName),
+			JPair("IsVisible", mVisible),
+			JPair("IsStatic", mStatic),
+			JPair("Components", arr)
+		};
+
+		return obj;
 	}
 
 	

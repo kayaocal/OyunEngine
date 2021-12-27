@@ -1,6 +1,7 @@
 #include "components/StaticMeshComponent.h"
 #include <ModelStore.h>
 #include "imgui.h"
+#include "Jsones.h"
 
 namespace Oyun
 {
@@ -22,5 +23,16 @@ namespace Oyun
 			ImGui::Text(mModel->path.c_str());
 		}
 	}
+
+	Jsones::JObj* StaticMeshComponent::ConvertToJson()
+	{
+		using namespace Jsones;
+		JObj* obj = new JObj{
+			JPair("Name", "StaticMeshComponent"),
+			JPair("Path", mModel->path)
+		};
+		return obj;
+	}
+
 
 }

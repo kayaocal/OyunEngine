@@ -50,11 +50,7 @@ namespace Editor
 			"C:\\Development\\Test\\Engine\\engine\\resources\\shaders\\simple_vertex.shader",
 			"C:\\Development\\Test\\Engine\\engine\\resources\\shaders\\simple_fragment.shader");
 		Model* mdl = ResourceSubsystem::Get().LoadModel("backpack.obj");
-		/*Shader* shd = ResourceSubsystem::Get().LoadShader("testShader", 
-			"C:\\Development\\Test\\Engine\\engine\\resources\\shaders\\simple_vertex.shader", 
-			"C:\\Development\\Test\\Engine\\engine\\resources\\shaders\\simple_fragment.shader");
-		Model* mdl = ResourceSubsystem::Get().LoadModel("backpack.obj");
-		
+
 		mdl->SetShader(shd);
 
 		ent = new StaticMeshEntity(mdl);
@@ -67,7 +63,7 @@ namespace Editor
 		ent3->SetUniqueId(2);
 		ent3->GetTransform()->EulerRotation.z = 90.0f;
 		ent3->GetTransform()->Position.x = 0;
-		
+
 		ent4 = new StaticMeshEntity(mdl);
 		ent4->GetTransform()->Position.x = 10.0f;
 		ent4->SetUniqueId(3);
@@ -77,7 +73,7 @@ namespace Editor
 		mEngine->GetWorldSubsystem()->AddEntityToScene(ent);
 		mEngine->GetWorldSubsystem()->AddEntityToScene(ent);
 		mEngine->GetWorldSubsystem()->AddEntityToScene(ent);
-		mEngine->GetWorldSubsystem()->AddEntityToScene(ent);*/
+		mEngine->GetWorldSubsystem()->AddEntityToScene(ent);
 		
 	}
 

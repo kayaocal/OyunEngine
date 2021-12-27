@@ -22,6 +22,8 @@
 #include "EngineImGui.h"
 #include "CameraManager.h"
 
+#include "Jsones.h"
+
 namespace Editor
 {
 
@@ -276,7 +278,10 @@ namespace Editor
         {
             if(ImGui::Button("SERIALIZE"))
             {
-
+                using namespace Jsones;
+                JObj* ent = selectedEntity->ConvertToJson();
+                std::cout<< JWrite(ent).rdbuf();
+                delete ent;
             }
         }
         ImGui::End();

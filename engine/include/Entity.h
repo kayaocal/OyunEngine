@@ -1,7 +1,5 @@
 #ifndef OYUN_ENTITY_H__
 #define OYUN_ENTITY_H__
-
-
 #include <map>
 #include <memory>
 #include <typeindex>
@@ -9,12 +7,17 @@
 #include <string>
 #include "components/TransformComponent.h"
 #include "components/StaticMeshComponent.h"
+
 #ifdef OyunEngine_EXPORTS
 #define OYUN_API __declspec(dllexport)
 #else
 #define OYUN_API __declspec(dllimport)
 #endif
 
+namespace Jsones
+{
+	struct JObj;
+}
 namespace Oyun
 {
 	class Component;
@@ -70,9 +73,7 @@ namespace Oyun
 		/// @brief To draw entity's owned components at editor properties window
 		void DrawComponentProps();
 
-
-		
-		
+		virtual Jsones::JObj* ConvertToJson();
 	private:
 
 		std::map<std::type_index, Oyun::Component*> mComponentList;
@@ -134,6 +135,7 @@ namespace Oyun
 	{
 	public:
 		StaticMeshEntity(Model*);
+
 
 	private:
 		StaticMeshComponent* mStaticMesh;

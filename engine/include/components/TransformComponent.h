@@ -4,10 +4,15 @@
 #include "components/Component.h"
 #include <glm/glm.hpp>
 
+namespace Jsones
+{
+	struct JObj;
+}
+
 namespace Oyun
 {
 	class Entity;
-
+	
 	class OYUN_API TransformComponent : public Component
 	{
 		glm::mat4 mModelMatrix;
@@ -31,6 +36,8 @@ namespace Oyun
 
 		// Inherited via Component
 		virtual void DrawAtEditorProps() override;
+
+		virtual Jsones::JObj* ConvertToJson() override;
 
 	};
 }

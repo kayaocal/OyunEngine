@@ -65,8 +65,8 @@ namespace Oyun
 		}
 
 		size_t size = 0;
-		unsigned char* buffer = Oyun::ReadFile<unsigned char>(path, &size);
-		return mTextureStore->Load(path, buffer, size, hash);
+		char* buffer = Oyun::ReadFile<char>(path, &size);
+		return mTextureStore->Load(path, (unsigned char*)(buffer), size, hash);
 		delete[] buffer;
 	}
 

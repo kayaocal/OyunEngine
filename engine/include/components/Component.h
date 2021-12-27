@@ -7,6 +7,11 @@
 #define OYUN_API __declspec(dllimport)
 #endif
 
+namespace Jsones
+{
+	struct JObj;
+}
+
 namespace Oyun
 {
 	class Entity;
@@ -21,10 +26,8 @@ namespace Oyun
 		virtual void EndPlay();
 
 		virtual void DrawAtEditorProps() = 0;
+		virtual Jsones::JObj* ConvertToJson() = 0;
 
-		template<class Archive>
-		void serialize(Archive&) {  //... 
-		}
 
 	protected :
 		Entity* mEntity;
