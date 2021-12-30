@@ -7,6 +7,7 @@
 #include <string>
 #include "components/TransformComponent.h"
 #include "components/StaticMeshComponent.h"
+#include "OyunCore.h"
 
 #ifdef OyunEngine_EXPORTS
 #define OYUN_API __declspec(dllexport)
@@ -26,11 +27,11 @@ namespace Oyun
 	
 	
 	/// @brief Base class that can be placed in scene.
-	class OYUN_API Entity
+	class OYUN_API Entity : public BaseClass
 	{
 
-
 	public:
+		OYUNCLASS(Entity);
 
 		Entity();
 
@@ -134,6 +135,10 @@ namespace Oyun
 	class OYUN_API StaticMeshEntity : public Entity
 	{
 	public:
+		
+		OYUNCLASS(StaticMeshEntity);
+		
+		StaticMeshEntity();
 		StaticMeshEntity(Model*);
 
 

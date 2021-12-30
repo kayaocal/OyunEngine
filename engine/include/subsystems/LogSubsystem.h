@@ -29,7 +29,7 @@ namespace Oyun
 
 		static LogSubsystem* GetPtr();
 		static LogSubsystem& Get();
-		static LogSubsystem& Instantiate(int width = 800, int height = 600);
+		static LogSubsystem& Instantiate();
 
 		template <typename T>
 		LogSubsystem& operator<<(T a)

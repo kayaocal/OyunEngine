@@ -3,9 +3,12 @@
 #include "ModelStore.h"
 #include "imgui.h"
 #include "Jsones.h"
-
 namespace Oyun
 {
+	StaticMeshEntity::StaticMeshEntity()
+		:Entity()
+	{
+	}
 
 	StaticMeshEntity::StaticMeshEntity(Model* mdl)
 		:Entity()
@@ -13,6 +16,8 @@ namespace Oyun
 		mStaticMesh = AddComponent<StaticMeshComponent>(new StaticMeshComponent(this, mdl));
 	}
 
+	INIT_CLASS(StaticMeshEntity)
+	INIT_CLASS(Entity)
 
 	Entity::Entity()
 		: mEntityUniqueId(0), mName("entity_01"), mVisible(true), mStatic(false)

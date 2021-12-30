@@ -32,7 +32,7 @@ namespace Oyun
 		return *system;
 	}
 
-	LogSubsystem& LogSubsystem::Instantiate(int width, int height)
+	LogSubsystem& LogSubsystem::Instantiate()
 	{
 		assert(system == nullptr);
 		system = new LogSubsystem();
