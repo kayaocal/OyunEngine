@@ -6,6 +6,7 @@
 #include <subsystems/ResourceSubsystem.h>
 
 #include <EngineGlfwHandler.h>
+#include <subsystems/InputSubsystem.h>
 
 Editor::Editor* gEditorEngine;
 
@@ -16,8 +17,10 @@ int main()
 
 	Oyun::LogSubsystem::Instantiate().StartUp();
 	Oyun::ResourceSubsystem::Instantiate().StartUp();
-
 	Oyun::InitializeRenderer();
+	
+	Oyun::InputSubsystem::Instantiate().StartUp();
+
 	gEditorEngine = new Editor::Editor(new Editor::EditorGameSubsystem(), 
 		new Oyun::RenderSubsystem(1366, 768), new Oyun::WorldSubsystem());
 
@@ -59,8 +62,10 @@ int main()
 		m->ShutDown();
 	}
 	gEditorEngine->ShutDown();
+
+	Oyun::InputSubsystem::Get().ShutDown();
 	Oyun::ResourceSubsystem::Get().ShutDown();
 	Oyun::LogSubsystem::Get().ShutDown();
-	
+
 	return 0;
 }

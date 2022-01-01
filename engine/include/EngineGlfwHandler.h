@@ -22,8 +22,11 @@ namespace Oyun
     void glfw_window_pos_changed(GLFWwindow* wnd, int x, int y);
     void glfw_window_size_changed(GLFWwindow* wnd, int width, int height);
     void glfw_error_callback(int error, const char* description);
-
-
+    void glfw_key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+    void glfw_mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
+    void glfw_cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
+    void glfw_scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+    
     struct Window
     {
         Window() : width(1366), height(768), posx(300), 
