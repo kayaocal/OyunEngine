@@ -24,6 +24,9 @@ namespace Editor
 	{
 		GameName = "Oyun Editor";
 		GameVersion = "v0.0.0.1d";
+
+		Oyun::Color c (122);
+		c.r =2;
 	}
 
 	EditorGameSubsystem::~EditorGameSubsystem()

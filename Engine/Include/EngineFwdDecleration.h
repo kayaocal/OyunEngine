@@ -8,7 +8,7 @@ namespace Oyun
 	class Model;
 	class Material;
 	class Mesh;
-	class Scene;
+	struct Scene;
 	class Texture;
 
 	namespace Imgui

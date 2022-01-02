@@ -6,7 +6,7 @@
 
 namespace Oyun
 {
-	class Scene;
+	struct Scene;
 	class Entity;
 	struct Engine;
 

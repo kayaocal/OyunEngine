@@ -65,7 +65,7 @@ namespace Oyun
     void TerminateRenderer(Window*);
     
     class Camera;
-    class Scene;
+    struct Scene;
     OYUN_API void PollWindowEvents();
     void RenderStart(Window*);
     void Render(Window*, Camera*, Scene*);

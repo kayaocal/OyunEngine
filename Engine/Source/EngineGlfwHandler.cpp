@@ -112,7 +112,7 @@ namespace Oyun
        // 
         glEnable(GL_DEPTH_TEST);
         static float colorx = 0.5f;
-        colorx += 0.0005;
+        colorx += 0.0005f;
         if (colorx > 1.0f) colorx = 0.0f;
 
         
@@ -282,7 +282,8 @@ namespace Oyun
          {
              if (wnd->window == window)
              {
-                 wnd->renderSubsystem->GetEngine()->GetInputSubsystem()->SetMousePos(xpos, ypos);
+                 wnd->renderSubsystem->GetEngine()->GetInputSubsystem()->SetMousePos(
+                     static_cast<float>(xpos), static_cast<float>(ypos));
              }
          }
     }
@@ -293,7 +294,8 @@ namespace Oyun
          {
              if (wnd->window == window)
              {
-                 wnd->renderSubsystem->GetEngine()->GetInputSubsystem()->SetMouseScroll(xoffset, yoffset);
+                 wnd->renderSubsystem->GetEngine()->GetInputSubsystem()->SetMouseScroll(static_cast<float>(xoffset),
+                     static_cast<float>(yoffset));
              }
          }
     }

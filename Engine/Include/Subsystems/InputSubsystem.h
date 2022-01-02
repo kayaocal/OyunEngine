@@ -8,7 +8,7 @@
 
 namespace Oyun
 {
-	class Engine;
+	struct Engine;
 	/// @brief There might be missing keys here
 	enum class KeyCode
 	{
