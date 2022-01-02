@@ -1,9 +1,9 @@
 #include "Engine.h"
 #include "FloatingCubesGameSubsystem.h"
-#include <subsystems/RenderSubsystem.h>
-#include <subsystems/WorldSubsystem.h>
-#include <subsystems/LogSubsystem.h>
-#include <subsystems/ResourceSubsystem.h>
+#include <Subsystems/RenderSubsystem.h>
+#include <Subsystems/WorldSubsystem.h>
+#include <Subsystems/LogSubsystem.h>
+#include <Subsystems/ResourceSubsystem.h>
 
 #include <EngineGlfwHandler.h>
 

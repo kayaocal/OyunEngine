@@ -1,13 +1,10 @@
-#include "subsystems/InputSubsystem.h"
+#include "Subsystems/InputSubsystem.h"
 #include <cassert>
-
 #include "Engine.h"
 
 namespace Oyun
 {
-
-
-
+	
 	InputSubsystem::InputSubsystem()
 		:EngineSubsytem()
 	{

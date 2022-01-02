@@ -1,10 +1,9 @@
 #include "Engine.h"
-#include "subsystems\RenderSubsystem.h"
-#include "subsystems\LogSubsystem.h"
-#include "subsystems\GameSubsystem.h"
-#include "subsystems\WorldSubsystem.h"
-#include "subsystems\ResourceSubsystem.h"
-#include "subsystems\InputSubsystem.h"
+#include "Subsystems\RenderSubsystem.h"
+#include "Subsystems\LogSubsystem.h"
+#include "Subsystems\GameSubsystem.h"
+#include "Subsystems\WorldSubsystem.h"
+#include "Subsystems\InputSubsystem.h"
 #include <iostream>
 #include <chrono>
 

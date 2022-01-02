@@ -6,15 +6,14 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/glm.hpp>
 
-#include "components/TransformComponent.h"
-#include "subsystems/LogSubsystem.h"
-#include "subsystems/InputSubsystem.h"
+#include "Components/TransformComponent.h"
+#include "Subsystems/LogSubsystem.h"
+#include "Subsystems/InputSubsystem.h"
 #include "Engine.h"
 #include "Camera.h"
 #include <cassert>
-#include "subsystems/WorldSubsystem.h"
 #include "Scene.h"
-#include "components/StaticMeshComponent.h"
+#include "Components/StaticMeshComponent.h"
 #include <vector>
 #include "ImLayer.h"
 

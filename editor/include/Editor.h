@@ -4,6 +4,8 @@
 #include <Engine.h>
 #include <vector>
 
+#include "Subsystems/InputSubsystem.h"
+
 #ifdef OyunEditor_EXPORTS
 #define EDITOR_API __declspec(dllexport)
 #else

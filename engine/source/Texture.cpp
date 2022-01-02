@@ -1,11 +1,11 @@
-#include "..\include\Texture.h"
-#include "subsystems/ResourceSubsystem.h"
+#include "Texture.h"
+#include "Subsystems/ResourceSubsystem.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #include <glad/glad.h>
 #include <iostream>
 #include "FileIO.h"
-#include "subsystems/LogSubsystem.h"
+#include "Subsystems/LogSubsystem.h"
 namespace Oyun
 {
 	Texture::Texture(int width, int height)

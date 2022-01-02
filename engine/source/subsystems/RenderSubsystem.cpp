@@ -1,9 +1,9 @@
-#include "subsystems\RenderSubsystem.h"
-#include "subsystems\LogSubsystem.h"
+#include "Subsystems\RenderSubsystem.h"
+#include "Subsystems\LogSubsystem.h"
 #include <CameraManager.h>
 
 #include "Engine.h"
-#include "subsystems/WorldSubsystem.h"
+#include "Subsystems/WorldSubsystem.h"
 #include "Scene.h"
 #define USE_GLFW
 

@@ -1,19 +1,20 @@
 #include "EditorGameSubsystem.h"
-#include <subsystems/LogSubsystem.h>
-#include <subsystems/WorldSubsystem.h>
-#include <subsystems/ResourceSubsystem.h>
-#include <subsystems/RenderSubsystem.h>
+#include <Subsystems/LogSubsystem.h>
+#include <Subsystems/WorldSubsystem.h>
+#include <Subsystems/ResourceSubsystem.h>
+#include <Subsystems/RenderSubsystem.h>
+#include <Subsystems/InputSubsystem.h>
 #include <EditorImLayer.h>
 #include <CameraManager.h>
 #include <Camera.h>
 #include <Entity.h>
 #include <ModelStore.h>
-#include <components/TransformComponent.h>
-
+#include <Components/TransformComponent.h>
+#include <Math/Vector.h>
 #include "Engine.h"
 #include "EngineImGui.h"
 #include "FloatingCubesGameSubsystem.h"
-#include "Editor.h"
+
 namespace Editor
 {
 
@@ -47,8 +48,8 @@ namespace Editor
 		
 		CreateUIElements();
 		Shader* shd = ResourceSubsystem::Get().LoadShader("testShader",
-			"C:\\Development\\Test\\Engine\\engine\\resources\\shaders\\simple_vertex.shader",
-			"C:\\Development\\Test\\Engine\\engine\\resources\\shaders\\simple_fragment.shader");
+			"C:\\Development\\Test\\Engine\\Engine\\Resources\\shaders\\simple_vertex.shader",
+			"C:\\Development\\Test\\Engine\\Engine\\Resources\\shaders\\simple_fragment.shader");
 		Model* mdl = ResourceSubsystem::Get().LoadModel("backpack.obj");
 
 		mdl->SetShader(shd);
@@ -90,7 +91,34 @@ namespace Editor
 		using namespace Oyun;
 		static float angle = 0.0f;
 
-		
+		const Vec2& mousePos = mEngine->GetInputSubsystem()->GetMouseScroll();
+		LOG << "Mouse Scroll : " << mousePos.x << ", " << mousePos.y;
+		if (mEngine->GetInputSubsystem()->IsKeyDown(KeyCode::MOUSE_LEFT))
+		{
+			LOG << "MOUSE LEFT";
+		}
+		if (mEngine->GetInputSubsystem()->IsKeyDown(KeyCode::MOUSE_RIGHT))
+		{
+			LOG << "MOUSE_RIGHT";
+		}
+		if (mEngine->GetInputSubsystem()->IsKeyDown(KeyCode::MOUSE_MIDDLE))
+		{
+			LOG << "MOUSE_MIDDLE";
+		}
+		if (mEngine->GetInputSubsystem()->IsKeyDown(KeyCode::MOUSE_4))
+		{
+			LOG << "MOUSE_4";
+		}
+		if (mEngine->GetInputSubsystem()->IsKeyDown(KeyCode::MOUSE_5))
+		{
+			LOG << "MOUSE_5";
+		}if (mEngine->GetInputSubsystem()->IsKeyDown(KeyCode::MOUSE_6))
+		{
+			LOG << "MOUSE_6";
+		}if (mEngine->GetInputSubsystem()->IsKeyDown(KeyCode::MOUSE_7))
+		{
+			LOG << "MOUSE_7";
+		}
 		/*EditorDefaultCameraman->camera->Position.x = 10*sinf(angle);
 		EditorDefaultCameraman->camera->Position.z = 10*cosf(angle);
 		angle += deltaTime;

@@ -6,21 +6,17 @@
 #include <windows.h>
 #include <shellapi.h>
 #include <imgui.h>
-#include <subsystems/WorldSubsystem.h>
+#include <Subsystems/WorldSubsystem.h>
 #include <Scene.h>
-#include <components/TransformComponent.h>
 #include <Entity.h>
 #include <fstream>
-#include "subsystems/ResourceSubsystem.h"
+#include "Subsystems/ResourceSubsystem.h"
 #include "FileIO.h"
-#include  "subsystems/LogSubsystem.h"
+#include  "Subsystems/LogSubsystem.h"
 #include "FloatingCubesGameSubsystem.h"
-#include "subsystems/RenderSubsystem.h"
+#include "Subsystems/RenderSubsystem.h"
 #include "Editor.h"
 #include <GLFW/glfw3.h>
-#include "EngineGlfwHandler.h"
-#include "EngineImGui.h"
-#include "CameraManager.h"
 
 #include "Jsones.h"
 

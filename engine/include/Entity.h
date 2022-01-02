@@ -1,12 +1,13 @@
 #ifndef OYUN_ENTITY_H__
 #define OYUN_ENTITY_H__
+
 #include <map>
 #include <memory>
 #include <typeindex>
 #include <cassert>
 #include <string>
-#include "components/TransformComponent.h"
-#include "components/StaticMeshComponent.h"
+#include "Components/TransformComponent.h"
+#include "Components/StaticMeshComponent.h"
 #include "OyunCore.h"
 
 #ifdef OyunEngine_EXPORTS

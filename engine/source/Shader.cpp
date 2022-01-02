@@ -1,5 +1,5 @@
-#include "..\include\Shader.h"
-#include "subsystems/LogSubsystem.h"
+#include "Shader.h"
+#include "Subsystems/LogSubsystem.h"
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>

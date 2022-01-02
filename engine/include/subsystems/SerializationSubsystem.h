@@ -1,9 +1,9 @@
 #ifndef OYUN_SERIALIZATION_SUBSYSTEM_H__
 #define OYUN_SERIALIZATION_SUBSYSTEM_H__
 
-#include "EngineSubsytem.h"
+#include "Subsystems/EngineSubsytem.h"
 #include <string>
-
+#include <map>
 
 namespace Oyun
 {
@@ -16,6 +16,8 @@ namespace Oyun
 	{
 		SerializationSubsystem();
 		~SerializationSubsystem();
+		std::map<std::string, BaseStaticClass*> StaticClasses;
+
 
 	public:
 

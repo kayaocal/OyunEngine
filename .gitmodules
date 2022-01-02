@@ -1,8 +1,8 @@
 
-[submodule "external/imgui"]
-	path = external/imgui
+[submodule "External/imgui"]
+	path = External/imgui
 	url = https://github.com/ocornut/imgui.git
 	branch = docking
-[submodule "external\\JSONes"]
-	path = external\\JSONes
+[submodule "External\\JSONes"]
+	path = External\\JSONes
 	url = https://github.com/kayaocal/JSONes.git
