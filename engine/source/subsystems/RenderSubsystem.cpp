@@ -24,6 +24,7 @@ namespace Oyun
 		mWindow->title = "Test Title";
 		mWindow->posx = 300;
 		mWindow->posy = 300;
+		mWindow->renderSubsystem = this;
 	}
 
 	RenderSubsystem::~RenderSubsystem()
@@ -54,6 +55,11 @@ namespace Oyun
 	{
 		mEngine = engine;
 		mShareWindow = baseWindow;
+	}
+
+	Engine*  RenderSubsystem::GetEngine()
+	{
+		return mEngine;
 	}
 
 	void PollWindowEvents();

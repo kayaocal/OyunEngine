@@ -3,16 +3,23 @@
 
 #include "subsystems/SerializationSubsystem.h"
 #include <iostream>
-#include <typeinfo>
-#include <typeindex>
+
+
+#ifdef OyunEngine_EXPORTS
+#define OYUN_API __declspec(dllexport)
+#else
+#define OYUN_API __declspec(dllimport)
+#endif
+
+
 namespace Oyun
 {
-	class BaseClass
+	class OYUN_API BaseClass
 	{
 
 	};
 
-    class BaseStaticClass
+    class OYUN_API BaseStaticClass
     {
     public:
         virtual BaseClass* Instantiator() = 0;
@@ -22,7 +29,7 @@ namespace Oyun
 
 
 #define OYUNCLASS(BASE)\
-class Static##BASE : public Oyun::BaseStaticClass{\
+class OYUN_API Static##BASE : public Oyun::BaseStaticClass{\
 public:\
     std::type_index mainClassIndex = std::type_index(typeid(Static##BASE));\
     std::string mainClassName = typeid(BASE).name();\

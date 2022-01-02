@@ -19,7 +19,6 @@ int main()
 	Oyun::ResourceSubsystem::Instantiate().StartUp();
 	Oyun::InitializeRenderer();
 	
-	Oyun::InputSubsystem::Instantiate().StartUp();
 
 	gEditorEngine = new Editor::Editor(new Editor::EditorGameSubsystem(), 
 		new Oyun::RenderSubsystem(1366, 768), new Oyun::WorldSubsystem());
@@ -63,7 +62,6 @@ int main()
 	}
 	gEditorEngine->ShutDown();
 
-	Oyun::InputSubsystem::Get().ShutDown();
 	Oyun::ResourceSubsystem::Get().ShutDown();
 	Oyun::LogSubsystem::Get().ShutDown();
 

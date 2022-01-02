@@ -3,6 +3,7 @@
 
 #include <iostream>
 
+#include "subsystems/RenderSubsystem.h"
 
 
 #ifdef OyunEngine_EXPORTS
@@ -51,10 +52,12 @@ namespace Oyun
         bool windowFocused;
         std::string title;
         unsigned int windowIndex;
+        RenderSubsystem* renderSubsystem;
 
         bool runWindowUnFocused;
 
         float R, G, B;
+        
     };
 
 

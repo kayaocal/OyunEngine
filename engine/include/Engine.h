@@ -17,6 +17,7 @@ namespace Oyun
 	class GameSubsystem;
 	class RenderSubsystem;
 	class WorldSubsystem;
+	class InputSubsystem;
 	struct Window;
 
 	struct OYUN_API Engine
@@ -43,7 +44,8 @@ namespace Oyun
 		GameSubsystem* GetGameSubsystem() const;
 		RenderSubsystem* GetRenderSubsystem() const;
 		WorldSubsystem* GetWorldSubsystem() const;
-
+		InputSubsystem* GetInputSubsystem() const;
+		
 		template <class T>
 		T* GetGameSubsystem() const
 		{
@@ -63,7 +65,7 @@ namespace Oyun
 		GameSubsystem* mGameSubsystem;
 		RenderSubsystem* mRenderSubsystem;
 		WorldSubsystem* mWorldSubsystem;
-
+		InputSubsystem* mInputSubsystem;
 
 		double mFpsTimer = 0;
 		int mFpsSum = 0;

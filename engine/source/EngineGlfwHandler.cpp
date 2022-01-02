@@ -256,23 +256,47 @@ namespace Oyun
     Oyun::KeyState GlfwActionToKeyState(int action);
     void glfw_key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
     {
-        InputSubsystem::Get().UpdateKeyStatus(GlfwKeyToKeyCode(key), GlfwActionToKeyState(action));
+         for (auto wnd : windows)
+         {
+             if (wnd->window == window)
+             {
+                 wnd->renderSubsystem->GetEngine()->GetInputSubsystem()->UpdateKeyStatus(GlfwKeyToKeyCode(key), GlfwActionToKeyState(action));
+             }
+         }
     }
 
     Oyun::KeyCode GlfwMouseKeyToKeyCode(int key);
     void glfw_mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
     {
-        InputSubsystem::Get().UpdateKeyStatus(GlfwMouseKeyToKeyCode(button), GlfwActionToKeyState(action));
+         for (auto wnd : windows)
+         {
+             if (wnd->window == window)
+             {
+                 wnd->renderSubsystem->GetEngine()->GetInputSubsystem()->UpdateKeyStatus(GlfwMouseKeyToKeyCode(button), GlfwActionToKeyState(action));
+             }
+         }
     }
 
     void glfw_cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
     {
-        InputSubsystem::Get().SetMousePos(static_cast<float>(xpos), static_cast<float>(ypos));
+         for (auto wnd : windows)
+         {
+             if (wnd->window == window)
+             {
+                 wnd->renderSubsystem->GetEngine()->GetInputSubsystem()->SetMousePos(xpos, ypos);
+             }
+         }
     }
 
     void glfw_scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
     {
-        InputSubsystem::Get().SetMouseScroll(static_cast<float>(xoffset), static_cast<float>(yoffset));
+        for (auto wnd : windows)
+         {
+             if (wnd->window == window)
+             {
+                 wnd->renderSubsystem->GetEngine()->GetInputSubsystem()->SetMouseScroll(xoffset, yoffset);
+             }
+         }
     }
 
     Oyun::KeyState GlfwActionToKeyState(int action)

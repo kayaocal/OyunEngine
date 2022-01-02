@@ -4,6 +4,7 @@
 #include "subsystems\GameSubsystem.h"
 #include "subsystems\WorldSubsystem.h"
 #include "subsystems\ResourceSubsystem.h"
+#include "subsystems\InputSubsystem.h"
 #include <iostream>
 #include <chrono>
 
@@ -16,16 +17,21 @@ namespace Oyun
 	int gFrameCount = 0;
 
 	Engine::Engine(GameSubsystem* game, RenderSubsystem* renderer, WorldSubsystem* world, Window* baseWindow)
-		:mGameSubsystem(game), mRenderSubsystem(renderer), mWorldSubsystem(world), engineRunning(true),
+		:mGameSubsystem(game), mRenderSubsystem(renderer), mWorldSubsystem(world), mInputSubsystem(new InputSubsystem()), engineRunning(true),
 		fps(0), deltaTime(0.0f), mFpsSum(0), mFpsTimer(0.0), frameCount(0), instantFps(0), lastRenderTime(0)
 	{
 		mGameSubsystem->SetEngine(this);
 		mRenderSubsystem->SetEngine(this, baseWindow);
 		mWorldSubsystem->SetEngine(this);
+		mInputSubsystem->SetEngine(this);
 	}
 
 	Engine::~Engine()
 	{
+		//delete mGameSubsystem;
+		delete mInputSubsystem;
+		delete mRenderSubsystem;
+		delete mWorldSubsystem;
 	}
 
 	GameSubsystem* Engine::GetGameSubsystem() const
@@ -43,18 +49,25 @@ namespace Oyun
 		return mWorldSubsystem;
 	}
 
+	InputSubsystem* Engine::GetInputSubsystem() const
+	{
+		return mInputSubsystem;
+	}
+
 	void Engine::StartUp()
 	{
 		mWorldSubsystem->StartUp();		
 		mRenderSubsystem->StartUp();
+		mInputSubsystem->StartUp();
 		mGameSubsystem->StartUp();
 	}
 
 	void Engine::ShutDown()
 	{
 		mWorldSubsystem->ShutDown();
-		mGameSubsystem->ShutDown();
 		mRenderSubsystem->ShutDown();
+		mInputSubsystem->ShutDown();
+		mGameSubsystem->ShutDown();
 	}
 
 	void Engine::Loop()
