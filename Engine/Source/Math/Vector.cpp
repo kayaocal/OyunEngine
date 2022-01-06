@@ -112,6 +112,16 @@ namespace Oyun
 		return x * s.x + y * s.y;
 	}
 
+	float Vec2::Distance(const Vec2& v)
+	{
+		return (*this - v).Magnitude();
+	}
+
+	float Vec2::DistanceSquared(const Vec2& v)
+	{
+		return (*this - v).MagnitudeSquared();
+	}
+
 	Vec2 Vec2::operator+(const Vec2& v) const
 	{
 		return Vec2(this->x + v.x, this->y + v.y);
@@ -289,6 +299,16 @@ namespace Oyun
 		return Vec3(y * s.z - z * s.y, z * s.x - x * s.z, x * s.y - y * s.x);
 	}
 
+	float Vec3::Distance(const Vec3& v)
+	{
+		return (*this - v).Magnitude();
+	}
+
+	float Vec3::DistanceSquared(const Vec3& v)
+	{
+		return (*this - v).MagnitudeSquared();
+	}
+
 	Vec4::Vec4()
 		:x(0.0f), y(0.0f), z(0.0f), t(0.0f)
 	{
@@ -402,6 +422,16 @@ namespace Oyun
 		return newVec;
 	}
 
+	float Vec4::Distance(const Vec4& v)
+	{
+		return (*this - v).Magnitude();
+	}
+
+	float Vec4::DistanceSquared(const Vec4& v)
+	{
+		return (*this - v).MagnitudeSquared();
+	}
+
 	class Vec4 Vec4::operator+(const Vec4& v) const
 	{
 		return Vec4(x + v.x, y + v.y, z + v.z, t + v.t);
@@ -416,7 +446,6 @@ namespace Oyun
 	{
 		return Vec4(x * num, y * num, z * num, t * num);
 	}
-
 
 	class Vec4 Vec4::operator/(const float num) const
 	{

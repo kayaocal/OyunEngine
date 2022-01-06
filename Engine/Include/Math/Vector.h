@@ -40,9 +40,12 @@ namespace Oyun
 		inline float MagnitudeSquared() const;
 		void Normalize();
 		Vec2 GetNormalized() const;
-
+		
 		inline static float Dot(const Vec2& f, const Vec2& s); 
 		inline float Dot(const Vec2& v);
+
+		float Distance(const Vec2& v);
+		float DistanceSquared(const Vec2& v);
 	};
 
 
@@ -83,6 +86,10 @@ namespace Oyun
 
 		inline static Vec3 Cross(const Vec3& f, const Vec3& s);
 		inline Vec3 Cross(const Vec3& v) const;
+
+		float Distance(const Vec3& v);
+		float DistanceSquared(const Vec3& v);
+		
 	};
 
 	class OYUN_API Vec4
@@ -112,6 +119,9 @@ namespace Oyun
 		inline float MagnitudeSquared() const;
 		void Normalize();
 		Vec4 GetNormalized() const;
+
+		float Distance(const Vec4& v);
+		float DistanceSquared(const Vec4& v);
 	
 	};
 
